@@ -39,7 +39,7 @@
                 </table>
             @else
                 Es sind noch keine Fragen vorhanden. Füge jetzt eine hinzu:<br>
-                <a class="btn btn-primary" href="{!! url('/questions/create') !!}">Quiz erstellen</a>
+                <a class="btn btn-primary" href="{!! url('/questions/create') !!}">Frage erstellen</a>
             @endif
         </div>
     </div>

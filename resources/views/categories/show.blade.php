@@ -40,7 +40,7 @@
             </table>
             @else
                 Es sind noch keine Quizze vorhanden. Füge jetzt eine hinzu:<br>
-                <a class="btn btn-primary" href="{!! url('/quizzes/create') !!}">Quiz erstellen</a>
+                <a class="btn btn-primary" href="{!! url('/quizzes/create?category_id='.$category->id) !!}">Quiz erstellen</a>
             @endif
         </div>
     </div>
