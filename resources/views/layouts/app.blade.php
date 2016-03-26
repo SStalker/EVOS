@@ -72,6 +72,18 @@
         </div>
     </nav>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            Es gab ein paar Probleme:<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     @if(session('message'))
         <div class="alert alert-success" role="alert">
             <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>

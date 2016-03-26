@@ -6,8 +6,7 @@ use EVOS\Category;
 use Illuminate\Http\Request;
 
 use EVOS\Http\Requests;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
+use EVOS\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -39,7 +38,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
         return redirect('/categories/'.$category->id)
@@ -79,7 +78,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
         $category->fill($request->all());
