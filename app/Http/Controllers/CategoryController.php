@@ -6,6 +6,8 @@ use EVOS\Category;
 use Illuminate\Http\Request;
 
 use EVOS\Http\Requests;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
@@ -17,7 +19,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('categories.index')->with('categories', $categories);
+        return view('categories.index')
+            ->with('categories', $categories);
     }
 
     /**
@@ -64,7 +67,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('categories.edit')
+            ->with('category', $category);
     }
 
     /**
@@ -76,7 +81,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->fill($request->all());
+        $category->save();
+        return redirect('categories')
+            ->with('message', 'Kategorie wurde geändert!');
     }
 
     /**
@@ -87,6 +96,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect('categories')
+            ->with('message', 'Kategorie wurde gelöscht!');
     }
 }
