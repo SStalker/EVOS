@@ -2,6 +2,7 @@
 
 namespace EVOS\Http\Controllers;
 
+use EVOS\Quiz;
 use Illuminate\Http\Request;
 
 use EVOS\Http\Requests;
@@ -30,7 +31,7 @@ class QuizController extends Controller
      */
     public function create()
     {
-        //
+        return view('quizzes.create');
     }
 
     /**
@@ -41,7 +42,9 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $quiz = Quiz::create($request->all());
+        return redirect('/quizzes/'.$quiz->id)
+            ->with('message', 'Quiz wurde angelegt!');
     }
 
     /**
