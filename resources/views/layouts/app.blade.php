@@ -71,6 +71,14 @@
             </div>
         </div>
     </nav>
+
+    @if(session('message'))
+        <div class="alert alert-success" role="alert">
+            <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+            {!! session('message') !!}
+        </div>
+    @endif
+
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">

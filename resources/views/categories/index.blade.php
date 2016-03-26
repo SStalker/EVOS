@@ -28,7 +28,7 @@
                         <td>
 
                             {!! Form::open(['action' => ['CategoryController@destroy', $category->id], 'method' => 'delete']) !!}
-                                <a class="btn btn-default" href="{!! url('/categories/edit/'.$category->id) !!}">Bearbeiten</a>
+                                <a class="btn btn-default" href="{!! url('/categories/'.$category->id.'/edit') !!}">Bearbeiten</a>
                                 {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
                             {!! Form::close() !!}
                         </td>
