@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Quiz '.$quiz->title)
+
 @section('content')
 
 <div class="panel panel-default">

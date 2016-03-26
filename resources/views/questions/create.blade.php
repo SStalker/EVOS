@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Frage erstellen')
+
 @section('content')
 
     <div class="panel panel-default">
