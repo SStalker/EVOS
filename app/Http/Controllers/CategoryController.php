@@ -2,6 +2,7 @@
 
 namespace EVOS\Http\Controllers;
 
+use EVOS\Category;
 use Illuminate\Http\Request;
 
 use EVOS\Http\Requests;
@@ -15,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('categories.index')->with('categories', $categories);
     }
 
     /**
@@ -25,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -36,7 +38,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = Category::create($request->all());
+        return redirect('/categories/'.$category->id)
+            ->with('message', 'Kategorie wurde angelegt!');
     }
 
     /**
@@ -47,7 +51,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('categories.show')
+            ->with('category', $category);
     }
 
     /**
