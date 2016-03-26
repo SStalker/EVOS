@@ -9,6 +9,11 @@ use EVOS\Http\Requests;
 
 class QuestionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['create', 'store', 'update', 'destroy', 'edit']]);
+    }
+    
     /**
      * Display a listing of the resource.
      *
