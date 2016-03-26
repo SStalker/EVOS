@@ -72,10 +72,10 @@
         </div>
     </nav>
 
-    @if(Session::has('message'))
+    @if(session('message'))
         <div class="alert alert-success" role="alert">
             <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-            {!! Session::get('message') !!}
+            {!! session('message') !!}
         </div>
     @endif
 
