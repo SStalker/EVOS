@@ -5,7 +5,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="pull-right">
-            <a class="btn btn-primary" style="margin-top: -7px;" href="{!! url('/categories/create') !!}">Kategorie erstellen</a>
+            <a class="btn btn-primary" style="margin-top: -7px;" href="{!! url('/quizzes/create?category_id='.$category->id) !!}">Quiz erstellen</a>
         </div>
 
         {!! $category->title !!}

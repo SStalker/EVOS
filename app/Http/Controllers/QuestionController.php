@@ -2,6 +2,7 @@
 
 namespace EVOS\Http\Controllers;
 
+use EVOS\Question;
 use Illuminate\Http\Request;
 
 use EVOS\Http\Requests;
@@ -25,7 +26,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        //
+        return view('questions.create');
     }
 
     /**
@@ -36,7 +37,9 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $question = Question::create($request->all());
+        return redirect('/questions/'.$question->id)
+            ->with('message', 'Frage wurde angelegt!');
     }
 
     /**
@@ -47,7 +50,9 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
+        $question = Question::findOrFail($id);
+        return view('questions.show')
+            ->with('question', $question);
     }
 
     /**

@@ -6,6 +6,7 @@ use EVOS\Quiz;
 use Illuminate\Http\Request;
 
 use EVOS\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
@@ -42,7 +43,9 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
+        $request['user_id'] = Auth::id();
         $quiz = Quiz::create($request->all());
+
         return redirect('/quizzes/'.$quiz->id)
             ->with('message', 'Quiz wurde angelegt!');
     }
