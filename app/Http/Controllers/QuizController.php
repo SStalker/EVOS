@@ -43,7 +43,6 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        $request['user_id'] = Auth::id();
         $quiz = Quiz::create($request->all());
 
         return redirect('/quizzes/'.$quiz->id)

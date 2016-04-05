@@ -24,8 +24,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function quizzes()
+    public function categories()
     {
-        return $this->hasMany('EVOS\Quiz');
+        return $this->hasMany('EVOS\Category');
     }
 }

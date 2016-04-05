@@ -14,7 +14,6 @@ class CreateQuizzesTable extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
             $table->integer('category_id');
             $table->string('title');
             $table->boolean('isActive')->default(false);
