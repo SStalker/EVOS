@@ -16,4 +16,19 @@ class ExampleTest extends TestCase
         $this->visit('/')
              ->see('Laravel 5');
     }
+
+    public function testKeks()
+    {
+        $this->visit('/')->see('Landing');
+    }
+
+    /**
+     * Testen der Login Funtkion
+     *
+     *
+     */
+    public function testLogin()
+    {
+        
+    }
 }
