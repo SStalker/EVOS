@@ -29,7 +29,7 @@
                     <tr>
                         <td>{!! $quiz->title !!}</td>
                         <td>
-                            <a class="btn btn-default" href="{!! url('/quizzes/edit/'.$quiz->id) !!}">Bearbeiten</a>
+                            <a class="btn btn-default" href="{!! action('QuizController@edit', $quiz->id)!!}">Bearbeiten</a>
                             {!! Form::open(['action' => ['QuizController@destroy', $quiz->id], 'method' => 'delete']) !!}
                                 {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
                             {!! Form::close() !!}

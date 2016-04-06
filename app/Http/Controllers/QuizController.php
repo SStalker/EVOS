@@ -70,7 +70,9 @@ class QuizController extends Controller
      */
     public function edit($id)
     {
-        //
+        $quiz = Quiz::findOrFail($id);
+        return view('quizzes.edit')
+            ->with('quiz', $quiz);
     }
 
     /**
@@ -82,7 +84,11 @@ class QuizController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $quiz = Quiz::findOrFail($id);
+        $quiz->fill($request->all());
+        $quiz->save();
+        return redirect('/quizzes/'.$quiz->id)
+            ->with('message', 'Quiz wurde geändert!');
     }
 
     /**

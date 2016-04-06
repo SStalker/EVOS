@@ -68,7 +68,9 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $question = Question::findOrFail($id);
+        return view('questions.edit')
+            ->with('question', $question);
     }
 
     /**
@@ -80,7 +82,11 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $question = Question::findOrFail($id);
+        $question->fill($request->all());
+        $question->save();
+        return redirect('/questions/'.$question->id)
+            ->with('message', 'Frage wurde geändert!');
     }
 
     /**
