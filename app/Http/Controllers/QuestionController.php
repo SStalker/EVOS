@@ -3,9 +3,9 @@
 namespace EVOS\Http\Controllers;
 
 use EVOS\Question;
-use Illuminate\Http\Request;
 
-use EVOS\Http\Requests;
+use EVOS\Http\Requests\QuestionRequest;
+use Illuminate\Support\Facades\Session;
 
 class QuestionController extends Controller
 {
@@ -31,16 +31,26 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('questions.create');
+        if(Session::has('quiz_id'))
+        {
+            $quiz_id = Session::get('quiz_id');
+        }
+        else
+        {
+            abort(403,'Unauthorized action.');
+        }
+
+        return view('questions.create')
+            ->with('quiz_id', $quiz_id);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \EVOS\Http\Requests\QuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuestionRequest $request)
     {
         $question = Question::create($request->all());
         return redirect('/questions/'.$question->id)
@@ -56,6 +66,8 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::findOrFail($id);
+        Session::put('quiz_id', $id);
+
         return view('questions.show')
             ->with('question', $question);
     }
@@ -74,11 +86,11 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \EVOS\Http\Requests\QuestionRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuestionRequest $request, $id)
     {
         //
     }

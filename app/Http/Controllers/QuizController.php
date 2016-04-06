@@ -3,10 +3,10 @@
 namespace EVOS\Http\Controllers;
 
 use EVOS\Quiz;
-use Illuminate\Http\Request;
+use EVOS\Http\Requests\QuizRequest;
 
 use EVOS\Http\Requests;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class QuizController extends Controller
 {
@@ -32,16 +32,25 @@ class QuizController extends Controller
      */
     public function create()
     {
-        return view('quizzes.create');
+        if(Session::has('category_id'))
+        {
+            $category_id = Session::get('category_id');
+        }
+        else
+        {
+            abort(403,'Unauthorized action.');
+        }
+
+        return view('quizzes.create')->with('category_id', $category_id);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \EVOS\Http\Requests\QuizRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuizRequest $request)
     {
         $quiz = Quiz::create($request->all());
 
@@ -58,7 +67,8 @@ class QuizController extends Controller
     public function show($id)
     {
         $quiz = Quiz::findOrFail($id);
-        //dd($quiz);
+        Session::put('quiz_id', $id);
+
         return view('quizzes.show')->with('quiz', $quiz);
     }
 
@@ -70,17 +80,22 @@ class QuizController extends Controller
      */
     public function edit($id)
     {
-        //
+        $quiz = Quiz::findOrFail($id);
+        $category_id = Session::get('category_id');
+
+        return view('quizzes.edit')
+            ->with('quiz', $quiz)
+            ->with('category_id', $category_id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \EVOS\Http\Requests\QuizRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuizRequest $request, $id)
     {
         //
     }

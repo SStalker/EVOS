@@ -14,6 +14,8 @@
         </div>
 
         {!! Form::open(['action' => ['QuestionController@store'], 'method' => 'post']) !!}
+        {!! Form::hidden('quiz_id', $quiz_id) !!}
+
         <div class="panel-body">
             <div class="form-group">
                 <label for="question">Frage</label>
