@@ -22,4 +22,9 @@ class Quiz extends Model
     {
         return $this->hasMany('EVOS\Attendee');
     }
+
+    public function category()
+    {
+        return $this->belongsTo('EVOS\Category');
+    }
 }

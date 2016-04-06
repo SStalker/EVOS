@@ -11,7 +11,7 @@
             <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
         </div>
 
-        {!! $category->title !!}
+        Kategorie: {!! $category->title !!}
     </div>
 
     <div class="panel-body">
@@ -20,7 +20,7 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Titel</th>
+                    <th>Quiz</th>
                     <th>Aktionen</th>
                 </tr>
                 </thead>

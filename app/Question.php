@@ -18,6 +18,11 @@ class Question extends Model
         return $this->belongsTo('EVOS\Quiz');
     }
 
+    public function category()
+    {
+        return $this->belongsTo('EVOS\Category');
+    }
+
     public function attendees()
     {
         return $this->hasMany('EVOS\Attendee');
