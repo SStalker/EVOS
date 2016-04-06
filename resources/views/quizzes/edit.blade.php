@@ -27,7 +27,7 @@
                         <tr>
                             <td>{!! $question->question !!}</td>
                             <td>
-                                <a class="btn btn-default" href="{!! url('/questions/edit/'.$question->id) !!}">Bearbeiten</a>
+                                <a class="btn btn-default" href="{!! url('/questions/'.$question->id.'/edit') !!}">Bearbeiten</a>
                                 {!! Form::open(['action' => ['QuestionController@destroy', $question->id], 'method' => 'delete']) !!}
                                 {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
                                 {!! Form::close() !!}
