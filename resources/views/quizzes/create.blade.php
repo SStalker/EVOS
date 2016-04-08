@@ -14,7 +14,7 @@
     </div>
 
     {!! Form::open(['action' => ['QuizController@store'], 'method' => 'post']) !!}
-    {!! Form::hidden('category_id', $_GET['category_id']) !!}
+    {!! Form::hidden('category_id', $category_id) !!}
     <div class="panel-body">
             <div class="form-group">
                 <label for="title">Titel</label>

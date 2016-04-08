@@ -3,11 +3,12 @@
 namespace EVOS\Http\Controllers;
 
 use EVOS\Category;
-use Illuminate\Http\Request;
 use Auth;
 
 use EVOS\Http\Requests;
 use EVOS\Http\Requests\CategoryRequest;
+use Illuminate\Support\Facades\Session;
+
 
 class CategoryController extends Controller
 {
@@ -63,6 +64,8 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::findOrFail($id);
+        Session::put('category_id', $id);
+
         return view('categories.show')
             ->with('category', $category);
     }
