@@ -67,9 +67,10 @@ class QuizController extends Controller
     public function show($id)
     {
         $quiz = Quiz::findOrFail($id);
+        $category = Quiz::findOrFail($quiz->category_id);
         Session::put('quiz_id', $id);
 
-        return view('quizzes.show')->with('quiz', $quiz);
+        return view('quizzes.show')->with('quiz', $quiz)->with('category', $category);
     }
 
     /**
