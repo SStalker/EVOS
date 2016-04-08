@@ -3,6 +3,7 @@
 namespace EVOS\Http\Controllers;
 
 use EVOS\Quiz;
+use EVOS\Category;
 use EVOS\Http\Requests\QuizRequest;
 
 use EVOS\Http\Requests;
@@ -40,8 +41,9 @@ class QuizController extends Controller
         {
             abort(403,'Unauthorized action.');
         }
+        $category = Category::findOrFail($category_id);
 
-        return view('quizzes.create')->with('category_id', $category_id);
+        return view('quizzes.create')->with('category', $category);
     }
 
     /**
