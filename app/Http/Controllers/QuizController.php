@@ -81,11 +81,9 @@ class QuizController extends Controller
     public function edit($id)
     {
         $quiz = Quiz::findOrFail($id);
-        $category_id = Session::get('category_id');
 
         return view('quizzes.edit')
-            ->with('quiz', $quiz)
-            ->with('category_id', $category_id);
+            ->with('quiz', $quiz);
     }
 
     /**
