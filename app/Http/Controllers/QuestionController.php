@@ -3,6 +3,9 @@
 namespace EVOS\Http\Controllers;
 
 use EVOS\Question;
+use EVOS\Quiz;
+use EVOS\Category;
+
 
 use EVOS\Http\Requests\QuestionRequest;
 use Illuminate\Support\Facades\Session;
@@ -31,17 +34,22 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        if(Session::has('quiz_id'))
+        if(Session::has('quiz_id') && Session::has('category_id'))
         {
             $quiz_id = Session::get('quiz_id');
+            $category_id = Session::get('category_id');
         }
         else
         {
             abort(403,'Unauthorized action.');
         }
 
+        $quiz = Quiz::findOrFail($quiz_id);
+        $category = Category::findOrFail($category_id);
+
         return view('questions.create')
-            ->with('quiz_id', $quiz_id);
+            ->with('quiz', $quiz)
+            ->with('category', $category);
     }
 
     /**

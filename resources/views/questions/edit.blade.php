@@ -10,7 +10,7 @@
                 <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
             </div>
 
-            {!! $question->quiz->category->title !!} -> {!! $question->quiz->title !!} -> {!! $question->question !!} bearbeiten
+            {!! $question->quiz->category->title !!} -> {!! $question->quiz->title !!} -> {!! $question->question !!}: bearbeiten
         </div>
 
         {!! Form::open(['action' => ['QuestionController@update', $question->id], 'method' => 'put']) !!}
