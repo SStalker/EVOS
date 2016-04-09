@@ -10,5 +10,9 @@ class AttendeeController extends Controller
 {
    public function index() {
        return view('frontendlanding');
-   } 
+   }
+
+   public function test($quizPin) {
+       return $quizPin;
+   }
 }

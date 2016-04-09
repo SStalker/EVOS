@@ -7,8 +7,11 @@ var evos = angular.module('evosApp', ['ngRoute'], function($interpolateProvider)
     $interpolateProvider.endSymbol('%>');
 });
 
-evos.controller('frontEndController', function($scope) {
+evos.controller('frontEndController', ['$scope', '$http', function($scope, $http) {
     $scope.sendQuizPin = function (quizPin) {
-        alert(quizPin);
+
+        $http.get('/quiz/'+quizPin).then(function(response) {
+            alert(response.data);
+        })
     }
-});
+}]);
