@@ -13,6 +13,8 @@ class Question extends Model
 
     protected $fillable = ['quiz_id','question', 'answerA', 'answerB', 'answerC', 'answerD', 'countdown'];
 
+    protected $hidden = ['id', 'isActive', 'created_at', 'updated_at', 'deleted_at', 'quiz_id'];
+
     public function quiz()
     {
         return $this->belongsTo('EVOS\Quiz');

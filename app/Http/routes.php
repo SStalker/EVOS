@@ -25,7 +25,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/attendees/create', 'AttendeeController@create');
+Route::get('attendees/create/{id}', 'AttendeeController@create');
+Route::get('categories/{categories}/quizzes/{quizzes}/next', 'QuizController@next');
+Route::get('categories/{categories}/quizzes/{quizzes}/choices', 'QuizController@choices');
 
 Route::resource('categories', 'CategoryController');
 Route::resource('categories.quizzes', 'QuizController');

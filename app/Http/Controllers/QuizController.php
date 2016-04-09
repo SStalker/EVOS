@@ -2,6 +2,7 @@
 
 namespace EVOS\Http\Controllers;
 
+use EVOS\Question;
 use EVOS\Quiz;
 use EVOS\Category;
 use EVOS\Http\Requests\QuizRequest;
@@ -13,7 +14,7 @@ class QuizController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'update', 'destroy', 'edit']]);
+        $this->middleware('auth', ['only' => ['next','create', 'store', 'update', 'destroy', 'edit']]);
     }
 
     /**
@@ -99,12 +100,73 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $categories, Quiz $quizzes)
     {
-        $quiz = Quiz::findOrFail($id);
-        $quiz->delete();
+        $quizzes->delete();
 
-        return redirect('categories/'. $quiz->category->id)
+        return redirect('categories/'. $quizzes->category->id)
             ->with('message', 'Quiz wurde gelöscht!');
+    }
+
+    /**
+     * @param  int $id
+     * @return The next question or first (Starts the quiz)
+     */
+    public function next(Category $categories, Quiz $quizzes)
+    {
+        // If collection is empty redirect with error
+        $questions = $quizzes->questions;
+        $questionsCounter = $quizzes->questionsCounter;
+
+        // If no questions then redirect with error
+        if($questions->isEmpty())
+        {
+            return redirect('quizzes/'. $quizzes->id)
+                ->withErrors(['Quiz hat keine Fragen']);
+        }
+
+        // If counter is greater than array size then quiz ends
+        if($quizzes->questionsCounter >= $questions->count()-1)
+        {
+            // Set the quiz as active
+            $quizzes->isActive = false;
+            $quizzes->questionsCounter = 0;
+            $quizzes->save();
+
+            //TODO Show end results
+            return redirect('quizzes/'. $quizzes->id)
+                ->withErrors(['Quiz ist zu Ende']);
+        }
+
+        if($quizzes->isActive)
+        {
+            // Increase question counter
+            $quizzes->questionsCounter = ++$questionsCounter;
+            $quizzes->save();
+        }
+        else
+        {
+            // Set the quiz as active
+            $quizzes->isActive = true;
+            $quizzes->save();
+        }
+
+        $question = $questions->get($questionsCounter);
+
+        return view('questions.showQuestion')
+                ->with('question', $question);
+    }
+
+    /**
+     * @param int $id
+     * @return json The answers for the current question
+     */
+    public function choices(Category $categories, Quiz $quizzes)
+    {
+        $questions = $quizzes->questions;
+        $questionsCounter = $quizzes->questionsCounter;
+        $question = $questions->get($questionsCounter);
+
+        return $question;
     }
 }

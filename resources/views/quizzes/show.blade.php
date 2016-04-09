@@ -8,6 +8,9 @@
     <div class="panel-heading">
         <div class="pull-right">
             <a class="btn btn-primary" style="margin-top: -7px;" href="{!! action('QuestionController@create', [$quiz->id]) !!}">Frage erstellen</a>
+            @if(!$quiz->questions->isEmpty())
+                <a class="btn btn-primary" style="margin-top: -7px;" href="{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}">Quiz starten</a>
+            @endif
         </div>
 
         {!! $quiz->category->title !!} &raquo; {!! $quiz->title !!}
