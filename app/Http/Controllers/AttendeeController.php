@@ -8,5 +8,7 @@ use EVOS\Http\Requests;
 
 class AttendeeController extends Controller
 {
-    
+   public function index() {
+       return view('layouts.frontend');
+   } 
 }
