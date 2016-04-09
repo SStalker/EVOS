@@ -42,7 +42,7 @@
         </div>
 
         <div class="panel-footer">
-            {!! Form::submit('Änderungen übernehmen', ['class'=>'btn btn-primary']) !!}
+            {!! Form::submit('Speichern', ['class'=>'btn btn-primary']) !!}
         </div>
         {!! Form::close() !!}
     </div>

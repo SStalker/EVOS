@@ -84,13 +84,12 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(QuizRequest $request, $id)
+    public function update(QuizRequest $request, Category $categories, Quiz $quizzes)
     {
-        $quiz = Quiz::findOrFail($id);
-        $quiz->fill($request->all());
-        $quiz->save();
+        $request['category_id'] = $categories->id;
+        $quizzes->update($request->all());
 
-        return redirect('/quizzes/'.$quiz->id)
+        return redirect('categories/'.$categories->id.'/quizzes/'.$quizzes->id)
             ->with('message', 'Quiz wurde geändert!');
     }
 
