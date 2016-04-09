@@ -16,6 +16,7 @@ class CreateQuizzesTable extends Migration
             $table->increments('id');
             $table->integer('category_id');
             $table->string('title');
+            $table->integer('questionsCounter')->default(0);
             $table->boolean('isActive')->default(false);
             $table->boolean('hasEnded')->default(false);
             $table->timestamps();

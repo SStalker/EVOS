@@ -2,6 +2,7 @@
 
 namespace EVOS\Http\Controllers;
 
+use EVOS\Question;
 use EVOS\Quiz;
 use EVOS\Category;
 use EVOS\Http\Requests\QuizRequest;
@@ -13,7 +14,7 @@ class QuizController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'update', 'destroy', 'edit']]);
+        $this->middleware('auth', ['only' => ['next','create', 'store', 'update', 'destroy', 'edit']]);
     }
 
     /**
@@ -118,5 +119,67 @@ class QuizController extends Controller
 
         return redirect('categories/'. $quiz->category->id)
             ->with('message', 'Quiz wurde gelöscht!');
+    }
+
+    /**
+     * @param  int $id
+     * @return The next question or first (Starts the quiz)
+     */
+    public function next(Quiz $quiz)
+    {
+        // If collection is empty redirect with error
+        $questions = $quiz->questions;
+        $questionsCounter = $quiz->questionsCounter;
+
+        // If no questions then redirect with error
+        if($questions->isEmpty())
+        {
+            return redirect('quizzes/'. $quiz->id)
+                ->withErrors(['Quiz hat keine Fragen']);
+        }
+
+        // If counter is greater than array size then quiz ends
+        if($quiz->questionsCounter >= $questions->count()-1)
+        {
+            // Set the quiz as active
+            $quiz->isActive = false;
+            $quiz->questionsCounter = 0;
+            $quiz->save();
+
+            //TODO Show end results
+            return redirect('quizzes/'. $quiz->id)
+                ->withErrors(['Quiz ist zu Ende']);
+        }
+
+        if($quiz->isActive)
+        {
+            // Increase question counter
+            $quiz->questionsCounter = ++$questionsCounter;
+            $quiz->save();
+        }
+        else
+        {
+            // Set the quiz as active
+            $quiz->isActive = true;
+            $quiz->save();
+        }
+
+        $question = $questions->get($questionsCounter);
+
+        return view('questions.showQuestion')
+                ->with('question', $question);
+    }
+
+    /**
+     * @param int $id
+     * @return json The answers for the current question
+     */
+    public function choices(Quiz $quiz)
+    {
+        $questions = $quiz->questions;
+        $questionsCounter = $quiz->questionsCounter;
+        $question = $questions->get($questionsCounter);
+
+        return $question;
     }
 }
