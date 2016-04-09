@@ -8,6 +8,7 @@
 
     <!-- Angular JS -->
     <script src="app/js/angular.min.js"></script>
+    <script src="app/js/angular-route.min.js"></script>
     <script src="app/controller/frontEnd.js"></script>
 
     <!-- Styles -->
