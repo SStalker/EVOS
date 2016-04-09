@@ -10,7 +10,7 @@
             <a class="btn btn-primary" style="margin-top: -7px;" href="{!! url('/questions/create') !!}">Frage erstellen</a>
         </div>
 
-        {!! $category->title !!} -> {!! $quiz->title !!}
+        {!! $quiz->category->title !!} &raquo; {!! $quiz->title !!}
     </div>
 
     <div class="panel-body">

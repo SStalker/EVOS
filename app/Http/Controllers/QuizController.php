@@ -69,10 +69,9 @@ class QuizController extends Controller
     public function show($id)
     {
         $quiz = Quiz::findOrFail($id);
-        $category = Quiz::findOrFail($quiz->category_id);
         Session::put('quiz_id', $id);
 
-        return view('quizzes.show')->with('quiz', $quiz)->with('category', $category);
+        return view('quizzes.show')->with('quiz', $quiz);
     }
 
     /**
@@ -84,6 +83,7 @@ class QuizController extends Controller
     public function edit($id)
     {
         $quiz = Quiz::findOrFail($id);
+
         return view('quizzes.edit')
             ->with('quiz', $quiz);
     }
@@ -100,6 +100,7 @@ class QuizController extends Controller
         $quiz = Quiz::findOrFail($id);
         $quiz->fill($request->all());
         $quiz->save();
+
         return redirect('/quizzes/'.$quiz->id)
             ->with('message', 'Quiz wurde geändert!');
     }
@@ -112,6 +113,10 @@ class QuizController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $quiz = Quiz::findOrFail($id);
+        $quiz->delete();
+
+        return redirect('categories/'. $quiz->category->id)
+            ->with('message', 'Quiz wurde gelöscht!');
     }
 }

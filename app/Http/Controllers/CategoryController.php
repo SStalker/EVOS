@@ -25,6 +25,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::where('user_id', Auth::id())->get();
+
         return view('categories.index')
             ->with('categories', $categories);
     }
@@ -79,6 +80,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
+
         return view('categories.edit')
             ->with('category', $category);
     }
@@ -95,6 +97,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->fill($request->all());
         $category->save();
+
         return redirect('categories')
             ->with('message', 'Kategorie wurde geändert!');
     }
@@ -109,6 +112,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
+
         return redirect('categories')
             ->with('message', 'Kategorie wurde gelöscht!');
     }

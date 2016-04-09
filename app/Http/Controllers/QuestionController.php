@@ -61,6 +61,7 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request)
     {
         $question = Question::create($request->all());
+
         return redirect('/questions/'.$question->id)
             ->with('message', 'Frage wurde angelegt!');
     }
@@ -89,6 +90,7 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = Question::findOrFail($id);
+
         return view('questions.edit')
             ->with('question', $question);
     }
@@ -105,6 +107,7 @@ class QuestionController extends Controller
         $question = Question::findOrFail($id);
         $question->fill($request->all());
         $question->save();
+
         return redirect('/questions/'.$question->id)
             ->with('message', 'Frage wurde geändert!');
     }
@@ -117,6 +120,11 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $question = Question::findOrFail($id);
+        $question->delete();
+
+        return redirect('quizzes/'. $question->quiz->id)
+            ->with('message', 'Frage wurde gelöscht!');
+
     }
 }
