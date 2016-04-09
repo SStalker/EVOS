@@ -3,9 +3,12 @@
 namespace EVOS\Http\Controllers;
 
 use EVOS\Question;
-use Illuminate\Http\Request;
+use EVOS\Quiz;
+use EVOS\Category;
 
-use EVOS\Http\Requests;
+
+use EVOS\Http\Requests\QuestionRequest;
+use Illuminate\Support\Facades\Session;
 
 class QuestionController extends Controller
 {
@@ -21,7 +24,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        //
+        return redirect('categories');
     }
 
     /**
@@ -31,18 +34,29 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('questions.create');
+        if(!Session::has('quiz_id') && !Session::has('category_id')) {
+            return redirect('categories')
+                ->withErrors(['Nicht autorisierter Zugriff!']);
+        }
+
+        $quiz = Quiz::findOrFail(Session::get('quiz_id'));
+        $category = Category::findOrFail(Session::get('category_id'));
+
+        return view('questions.create')
+            ->with('quiz', $quiz)
+            ->with('category', $category);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \EVOS\Http\Requests\QuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuestionRequest $request)
     {
         $question = Question::create($request->all());
+
         return redirect('/questions/'.$question->id)
             ->with('message', 'Frage wurde angelegt!');
     }
@@ -53,11 +67,12 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Question $questions)
     {
-        $question = Question::findOrFail($id);
+        Session::put('quiz_id', $questions->id);
+
         return view('questions.show')
-            ->with('question', $question);
+            ->with('question', $questions);
     }
 
     /**
@@ -66,21 +81,25 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Question $questions)
     {
-        //
+        return view('questions.edit')
+            ->with('question', $questions);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \EVOS\Http\Requests\QuestionRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuestionRequest $request, Question $questions)
     {
-        //
+        $questions->update($request->all());
+
+        return redirect('/questions/'.$questions->id)
+            ->with('message', 'Frage wurde geändert!');
     }
 
     /**
@@ -89,8 +108,12 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $questions)
     {
-        //
+        $questions->delete();
+
+        return redirect('quizzes/'. $questions->quiz->id)
+            ->with('message', 'Frage wurde gelöscht!');
+
     }
 }

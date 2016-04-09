@@ -7,11 +7,9 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="pull-right">
-            <a class="btn btn-primary" style="margin-top: -7px;" href="{!! url('/quizzes/'.$quiz->id.'/next') !!}">Quiz starten</a>
             <a class="btn btn-primary" style="margin-top: -7px;" href="{!! url('/questions/create') !!}">Frage erstellen</a>
         </div>
-
-        {!! $quiz->category->title !!} &raquo; {!! $quiz->title !!}
+        {!! $quiz->category->title !!} -> {!! $quiz->title !!}: bearbeiten
     </div>
 
     <div class="panel-body">

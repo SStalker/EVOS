@@ -10,10 +10,12 @@
                 <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
             </div>
 
-            Frage erstellen
+        {!! $category->title !!} -> {!! $quiz->title !!}: Frage erstellen
         </div>
 
         {!! Form::open(['action' => ['QuestionController@store'], 'method' => 'post']) !!}
+        {!! Form::hidden('quiz_id', $quiz->id) !!}
+
         <div class="panel-body">
             <div class="form-group">
                 <label for="question">Frage</label>

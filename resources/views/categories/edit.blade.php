@@ -10,7 +10,7 @@
             <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
         </div>
 
-        {!! $category->title !!} bearbeiten
+        {!! $category->title !!}: bearbeiten
     </div>
 
     {!! Form::open(['action' => ['CategoryController@update', $category->id], 'method' => 'put']) !!}

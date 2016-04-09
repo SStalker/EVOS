@@ -25,9 +25,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+<<<<<<< HEAD
 Route::get('/attendees/create', 'AttendeeController@create');
 Route::get('/start', 'AttendeeController@index');
 Route::get('/quiz/{pin}', 'AttendeeController@test');
+=======
+Route::get('/attendees/create/{id}', 'AttendeeController@create');
+Route::get('/quizzes/{quiz}/next', 'QuizController@next');
+Route::get('/quizzes/{quiz}/choices', 'QuizController@choices');
+>>>>>>> quizServer
 
 Route::resource('quizzes', 'QuizController');
 Route::resource('questions', 'QuestionController');

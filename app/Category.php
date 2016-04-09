@@ -11,10 +11,15 @@ class Category extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'user_id'];
     
     public function quizzes()
     {
         return $this->hasMany('EVOS\Quiz');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('EVOS\User');
     }
 }

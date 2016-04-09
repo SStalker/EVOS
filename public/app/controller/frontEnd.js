@@ -8,6 +8,7 @@ var evos = angular.module('evosApp', ['ngRoute'], function($interpolateProvider)
 });
 
 evos.controller('frontEndController', ['$scope', '$http', function($scope, $http) {
+
     $scope.sendQuizPin = function (quizPin) {
 
         $http.get('/quiz/'+quizPin).then(function(response) {

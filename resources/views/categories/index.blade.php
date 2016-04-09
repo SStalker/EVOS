@@ -20,6 +20,7 @@
                 <thead>
                 <tr>
                     <th>Titel</th>
+                    <th>Besitzer</th>
                     <th style="width:30%">Aktionen</th>
                 </tr>
                 </thead>
@@ -27,6 +28,7 @@
                 @foreach($categories as $category)
                     <tr>
                         <td><a href="{!! url('/categories/'.$category->id) !!}">{!! $category->title !!}</a></td>
+                        <td>{!! $category->user->name !!}</td>
                         <td>
 
                             {!! Form::open(['action' => ['CategoryController@destroy', $category->id], 'method' => 'delete']) !!}
