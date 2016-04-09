@@ -24,7 +24,6 @@ class QuestionRequest extends Request
     public function rules()
     {
         return [
-            'quiz_id' => 'required|numeric',
             'question' => 'required',
             'answerA' => 'required',
             'answerB' => 'required',

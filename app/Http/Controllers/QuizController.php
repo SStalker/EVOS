@@ -31,19 +31,10 @@ class QuizController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $categories)
     {
-        if(Session::has('category_id'))
-        {
-            $category_id = Session::get('category_id');
-        }
-        else
-        {
-            abort(403,'Unauthorized action.');
-        }
-        $category = Category::findOrFail($category_id);
-
-        return view('quizzes.create')->with('category', $category);
+        return view('quizzes.create')
+            ->with('category', $categories);
     }
 
     /**
@@ -52,11 +43,12 @@ class QuizController extends Controller
      * @param  \EVOS\Http\Requests\QuizRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(QuizRequest $request)
+    public function store(Category $categories, QuizRequest $request)
     {
+        $request['category_id'] = $categories->id;
         $quiz = Quiz::create($request->all());
 
-        return redirect('/quizzes/'.$quiz->id)
+        return redirect('categories/'.$categories->id.'/quizzes/'.$quiz->id)
             ->with('message', 'Quiz wurde angelegt!');
     }
 
@@ -66,12 +58,10 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $categories, Quiz $quizzes)
     {
-        $quiz = Quiz::findOrFail($id);
-        Session::put('quiz_id', $id);
-
-        return view('quizzes.show')->with('quiz', $quiz);
+        return view('quizzes.show')
+            ->with('quiz', $quizzes);
     }
 
     /**
@@ -80,12 +70,10 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $categories, Quiz $quizzes)
     {
-        $quiz = Quiz::findOrFail($id);
-
         return view('quizzes.edit')
-            ->with('quiz', $quiz);
+            ->with('quiz', $quizzes);
     }
 
     /**

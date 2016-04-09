@@ -7,7 +7,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="pull-right">
-            <a class="btn btn-primary" style="margin-top: -7px;" href="{!! url('/questions/create') !!}">Frage erstellen</a>
+            <a class="btn btn-primary" style="margin-top: -7px;" href="{!! action('QuestionController@create', [$quiz->id]) !!}">Frage erstellen</a>
         </div>
 
         {!! $quiz->category->title !!} &raquo; {!! $quiz->title !!}
@@ -20,7 +20,7 @@
                     <thead>
                     <tr>
                         <th>Frage</th>
-                        <th>Aktionen</th>
+                        <th style="width: 30%">Aktionen</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover">
@@ -28,9 +28,9 @@
                         <tr>
                             <td>{!! $question->question !!}</td>
                             <td>
-                                <a class="btn btn-default" href="{!! url('/questions/'.$question->id.'/edit') !!}">Bearbeiten</a>
-                                {!! Form::open(['action' => ['QuestionController@destroy', $question->id], 'method' => 'delete']) !!}
-                                {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
+                                {!! Form::open(['action' => ['QuestionController@destroy', $quiz->id, $question->id], 'method' => 'delete']) !!}
+                                    <a class="btn btn-default" href="{!! url('categories/'.$quiz->id.'/questions/'.$question->id.'/edit') !!}">Bearbeiten</a>
+                                    {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
                                 {!! Form::close() !!}
                             </td>
                         </tr>
@@ -39,7 +39,7 @@
                 </table>
             @else
                 Es sind noch keine Fragen vorhanden. Füge jetzt eine hinzu:<br>
-                <a class="btn btn-primary" href="{!! url('/questions/create') !!}">Frage erstellen</a>
+                <a class="btn btn-primary" href="{!! action('QuestionController@create', [$quiz->id]) !!}">Frage erstellen</a>
             @endif
         </div>
     </div>

@@ -27,9 +27,9 @@ Route::get('/', function () {
 
 Route::get('/attendees/create', 'AttendeeController@create');
 
-Route::resource('quizzes', 'QuizController');
-Route::resource('questions', 'QuestionController');
 Route::resource('categories', 'CategoryController');
+Route::resource('categories.quizzes', 'QuizController');
+Route::resource('quizzes.questions', 'QuestionController');
 
 //});
 

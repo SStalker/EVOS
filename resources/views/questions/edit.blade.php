@@ -13,8 +13,7 @@
             {!! $question->quiz->category->title !!} &raquo; {!! $question->quiz->title !!} &raquo; {!! $question->question !!} bearbeiten
         </div>
 
-        {!! Form::open(['action' => ['QuestionController@update', $question->id], 'method' => 'put']) !!}
-        {!! Form::hidden('quiz_id', $question->quiz->id) !!}
+        {!! Form::open(['action' => ['QuestionController@update', $question->quiz->id, $question->id], 'method' => 'put']) !!}
         <div class="panel-body">
             <div class="form-group">
                 <label for="question">Frage</label>

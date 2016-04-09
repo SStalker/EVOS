@@ -13,8 +13,7 @@
         {!! $category->title !!}: Quiz erstellen
     </div>
 
-    {!! Form::open(['action' => ['QuizController@store'], 'method' => 'post']) !!}
-    {!! Form::hidden('category_id', $category->id) !!}
+    {!! Form::open(['action' => ['QuizController@store', $category->id], 'method' => 'post']) !!}
     <div class="panel-body">
             <div class="form-group">
                 <label for="title">Titel</label>
