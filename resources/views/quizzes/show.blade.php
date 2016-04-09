@@ -32,7 +32,7 @@
                             <td>{!! $question->question !!}</td>
                             <td>
                                 {!! Form::open(['action' => ['QuestionController@destroy', $quiz->id, $question->id], 'method' => 'delete']) !!}
-                                    <a class="btn btn-default" href="{!! url('categories/'.$quiz->id.'/questions/'.$question->id.'/edit') !!}">Bearbeiten</a>
+                                    <a class="btn btn-default" href="{!! action('QuestionController@edit', [$quiz->id, $question->id]) !!}">Bearbeiten</a>
                                     {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
                                 {!! Form::close() !!}
                             </td>

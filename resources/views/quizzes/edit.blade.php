@@ -13,17 +13,8 @@
         {!! $quiz->title !!} bearbeiten
     </div>
 
-    {!! Form::open(['action' => ['QuizController@update', $quiz->category->id, $quiz->id], 'method' => 'put']) !!}
-    <div class="panel-body">
-        <div class="form-group">
-            <label for="title">Titel</label>
-            <input type="text" class="form-control" name="title" id="title" placeholder="z. B. Aufgabenteil 1, Extra-Fragen, Klausur-Teil" value="{{ $quiz->title }}">
-        </div>
-    </div>
-
-    <div class="panel-footer">
-        {!! Form::submit('Erstellen', ['class'=>'btn btn-primary']) !!}
-    </div>
+    {!! Form::model($quiz, ['action' => ['QuizController@update', $quiz->category->id, $quiz->id], 'method' => 'put']) !!}
+        @include('quizzes._form', ['submitLabel' => 'Speichern'])
     {!! Form::close() !!}
 </div>
 

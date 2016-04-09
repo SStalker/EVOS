@@ -13,17 +13,8 @@
         {!! $category->title !!}: bearbeiten
     </div>
 
-    {!! Form::open(['action' => ['CategoryController@update', $category->id], 'method' => 'put']) !!}
-    <div class="panel-body">
-            <div class="form-group">
-                <label for="title">Titel</label>
-                <input type="text" class="form-control" name="title" id="title" value="{!! $category->title !!}" placeholder="z. B. KBSE, Mathe3, SWE-Projekt">
-            </div>
-    </div>
-
-    <div class="panel-footer">
-        {!! Form::submit('Speichern', ['class'=>'btn btn-primary']) !!}
-    </div>
+    {!! Form::model($category, ['action' => ['CategoryController@update', $category->id], 'method' => 'put']) !!}
+        @include('categories._form', ['submitLabel' => 'Speichern'])
     {!! Form::close() !!}
 </div>
 

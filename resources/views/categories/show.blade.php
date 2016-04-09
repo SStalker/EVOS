@@ -42,7 +42,7 @@
             </table>
             @else
                 Es sind noch keine Quizze vorhanden. Füge jetzt eine hinzu:<br>
-                <a class="btn btn-primary" href="{!! action('QuiizController@create') !!}">Quiz erstellen</a>
+                <a class="btn btn-primary" href="{!! action('QuizController@create', [$category->id]) !!}">Quiz erstellen</a>
             @endif
         </div>
     </div>
