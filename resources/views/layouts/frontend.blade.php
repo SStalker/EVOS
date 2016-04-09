@@ -11,13 +11,12 @@
     <script src="app/controller/frontEnd.js"></script>
 
     <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="app/css/frontEnd.css" rel="stylesheet">
+    <link href="app/css/bootstrap.min.css" rel="stylesheet">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
 </head>
 <body>
-    <div ng-controller="frontEndController as ctrl">
-        <p class="text-center"> <% test %> </p>
-    </div>
+    @yield('frontEndContent')
 </body>
 </html>
