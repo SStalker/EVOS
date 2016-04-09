@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('user_id', Auth::id())->get();
+        $categories = Auth::user()->categories;
 
         return view('categories.index')
             ->with('categories', $categories);
@@ -62,13 +62,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $categories)
     {
-        $category = Category::findOrFail($id);
-        Session::put('category_id', $id);
+        Session::put('category_id', $categories->id);
 
         return view('categories.show')
-            ->with('category', $category);
+            ->with('category', $categories);
     }
 
     /**
@@ -77,12 +76,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $categories)
     {
-        $category = Category::findOrFail($id);
-
         return view('categories.edit')
-            ->with('category', $category);
+            ->with('category', $categories);
     }
 
     /**
@@ -92,11 +89,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(CategoryRequest $request, Category $categories)
     {
-        $category = Category::findOrFail($id);
-        $category->fill($request->all());
-        $category->save();
+        $categories->fill($request->all());
+        $categories->save();
 
         return redirect('categories')
             ->with('message', 'Kategorie wurde geändert!');
@@ -108,10 +104,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $categories)
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
+        $categories->delete();
 
         return redirect('categories')
             ->with('message', 'Kategorie wurde gelöscht!');

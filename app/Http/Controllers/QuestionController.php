@@ -24,7 +24,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        //
+        return redirect('categories');
     }
 
     /**
@@ -34,18 +34,13 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        if(Session::has('quiz_id') && Session::has('category_id'))
-        {
-            $quiz_id = Session::get('quiz_id');
-            $category_id = Session::get('category_id');
-        }
-        else
-        {
-            abort(403,'Unauthorized action.');
+        if(!Session::has('quiz_id') && !Session::has('category_id')) {
+            return redirect('categories')
+                ->withErrors(['Nicht autorisierter Zugriff!']);
         }
 
-        $quiz = Quiz::findOrFail($quiz_id);
-        $category = Category::findOrFail($category_id);
+        $quiz = Quiz::findOrFail(Session::get('quiz_id'));
+        $category = Category::findOrFail(Session::get('category_id'));
 
         return view('questions.create')
             ->with('quiz', $quiz)
@@ -72,13 +67,12 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Question $questions)
     {
-        $question = Question::findOrFail($id);
-        Session::put('quiz_id', $id);
+        Session::put('quiz_id', $questions->id);
 
         return view('questions.show')
-            ->with('question', $question);
+            ->with('question', $questions);
     }
 
     /**
@@ -87,12 +81,10 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Question $questions)
     {
-        $question = Question::findOrFail($id);
-
         return view('questions.edit')
-            ->with('question', $question);
+            ->with('question', $questions);
     }
 
     /**
@@ -102,13 +94,11 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(QuestionRequest $request, $id)
+    public function update(QuestionRequest $request, Question $questions)
     {
-        $question = Question::findOrFail($id);
-        $question->fill($request->all());
-        $question->save();
+        $questions->update($request->all());
 
-        return redirect('/questions/'.$question->id)
+        return redirect('/questions/'.$questions->id)
             ->with('message', 'Frage wurde geändert!');
     }
 
@@ -118,12 +108,11 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $questions)
     {
-        $question = Question::findOrFail($id);
-        $question->delete();
+        $questions->delete();
 
-        return redirect('quizzes/'. $question->quiz->id)
+        return redirect('quizzes/'. $questions->quiz->id)
             ->with('message', 'Frage wurde gelöscht!');
 
     }
