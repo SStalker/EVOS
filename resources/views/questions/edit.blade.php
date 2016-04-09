@@ -10,10 +10,11 @@
                 <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
             </div>
 
-            {!! $question->quiz->category->title !!} -> {!! $question->quiz->title !!} -> {!! $question->question !!}: bearbeiten
+            {!! $question->quiz->category->title !!} &raquo; {!! $question->quiz->title !!} &raquo; {!! $question->question !!} bearbeiten
         </div>
 
         {!! Form::open(['action' => ['QuestionController@update', $question->id], 'method' => 'put']) !!}
+        {!! Form::hidden('quiz_id', $question->quiz->id) !!}
         <div class="panel-body">
             <div class="form-group">
                 <label for="question">Frage</label>
@@ -45,7 +46,6 @@
             {!! Form::submit('Änderungen übernehmen', ['class'=>'btn btn-primary']) !!}
         </div>
         {!! Form::close() !!}
-    </div>
     </div>
 
 @endsection
