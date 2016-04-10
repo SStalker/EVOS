@@ -148,6 +148,11 @@ class QuizController extends Controller
             // Set the quiz as active
             $quizzes->isActive = true;
             $quizzes->save();
+
+            // In this case, the quiz has just started. We need to wait for the attendees to logon, so we show
+            // a special start page.
+            return view('questions.start')
+                ->with('quiz', $quizzes);
         }
 
         $question = $questions->get($questionsCounter);
