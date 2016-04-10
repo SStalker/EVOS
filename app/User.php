@@ -23,4 +23,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function categories()
+    {
+        return $this->hasMany('EVOS\Category');
+    }
+
+    public function rootCategories()
+    {
+        return $this->hasMany('EVOS\Category')->whereNull('parent_id')->get();
+    }
 }

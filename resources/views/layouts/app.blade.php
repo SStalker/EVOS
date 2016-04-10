@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>@yield('title')</title>
 
     <!-- Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
@@ -40,16 +40,21 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                    <img src="{!! asset('images/evos.png') !!}">
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/categories') }}">Kategorien</a></li>
                 </ul>
-
+                {!! Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) !!}
+                <div class='form-group input-group-btn'>
+                    {!! Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) !!}
+                    {!! Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) !!}
+                </div>
+                {!! Form::close() !!}
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
@@ -72,8 +77,32 @@
         </div>
     </nav>
 
-    @yield('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            Es gab ein paar Probleme:<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
+    @if(session('message'))
+        <div class="alert alert-success" role="alert">
+            <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+            {!! session('message') !!}
+        </div>
+    @endif
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                @yield('content')
+            </div>
+        </div>
+    </div>
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
