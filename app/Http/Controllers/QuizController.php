@@ -120,7 +120,7 @@ class QuizController extends Controller
         // If no questions then redirect with error
         if($questions->isEmpty())
         {
-            return redirect('quizzes/'. $quizzes->id)
+            return redirect('categories/'.$categories->id.'/quizzes/'. $quizzes->id)
                 ->withErrors(['Quiz hat keine Fragen']);
         }
 
@@ -133,7 +133,7 @@ class QuizController extends Controller
             $quizzes->save();
 
             //TODO Show end results
-            return redirect('quizzes/'. $quizzes->id)
+            return redirect('categories/'.$categories->id.'/quizzes/'. $quizzes->id)
                 ->withErrors(['Quiz ist zu Ende']);
         }
 
