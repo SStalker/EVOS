@@ -107,4 +107,5 @@ class QuestionController extends Controller
             ->with('message', 'Frage wurde gelöscht!');
 
     }
+
 }
