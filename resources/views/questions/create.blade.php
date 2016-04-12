@@ -10,7 +10,7 @@
                 <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
             </div>
 
-        {!! $quiz->category->title !!} -> {!! $quiz->title !!}: Frage erstellen
+        {!! $quiz->category->title !!} &raquo; {!! $quiz->title !!}: Frage erstellen
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="popover" title="Formeln einbinden" data-content="EVOS unterstützt LaTeX und AsciiMath. Nutzen Sie für LaTeX $$[Formel]$$, für AsciiMath ´[Formel]´. " style="cursor:pointer"></span>
         </div>
 
