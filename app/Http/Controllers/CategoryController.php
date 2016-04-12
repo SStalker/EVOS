@@ -37,7 +37,7 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
-        $parent_id = intval($request->input('parent_id')) <= 0 ? null : intval($request->input('parent_id'));
+        $parent_id = intval($request->input('parent_id')) <= 0 ? 0 : intval($request->input('parent_id'));
 
         return view('categories.create')
             ->with('parent_id', $parent_id);
@@ -52,7 +52,6 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $request['user_id'] = Auth::id();
-
         $category = Category::create($request->all());
 
         return redirect('/categories/'.$category->id)
