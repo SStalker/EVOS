@@ -11,6 +11,8 @@
             </div>
 
             {!! $question->quiz->category->title !!} &raquo; {!! $question->quiz->title !!} &raquo; {!! $question->question !!} bearbeiten
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="popover" title="Formeln einbinden" data-content="EVOS unterstützt LaTeX und AsciiMath. Nutzen Sie für LaTeX $$ [Formel] $$, für AsciiMath ´ [Formel] ´. "></span>
+
         </div>
 
         {!! Form::model($question, ['action' => ['QuestionController@update', $question->quiz->id, $question->id], 'method' => 'put']) !!}
@@ -19,3 +21,9 @@
     </div>
 
 @endsection
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
