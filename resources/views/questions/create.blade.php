@@ -11,7 +11,7 @@
             </div>
 
         {!! $quiz->category->title !!} -> {!! $quiz->title !!}: Frage erstellen
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="popover" title="Formeln einbinden" data-content="EVOS unterstützt LaTeX und AsciiMath. Nutzen Sie für LaTeX $$ [Formel] $$, für AsciiMath ´ [Formel] ´. "></span>
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="popover" title="Formeln einbinden" data-content="EVOS unterstützt LaTeX und AsciiMath. Nutzen Sie für LaTeX $$[Formel]$$, für AsciiMath ´[Formel]´. " style="cursor:pointer"></span>
         </div>
 
         {!! Form::open(['action' => ['QuestionController@store', $quiz->id], 'method' => 'post']) !!}
@@ -19,10 +19,11 @@
         {!! Form::close() !!}
     </div>
 
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+
 @endsection
 
-<script>
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
-</script>
