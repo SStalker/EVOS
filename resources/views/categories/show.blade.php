@@ -34,7 +34,7 @@
                         <td>
                             {!! Form::open(['action' => ['QuizController@destroy', $category->id, $quiz->id], 'method' => 'delete']) !!}
                                 @if(!$quiz->questions->isEmpty())
-                                    <a class="btn btn-primary" href="{!! action('QuizController@next', [$category->id, $quiz->id])!!}">Quiz starten</a>
+                                    <a class="btn btn-primary" href="{!! action('QuizController@start', [$category->id, $quiz->id])!!}">Quiz starten</a>
                                 @endif
                                 <a class="btn btn-default" href="{!! action('QuizController@edit', [$category->id, $quiz->id])!!}">Bearbeiten</a>
                                 {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
