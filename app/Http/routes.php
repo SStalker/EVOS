@@ -28,7 +28,8 @@ Route::get('/', function () {
 
 Route::get('/attendees/create', 'AttendeeController@create');
 Route::get('/start', 'AttendeeController@index');
-Route::get('/quiz/{pin}', 'AttendeeController@test');
+Route::get('/quiz/{pin}', 'AttendeeController@getQuiz');
+Route::get('/entername', 'AttendeeController@enterName');
 Route::get('/attendees/create/{id}', 'AttendeeController@create');
 Route::get('/quizzes/{quiz}/next', 'QuizController@next');
 Route::get('/quizzes/{quiz}/choices', 'QuizController@choices');

@@ -7,12 +7,25 @@ var evos = angular.module('evosApp', ['ngRoute'], function($interpolateProvider)
     $interpolateProvider.endSymbol('%>');
 });
 
-evos.controller('frontEndController', ['$scope', '$http', function($scope, $http) {
+evos.controller('frontEndController', ['$scope', '$http', '$window', function($scope, $http, $window) {
 
     $scope.sendQuizPin = function (quizPin) {
 
         $http.get('/quiz/'+quizPin).then(function(response) {
-            alert(response.data);
-        })
+
+            if (response.data == 'quiz_exists') {
+                $window.location.href = 'entername';
+
+            } else {
+                alert('Das Quiz mit der Pin '+quizPin+' existiert nicht!');
+            }
+
+        });
+    }
+
+    $scope.sendName = function (name) {
+
+        
+
     }
 }]);
