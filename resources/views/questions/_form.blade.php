@@ -16,6 +16,9 @@
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
         </label>
+        <div class="pull-right" style="margin-top:-7px;">
+            <input data-toggle="toggle" data-on="richtig" data-off="falsch" data-position="right" type="checkbox">
+        </div>
     </div>
     <div class="form-group">
         <label for="answerB">Antwort 2</label>
@@ -25,6 +28,9 @@
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
         </label>
+        <div class="pull-right" style="margin-top:-7px;">
+            <input checked data-toggle="toggle" data-on="richtig" data-off="falsch" data-position="right" type="checkbox">
+        </div>
     </div>
     <div class="form-group">
         <label for="answerC">Antwort 3</label>
@@ -34,6 +40,9 @@
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
         </label>
+        <div class="pull-right" style="margin-top:-7px;">
+            <input checked data-toggle="toggle" data-on="richtig" data-off="falsch" data-position="right" type="checkbox">
+        </div>
     </div>
     <div class="form-group">
         <label for="answerD">Antwort 4</label>
@@ -43,6 +52,9 @@
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
         </label>
+        <div class="pull-right" style="margin-top:-7px;">
+            <input checked data-toggle="toggle" data-on="richtig" data-off="falsch" data-position="right" type="checkbox">
+        </div>
     </div>
     <div class="form-group">
         <label for="countdown">Countdown</label>
