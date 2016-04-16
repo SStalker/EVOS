@@ -10,7 +10,12 @@ var elixir = require('laravel-elixir');
  | file for our application, as well as publishing vendor resources.
  |
  */
+/*
+ Zum ausschalten der '*.css.map' dateien, den Kommentar der folgenden Zeile entfernen
+ */
+//elixir.config.sourcemaps = false;
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+    mix.styles(['bootstrap.css'], 'public/css/styles.css');
+    mix.scripts(['jquery-2.2.2.js', 'bootstrap.js'], 'public/js/all.js');
 });
