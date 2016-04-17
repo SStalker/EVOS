@@ -1,8 +1,8 @@
 <div class="panel-body">
     <div class="form-group">
         <label for="question">Frage</label>
-        {!! Form::textarea('question', null, ['class' => 'form-control', 'rows' => 3]) !!} <br>
-        <a class="btn btn-primary preview1" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test">Vorschau</a>
+        {!! Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 3]) !!} <br>
+        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test" data-preview="questionInput">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
@@ -10,50 +10,50 @@
     </div>
     <div class="form-group">
         <label for="answerA">Antwort 1</label>
-        {!! Form::text('answerA', null, ['class' => 'form-control']) !!}<br>
-        <a class="btn btn-primary preview2" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test">Vorschau</a>
+        {!! Form::text('answerA', null, ['id' => 'answerA', 'class' => 'form-control']) !!}<br>
+        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test" data-preview="answerA">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
         </label>
         <div class="pull-right" style="margin-top:-7px;">
-            <input data-toggle="toggle" data-on="richtig" data-off="falsch" data-position="right" type="checkbox">
+            {!! Form::checkbox('answerAbool', null, (isset($question) ? $question->answerABool : null), ['data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) !!}
         </div>
     </div>
     <div class="form-group">
         <label for="answerB">Antwort 2</label>
-        {!! Form::text('answerB', null, ['class' => 'form-control']) !!}<br>
-        <a class="btn btn-primary preview3" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test">Vorschau</a>
+        {!! Form::text('answerB', null, ['id' => 'answerB','class' => 'form-control']) !!}<br>
+        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test" data-preview="answerB">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
         </label>
         <div class="pull-right" style="margin-top:-7px;">
-            <input checked data-toggle="toggle" data-on="richtig" data-off="falsch" data-position="right" type="checkbox">
+            {!! Form::checkbox('answerBbool', null, (isset($question) ? $question->answerBBool : null), ['data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) !!}
         </div>
     </div>
     <div class="form-group">
         <label for="answerC">Antwort 3</label>
-        {!! Form::text('answerC', null, ['class' => 'form-control']) !!}<br>
-        <a class="btn btn-primary preview4" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test">Vorschau</a>
+        {!! Form::text('answerC', null, ['id' => 'answerC', 'class' => 'form-control']) !!}<br>
+        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test" data-preview="answerC">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
         </label>
         <div class="pull-right" style="margin-top:-7px;">
-            <input checked data-toggle="toggle" data-on="richtig" data-off="falsch" data-position="right" type="checkbox">
+            {!! Form::checkbox('answerCbool', null, (isset($question) ? $question->answerCBool : null), ['data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) !!}
         </div>
     </div>
     <div class="form-group">
         <label for="answerD">Antwort 4</label>
-        {!! Form::text('answerD', null, ['class' => 'form-control']) !!}<br>
-        <a class="btn btn-primary preview5" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test">Vorschau</a>
+        {!! Form::text('answerD', null, ['id' => 'answerD', 'class' => 'form-control']) !!}<br>
+        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#test" data-preview="answerD">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
             Bild anhängen
         </label>
         <div class="pull-right" style="margin-top:-7px;">
-            <input checked data-toggle="toggle" data-on="richtig" data-off="falsch" data-position="right" type="checkbox">
+            {!! Form::checkbox('answerDbool', null, (isset($question) ? $question->answerDBool : null), ['data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) !!}
         </div>
     </div>
     <div class="form-group">
@@ -76,18 +76,21 @@
                 <h4 class="modal-title" id="myModalLabel">Vorschau</h4>
             </div>
             <div class="modal-body">
-                blubb ...
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Total doof. Unbedingt überarbeiten.
     $( document ).ready(function() {
-        $(".preview1").click(function(){
-            var text = $(".question").val();
-            $(".modal-body").append();
+        $(".preview").click(function(){
+            var id = $(this).data('preview');
+            var text = $("#" + id).val();
+            $(".modal-body").text(text);
+
+            window.setTimeout(function () {
+                MathJax.Hub.Typeset();
+            }, 1000);
         });
     });
 </script>
