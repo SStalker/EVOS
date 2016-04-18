@@ -38,13 +38,15 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/categories') }}">Kategorien</a></li>
                 </ul>
-                {!! Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) !!}
-                <div class='form-group input-group-btn'>
-                    {!! Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) !!}
-                    {!! Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) !!}
-                </div>
-                {!! Form::close() !!}
-                        <!-- Right Side Of Navbar -->
+                @if(Auth::user())
+                    {!! Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) !!}
+                    <div class='form-group input-group-btn'>
+                        {!! Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) !!}
+                        {!! Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) !!}
+                    </div>
+                    {!! Form::close() !!}
+                @endif
+                <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
