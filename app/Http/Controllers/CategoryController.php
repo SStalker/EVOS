@@ -14,7 +14,7 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'update', 'destroy', 'edit']]);
+        $this->middleware('auth', ['only' => ['index', 'create', 'store', 'update', 'destroy', 'edit']]);
     }
     
     /**
