@@ -23,9 +23,15 @@ evos.controller('frontEndController', ['$scope', '$http', '$window', function($s
         });
     }
 
-    $scope.sendName = function (name) {
+    $scope.sendName = function (attandeeName) {
 
-        
+        $http.post('/attendee', {
+            name: attandeeName
+        }).then(function(response) {
+
+            alert(respone.data);
+
+        });
 
     }
 }]);
