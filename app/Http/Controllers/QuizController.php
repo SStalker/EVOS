@@ -32,19 +32,10 @@ class QuizController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $categories)
     {
-        if(Session::has('category_id'))
-        {
-            $category_id = Session::get('category_id');
-        }
-        else
-        {
-            abort(403,'Unauthorized action.');
-        }
-        $category = Category::findOrFail($category_id);
-
-        return view('quizzes.create')->with('category', $category);
+        return view('quizzes.create')
+            ->with('category', $categories);
     }
 
     /**
@@ -53,11 +44,12 @@ class QuizController extends Controller
      * @param  \EVOS\Http\Requests\QuizRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(QuizRequest $request)
+    public function store(Category $categories, QuizRequest $request)
     {
+        $request['category_id'] = $categories->id;
         $quiz = Quiz::create($request->all());
 
-        return redirect('/quizzes/'.$quiz->id)
+        return redirect('categories/'.$categories->id.'/quizzes/'.$quiz->id)
             ->with('message', 'Quiz wurde angelegt!');
     }
 
@@ -67,12 +59,10 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $categories, Quiz $quizzes)
     {
-        $quiz = Quiz::findOrFail($id);
-        Session::put('quiz_id', $id);
-
-        return view('quizzes.show')->with('quiz', $quiz);
+        return view('quizzes.show')
+            ->with('quiz', $quizzes);
     }
 
     /**
@@ -81,12 +71,10 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $categories, Quiz $quizzes)
     {
-        $quiz = Quiz::findOrFail($id);
-
         return view('quizzes.edit')
-            ->with('quiz', $quiz);
+            ->with('quiz', $quizzes);
     }
 
     /**
@@ -96,13 +84,12 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(QuizRequest $request, $id)
+    public function update(QuizRequest $request, Category $categories, Quiz $quizzes)
     {
-        $quiz = Quiz::findOrFail($id);
-        $quiz->fill($request->all());
-        $quiz->save();
+        $request['category_id'] = $categories->id;
+        $quizzes->update($request->all());
 
-        return redirect('/quizzes/'.$quiz->id)
+        return redirect('categories/'.$categories->id.'/quizzes/'.$quizzes->id)
             ->with('message', 'Quiz wurde geändert!');
     }
 
@@ -112,12 +99,11 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $categories, Quiz $quizzes)
     {
-        $quiz = Quiz::findOrFail($id);
-        $quiz->delete();
+        $quizzes->delete();
 
-        return redirect('categories/'. $quiz->category->id)
+        return redirect('categories/'. $quizzes->category->id)
             ->with('message', 'Quiz wurde gelöscht!');
     }
 
@@ -125,43 +111,43 @@ class QuizController extends Controller
      * @param  int $id
      * @return The next question or first (Starts the quiz)
      */
-    public function next(Quiz $quiz)
+    public function next(Category $categories, Quiz $quizzes)
     {
         // If collection is empty redirect with error
-        $questions = $quiz->questions;
-        $questionsCounter = $quiz->questionsCounter;
+        $questions = $quizzes->questions;
+        $questionsCounter = $quizzes->questionsCounter;
 
         // If no questions then redirect with error
         if($questions->isEmpty())
         {
-            return redirect('quizzes/'. $quiz->id)
+            return redirect('categories/'.$categories->id.'/quizzes/'.$quizzes->id)
                 ->withErrors(['Quiz hat keine Fragen']);
         }
 
         // If counter is greater than array size then quiz ends
-        if($quiz->questionsCounter >= $questions->count()-1)
+        if($quizzes->questionsCounter >= $questions->count()-1)
         {
             // Set the quiz as active
-            $quiz->isActive = false;
-            $quiz->questionsCounter = 0;
-            $quiz->save();
+            $quizzes->isActive = false;
+            $quizzes->questionsCounter = 0;
+            $quizzes->save();
 
             //TODO Show end results
-            return redirect('quizzes/'. $quiz->id)
+            return redirect('categories/'.$categories->id.'/quizzes/'.$quizzes->id)
                 ->withErrors(['Quiz ist zu Ende']);
         }
 
-        if($quiz->isActive)
+        if($quizzes->isActive)
         {
             // Increase question counter
-            $quiz->questionsCounter = ++$questionsCounter;
-            $quiz->save();
+            $quizzes->questionsCounter = ++$questionsCounter;
+            $quizzes->save();
         }
         else
         {
             // Set the quiz as active
-            $quiz->isActive = true;
-            $quiz->save();
+            $quizzes->isActive = true;
+            $quizzes->save();
         }
 
         $question = $questions->get($questionsCounter);
@@ -174,10 +160,10 @@ class QuizController extends Controller
      * @param int $id
      * @return json The answers for the current question
      */
-    public function choices(Quiz $quiz)
+    public function choices(Category $categories, Quiz $quizzes)
     {
-        $questions = $quiz->questions;
-        $questionsCounter = $quiz->questionsCounter;
+        $questions = $quizzes->questions;
+        $questionsCounter = $quizzes->questionsCounter;
         $question = $questions->get($questionsCounter);
 
         return $question;

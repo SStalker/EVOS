@@ -13,18 +13,8 @@
         {!! $category->title !!}: Quiz erstellen
     </div>
 
-    {!! Form::open(['action' => ['QuizController@store'], 'method' => 'post']) !!}
-    {!! Form::hidden('category_id', $category->id) !!}
-    <div class="panel-body">
-            <div class="form-group">
-                <label for="title">Titel</label>
-                <input type="text" class="form-control" name="title" id="title" placeholder="z. B. Aufgabenteil 1, Extra-Fragen, Klausur-Teil">
-            </div>
-    </div>
-
-    <div class="panel-footer">
-        {!! Form::submit('Erstellen', ['class'=>'btn btn-primary']) !!}
-    </div>
+    {!! Form::open(['action' => ['QuizController@store', $category->id], 'method' => 'post']) !!}
+        @include('quizzes._form', ['submitLabel' => 'Speichern'])
     {!! Form::close() !!}
 </div>
 

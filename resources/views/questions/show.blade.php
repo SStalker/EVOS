@@ -8,10 +8,10 @@
         <div class="panel-heading">
             <div class="pull-right">
                 <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
-                <a class="btn btn-default" style="margin-top: -7px;" href="{!! action('QuestionController@edit', $question->id) !!}">Bearbeiten</a>
+                <a class="btn btn-default" style="margin-top: -7px;" href="{!! action('QuestionController@edit', [$question->quiz->id, $question->id]) !!}">Bearbeiten</a>
             </div>
 
-            {!! $question->quiz->category->title !!} -> {!! $question->quiz->title !!} -> {!! $question->question !!}
+            {!! $question->quiz->category->title !!} &raquo; {!! $question->quiz->title !!} &raquo; {!! $question->question !!}
         </div>
 
         <div class="panel-body">

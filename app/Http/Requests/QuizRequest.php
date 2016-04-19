@@ -24,8 +24,7 @@ class QuizRequest extends Request
     public function rules()
     {
         return [
-            'title' => 'required|min:3',
-            'category_id' => 'required|numeric'
+            'title' => 'required|min:3'
         ];
     }
 }

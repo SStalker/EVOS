@@ -32,19 +32,10 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Quiz $quizzes)
     {
-        if(!Session::has('quiz_id') && !Session::has('category_id')) {
-            return redirect('categories')
-                ->withErrors(['Nicht autorisierter Zugriff!']);
-        }
-
-        $quiz = Quiz::findOrFail(Session::get('quiz_id'));
-        $category = Category::findOrFail(Session::get('category_id'));
-
         return view('questions.create')
-            ->with('quiz', $quiz)
-            ->with('category', $category);
+            ->with('quiz', $quizzes);
     }
 
     /**
@@ -53,11 +44,12 @@ class QuestionController extends Controller
      * @param  \EVOS\Http\Requests\QuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(QuestionRequest $request)
+    public function store(Quiz $quizzes, QuestionRequest $request)
     {
+        $request['quiz_id'] = $quizzes->id;
         $question = Question::create($request->all());
 
-        return redirect('/questions/'.$question->id)
+        return redirect('quizzes/'.$quizzes->id.'/questions/'.$question->id)
             ->with('message', 'Frage wurde angelegt!');
     }
 
@@ -67,10 +59,8 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $questions)
+    public function show(Quiz $quizzes, Question $questions)
     {
-        Session::put('quiz_id', $questions->id);
-
         return view('questions.show')
             ->with('question', $questions);
     }
@@ -81,7 +71,7 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Question $questions)
+    public function edit(Quiz $quizzes, Question $questions)
     {
         return view('questions.edit')
             ->with('question', $questions);
@@ -94,11 +84,12 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(QuestionRequest $request, Question $questions)
+    public function update(QuestionRequest $request, Quiz $quizzes, Question $questions)
     {
+        $request['quiz_id'] = $quizzes->id;
         $questions->update($request->all());
 
-        return redirect('/questions/'.$questions->id)
+        return redirect('quizzes/'.$quizzes->id.'/questions/'.$questions->id)
             ->with('message', 'Frage wurde geändert!');
     }
 
@@ -108,11 +99,11 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $questions)
+    public function destroy(Quiz $quizzes, Question $questions)
     {
         $questions->delete();
 
-        return redirect('quizzes/'. $questions->quiz->id)
+        return redirect('categories/'.$quizzes->category->id.'/quizzes/'. $quizzes->id)
             ->with('message', 'Frage wurde gelöscht!');
 
     }

@@ -8,13 +8,13 @@ use Auth;
 use EVOS\Http\Requests;
 use EVOS\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'update', 'destroy', 'edit']]);
+        $this->middleware('auth', ['only' => ['index', 'create', 'store', 'update', 'destroy', 'edit']]);
     }
     
     /**
@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Auth::user()->categories;
+        $categories = Auth::user()->rootCategories();
 
         return view('categories.index')
             ->with('categories', $categories);
@@ -35,9 +35,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('categories.create');
+        $parent_id = intval($request->input('parent_id')) <= 0 ? 0 : intval($request->input('parent_id'));
+
+        return view('categories.create')
+            ->with('parent_id', $parent_id);
     }
 
     /**
@@ -49,7 +52,6 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $request['user_id'] = Auth::id();
-
         $category = Category::create($request->all());
 
         return redirect('/categories/'.$category->id)
