@@ -11,7 +11,7 @@ class Question extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['quiz_id','question', 'answerA', 'answerB', 'answerC', 'answerD', 'countdown'];
+    protected $fillable = ['quiz_id','question', 'answerA', 'answerB', 'answerC', 'answerD', 'countdown', 'correct_answers'];
 
     protected $hidden = ['id', 'isActive', 'created_at', 'updated_at', 'deleted_at', 'quiz_id'];
 
