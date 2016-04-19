@@ -20,6 +20,7 @@ class CreateQuestionsTable extends Migration
             $table->text('answerB');
             $table->text('answerC');
             $table->text('answerD');
+            $table->string('correct_answers')->default('{a: false, b: false, c: false, d: false}');
             $table->integer('countdown')->default(30);
             $table->boolean('isActive')->default(true);
             $table->timestamps();

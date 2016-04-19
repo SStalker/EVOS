@@ -17,7 +17,8 @@ class QuestionsTableSeeder extends Seeder
             'answerA' => 'test',
             'answerB' => 'test',
             'answerC' => '',
-            'answerD' => ''
+            'answerD' => '',
+            'correct_answers' => '{"a": false, "b": true, "c": false, "d": false}'
         ]);
 
         DB::table('questions')->insert([
@@ -26,7 +27,8 @@ class QuestionsTableSeeder extends Seeder
             'answerA' => 'test',
             'answerB' => 'test',
             'answerC' => '',
-            'answerD' => ''
+            'answerD' => '',
+            'correct_answers' => '{"a": false, "b": true, "c": false, "d": false}'
         ]);
 
         DB::table('questions')->insert([
@@ -35,7 +37,8 @@ class QuestionsTableSeeder extends Seeder
             'answerA' => 'test',
             'answerB' => 'test',
             'answerC' => '',
-            'answerD' => ''
+            'answerD' => '',
+            'correct_answers' => '{"a": false, "b": true, "c": false, "d": false}'
         ]);
 
         DB::table('questions')->insert([
@@ -44,7 +47,8 @@ class QuestionsTableSeeder extends Seeder
             'answerA' => 'test',
             'answerB' => 'test',
             'answerC' => '',
-            'answerD' => ''
+            'answerD' => '',
+            'correct_answers' => '{"a": false, "b": true, "c": false, "d": false}'
         ]);
     }
 }
