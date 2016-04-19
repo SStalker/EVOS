@@ -6,8 +6,6 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <div class="pull-right">
-                <a class="btn btn-default" style="margin-top: -7px;" href="{{ URL::previous() }}">Zurück</a>
                 <a class="btn btn-default" style="margin-top: -7px;" href="{{ action('QuestionController@edit', [$question->quiz->id, $question->id]) }}">Bearbeiten</a>
             </div>
 

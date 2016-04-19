@@ -7,9 +7,10 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="pull-right">
+
             <a class="btn btn-primary" style="margin-top: -7px;" href="{{ action('CategoryController@create', ['parent_id' => $category->id]) }}">Unterkategorie erstellen</a>
             <a class="btn btn-primary" style="margin-top: -7px;" href="{{ action('QuizController@create', [$category->id]) }}">Quiz erstellen</a>
-            <a class="btn btn-default" style="margin-top: -7px;" href="{{ URL::previous() }}">Zurück</a>
+
         </div>
 
         Kategorie: {{ $category->title }}
