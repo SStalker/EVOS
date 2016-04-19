@@ -7,12 +7,12 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="pull-right">
-            <a class="btn btn-primary" style="margin-top: -7px;" href="{!! action('CategoryController@create', ['parent_id' => $category->id]) !!}">Unterkategorie erstellen</a>
-            <a class="btn btn-primary" style="margin-top: -7px;" href="{!! action('QuizController@create', [$category->id]) !!}">Quiz erstellen</a>
-            <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
+            <a class="btn btn-primary" style="margin-top: -7px;" href="{{ action('CategoryController@create', ['parent_id' => $category->id]) }}">Unterkategorie erstellen</a>
+            <a class="btn btn-primary" style="margin-top: -7px;" href="{{ action('QuizController@create', [$category->id]) }}">Quiz erstellen</a>
+            <a class="btn btn-default" style="margin-top: -7px;" href="{{ URL::previous() }}">Zurück</a>
         </div>
 
-        Kategorie: {!! $category->title !!}
+        Kategorie: {{ $category->title }}
     </div>
 
     <div class="panel-body">
@@ -29,13 +29,13 @@
                 @foreach($category->quizzes as $quiz)
                     <tr>
                         <td>
-                            <a href="{!! action('QuizController@show', [$category->id, $quiz->id]) !!}">{!! $quiz->title !!}</a>
+                            <a href="{{ action('QuizController@show', [$category->id, $quiz->id]) }}">{{ $quiz->title }}</a>
                         </td>
                         <td>
-                            {!! Form::open(['action' => ['QuizController@destroy', $category->id, $quiz->id], 'method' => 'delete']) !!}
-                                <a class="btn btn-default" href="{!! action('QuizController@edit', [$category->id, $quiz->id])!!}">Bearbeiten</a>
-                                {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
-                            {!! Form::close() !!}
+                            {{ Form::open(['action' => ['QuizController@destroy', $category->id, $quiz->id], 'method' => 'delete']) }}
+                                <a class="btn btn-default" href="{{ action('QuizController@edit', [$category->id, $quiz->id])}}">Bearbeiten</a>
+                                {{ Form::submit('Löschen', ['class'=>'btn btn-danger']) }}
+                            {{ Form::close() }}
                         </td>
                     </tr>
                 @endforeach
@@ -43,11 +43,11 @@
             </table>
             @else
                 Es sind noch keine Quizze vorhanden. Füge jetzt eine hinzu:<br>
-                <a class="btn btn-primary" href="{!! action('QuizController@create', [$category->id]) !!}">Quiz erstellen</a>
+                <a class="btn btn-primary" href="{{ action('QuizController@create', [$category->id]) }}">Quiz erstellen</a>
             @endif
 
             @foreach($category->children as $child)
-                {!! $child->title !!}
+                {{ $child->title }}
             @endforeach
         </div>
     </div>
