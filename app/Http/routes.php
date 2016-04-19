@@ -25,22 +25,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-<<<<<<< HEAD
-
-Route::get('/attendees/create', 'AttendeeController@create');
 Route::get('/start', 'AttendeeController@index');
 Route::get('/quiz/{pin}', 'AttendeeController@getQuiz');
-Route::get('/play/{pin}', 'AttendeeController@enterName');
-Route::get('/attendees/create/{id}', 'AttendeeController@create');
-Route::get('/quizzes/{quiz}/next', 'QuizController@next');
-Route::get('/quizzes/{quiz}/choices', 'QuizController@choices');
-
-
-Route::resource('quizzes', 'QuizController');
-Route::resource('questions', 'QuestionController');
-Route::resource('categories', 'CategoryController');
-Route::resource('attendee', 'AttendeeController');
-=======
+Route::get('/entername', 'AttendeeController@enterName');
 Route::get('/search', 'SearchController@getSearch');
 Route::get('attendees/create/{id}', 'AttendeeController@create');
 Route::get('categories/{categories}/quizzes/{quizzes}/next', 'QuizController@next');
@@ -49,7 +36,7 @@ Route::get('categories/{categories}/quizzes/{quizzes}/choices', 'QuizController@
 Route::resource('categories', 'CategoryController');
 Route::resource('categories.quizzes', 'QuizController');
 Route::resource('quizzes.questions', 'QuestionController');
->>>>>>> master
+Route::resource('attendee', 'AttendeeController');
 
-//});
+
 

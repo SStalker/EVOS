@@ -22,6 +22,7 @@ class AttendeeController extends Controller
 
         dd($attendeeRequest);
         return redirect('frontend.waiting');
+
     }
 
     public function getQuiz($pin) {

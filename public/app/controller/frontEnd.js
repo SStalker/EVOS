@@ -2,12 +2,12 @@
  * Created by davidherzog on 09.04.16.
  */
 
-var evos = angular.module('evosApp', ['ngRoute'], function($interpolateProvider) {
+var evos = angular.module('evosApp', ['ngRoute', 'ngCookies'], function($interpolateProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
 });
 
-evos.controller('frontEndController', ['$scope', '$http', '$window', function($scope, $http, $window) {
+evos.controller('frontEndController', ['$scope', '$http', '$window', function($scope, $http, $window, CSRF_TOKEN) {
 
     $scope.sendQuizPin = function (quizPin) {
 
@@ -25,11 +25,14 @@ evos.controller('frontEndController', ['$scope', '$http', '$window', function($s
 
     $scope.sendName = function (attandeeName) {
 
+        var myToken = document.getElementsByTagName('meta')['csrf-token'].getAttribute('content');
+        alert(myToken);
         $http.post('/attendee', {
-            name: attandeeName
+            name: attandeeName,
+            _token: myToken
         }).then(function(response) {
 
-            alert(respone.data);
+            alert(response.data);
 
         });
 
