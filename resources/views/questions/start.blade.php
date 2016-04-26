@@ -26,13 +26,12 @@
             </div>
         </div>
     </div>
-
-    URL:
-
-
+    
     <script>
         $(function() {
-            var wsUrl = '{!! url('/') !!}'.replace(/^http/, 'ws');
+            var wsUrl = '{!! url('/') !!}'
+                    .replace(/^http/, 'ws')
+                    .replace(/localhost/, "127.0.0.1");
             var ws = new WebSocket(wsUrl);
             ws.onerror = function (message) {
                 $('.quiz-normal').hide();
