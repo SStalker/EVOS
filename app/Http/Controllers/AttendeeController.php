@@ -11,17 +11,16 @@ class AttendeeController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'update', 'destroy', 'edit']]);
+        $this->middleware('auth', ['except' => ['index', 'getQuiz', 'enterName', 'create', 'store', 'update', 'destroy', 'edit']]);
     }
     
     public function index() {
         return view('frontend.frontendlanding');
     }
 
-    public function store(AttendeeRequest $attendeeRequest) {
+    public function store(Request $request) {
 
-        dd($attendeeRequest);
-        return redirect('frontend.waiting');
+        return view('frontend.waiting');
 
     }
 

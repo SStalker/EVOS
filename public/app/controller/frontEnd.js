@@ -7,7 +7,7 @@ var evos = angular.module('evosApp', ['ngRoute', 'ngCookies'], function($interpo
     $interpolateProvider.endSymbol('%>');
 });
 
-evos.controller('frontEndController', ['$scope', '$http', '$window', function($scope, $http, $window, CSRF_TOKEN) {
+evos.controller('frontEndController', ['$scope', '$http', '$window', function($scope, $http, $window) {
 
     $scope.sendQuizPin = function (quizPin) {
 
@@ -25,14 +25,11 @@ evos.controller('frontEndController', ['$scope', '$http', '$window', function($s
 
     $scope.sendName = function (attandeeName) {
 
-        var myToken = document.getElementsByTagName('meta')['csrf-token'].getAttribute('content');
-        alert(myToken);
         $http.post('/attendee', {
-            name: attandeeName,
-            _token: myToken
+            name: attandeeName
         }).then(function(response) {
-
-            alert(response.data);
+            
+            document.write(response.data);
 
         });
 
