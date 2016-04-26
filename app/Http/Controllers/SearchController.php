@@ -4,6 +4,8 @@ namespace EVOS\Http\Controllers;
 
 use Request;
 use Auth;
+use EVOS\Quiz;
+use EVOS\Question;
 use EVOS\Http\Requests;
 
 class SearchController extends Controller
@@ -18,21 +20,16 @@ class SearchController extends Controller
         $searchFor = Request::input('searchtext');
         $input = '%'.$searchFor.'%';
 
+        // Get all categories created by user
         $categoriesResult = Auth::user()->categories()->where('title', 'LIKE', $input)->getModels();
-        $quizzesResult = array();
-        $questionsResult = array();
+        $categories_ids = Auth::user()->categories()->lists('id');
 
-        foreach ($categoriesResult as $category)
-        {
-            $quizzes = $category->quizzes();
+        // Get all quizzes related by id from categories
+        $quizzesResult = Quiz::whereIn('category_id', $categories_ids)->where('title', 'LIKE', $input)->getModels();
+        $quizzes_ids = Quiz::whereIn('category_id', $categories_ids)->lists('id');
 
-            $quizzesResult = array_merge($quizzesResult , $quizzes->where('title', 'LIKE', $input)->getModels());
-
-            foreach ($quizzesResult as $quiz)
-            {
-                $questionsResult = array_merge($questionsResult, $quiz->questions()->where('question', 'LIKE', $input)->getModels());
-            }
-        }
+        // Get all questions related by id from quizzes
+        $questionsResult = Question::whereIn('quiz_id', $quizzes_ids)->where('question', 'LIKE', $input)->getModels();
 
         return view('search.result')
             ->with('input', $searchFor)
