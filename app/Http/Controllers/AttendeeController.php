@@ -15,7 +15,7 @@ class AttendeeController extends Controller
     }
     
     public function index() {
-        return view('frontend.frontendlanding');
+        return view('frontend.frontend');
     }
 
     public function store(Request $request) {

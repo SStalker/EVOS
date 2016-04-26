@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('frontend.blade.php')
 
 @section('frontEndContent')
 

@@ -27,7 +27,7 @@ Route::get('/', function () {
 
 Route::get('/start', 'AttendeeController@index');
 Route::get('/quiz/{pin}', 'AttendeeController@getQuiz');
-Route::get('/entername', 'AttendeeController@enterName');
+//Route::get('/entername', 'AttendeeController@enterName');
 Route::get('/search', 'SearchController@getSearch');
 Route::get('attendees/create/{id}', 'AttendeeController@create');
 Route::get('categories/{categories}/quizzes/{quizzes}/next', 'QuizController@next');

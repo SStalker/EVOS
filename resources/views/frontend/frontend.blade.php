@@ -19,6 +19,10 @@
 
 </head>
 <body>
-    <div ng-view></div>
+    <div ng-controller="frontEndController">
+        <div ng-view>
+
+        </div>
+    </div>
 </body>
 </html>

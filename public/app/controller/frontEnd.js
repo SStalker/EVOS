@@ -7,6 +7,18 @@ var evos = angular.module('evosApp', ['ngRoute', 'ngCookies'], function($interpo
     $interpolateProvider.endSymbol('%>');
 });
 
+evos.config(function($routeProvider) {
+   $routeProvider
+       .when('/start', {
+           templateUrl: 'pages/frontendlanding.html',
+           controller: 'frontEndController'
+        })
+       .when('/entername', {
+           templateUrl: 'pages/entername.html',
+           controller: 'frontEndController'
+       });
+});
+
 evos.controller('frontEndController', ['$scope', '$http', '$window', function($scope, $http, $window) {
 
     $scope.sendQuizPin = function (quizPin) {
@@ -28,7 +40,7 @@ evos.controller('frontEndController', ['$scope', '$http', '$window', function($s
         $http.post('/attendee', {
             name: attandeeName
         }).then(function(response) {
-            
+
             document.write(response.data);
 
         });
