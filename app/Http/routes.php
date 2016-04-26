@@ -13,7 +13,7 @@
 
 
 
-// As of Laravel 5.2 you need the web middlware for auth and stuff,
+// As of Laravel 5.2 you need the web middleware for auth and stuff,
 // but there seems to be a bug that adds it two times, if you enclose
 // your routes with them. That causes the error message to get lost.
 // For now we just removed the group.
