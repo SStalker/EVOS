@@ -10,7 +10,10 @@
                 <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
             </div>
 
-        {!! $quiz->category->title !!} -> {!! $quiz->title !!}: Frage erstellen
+            <a href="{!! action('CategoryController@show', [$quiz->category->id, $quiz->id]) !!}">{!! $quiz->category->title !!}</a>
+            &raquo;
+            <a href="{!! action('QuizController@show', [$quiz->category->id, $quiz->id]) !!}">{!! $quiz->title !!}</a>
+            : Frage erstellen
         </div>
 
         {!! Form::open(['action' => ['QuestionController@store', $quiz->id], 'method' => 'post']) !!}

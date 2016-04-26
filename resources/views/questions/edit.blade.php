@@ -10,7 +10,13 @@
                 <a class="btn btn-default" style="margin-top: -7px;" href="{!! URL::previous() !!}">Zurück</a>
             </div>
 
-            {!! $question->quiz->category->title !!} &raquo; {!! $question->quiz->title !!} &raquo; {!! $question->question !!} bearbeiten
+            <a href="{!! action('CategoryController@show', [$question->quiz->category->id, $question->quiz->id]) !!}">{!! $question->quiz->category->title !!}</a>
+            &raquo;
+            <a href="{!! action('QuizController@show', [$question->quiz->category->id, $question->quiz->id]) !!}">{!! $question->quiz->title !!}</a>
+            &raquo;
+            <a href="{!! action('QuestionController@show', [$question->quiz->category->id, $question->quiz->id, $question->id]) !!}">{!! $question->question !!}</a>
+            &raquo;
+            bearbeiten
         </div>
 
         {!! Form::model($question, ['action' => ['QuestionController@update', $question->quiz->id, $question->id], 'method' => 'put']) !!}
