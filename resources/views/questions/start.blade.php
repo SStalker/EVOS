@@ -29,12 +29,15 @@
 
     <script>
         $(function() {
+            // The class quiz-normal must be hidden until the quiz is started successfully
+            $('.quiz-normal').hide();
+
             var wsUrl = '{!! url('/') !!}/sync'
                     .replace(/^http/, 'ws')
                     .replace(/localhost/, "127.0.0.1");
             var ws = new WebSocket(wsUrl);
+
             ws.onerror = function (message) {
-                $('.quiz-normal').hide();
                 $('.error').append("<h1>Beim Verbinden ist ein Fehler aufgetreten!</h1>Das Quiz kann zurzeit aus technischen Gründen nicht gestartet werden. <a href="/">Zur Startseite</a>").show();
             };
 
@@ -43,9 +46,19 @@
             };
 
             ws.onopen = function (message) {
-                console.log('BIN VERBUNDEN!');
+
+                // If the WebSocked was started successfully, the User has to inform the server
+                var startMessage = {
+                    type: 'start',
+                    user_id: '{{ Auth::id() }}',
+                    quiz_id: '{{ $quiz->id }}',
+                    session_id: '{{ Session::getId() }}'
+                };
+
+                ws.send(JSON.stringify(startMessage));
             };
 
+            // Message received from the server
             ws.onmessage = function (message) {
                 if (message.type === undefined) {
                     console.log('Received invalid message! Didn\'t contain a type!');
