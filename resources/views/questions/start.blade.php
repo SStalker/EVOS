@@ -32,6 +32,8 @@
             // The class quiz-normal must be hidden until the quiz is started successfully
             $('.quiz-normal').hide();
 
+            // Counts the successfully loged on attendees
+            var attendee_count = 0;
             var wsUrl = '{!! url('/') !!}/sync'
                     .replace(/^http/, 'ws')
                     .replace(/localhost/, "127.0.0.1");
@@ -42,11 +44,10 @@
             };
 
             ws.onclose = function (message) {
-
+                // ...
             };
 
             ws.onopen = function (message) {
-
                 // If the WebSocked was started successfully, the User has to inform the server
                 var startMessage = {
                     type: 'start',
@@ -58,13 +59,21 @@
                 ws.send(JSON.stringify(startMessage));
             };
 
+            // TESTEN
+            $('.start-button').click(function(){
+                question(ws);
+            });
+
             // Message received from the server
             ws.onmessage = function (message) {
+                message = JSON.parse(message.data);
+                console.log(message);
+
                 if (message.type === undefined) {
                     console.log('Received invalid message! Didn\'t contain a type!');
                     return;
                 }
-
+                console.log(message);
                 switch (message.type) {
                     case 'start':
                         handleStart(ws, message);
@@ -94,14 +103,40 @@
 
                 // Successful message.
                 // Now we have to inform the attendees by showing the logon view and the quizID.
-
                 $('.quiz-loading').hide();
                 $('.quiz-normal').show();
             }
 
             // Server informs User of new users. User handles this.
             function handleLogon(ws, message){
+                // The user can only receive successful messages, logon can only fail by the attendees
+                // For every new attendee the attendee-count increments
+                attendee_count ++;
+                $('#attendee-count').text(attendee_count);
+            }
 
+            // The User sends a question to the server
+            function question(ws){
+                // The user sends the messageType 'question' to induce the server to show a new question
+                var questionMessage = {
+                    type: 'question',
+                    quiz_id: '{{ $quiz->id }}',
+                    session_id: '{{ Session::getId() }}'
+                };
+
+                ws.send(JSON.stringify(questionMessage));
+            }
+
+            // The user ends the quiz
+            // Kann es sein, dass diese methode hier fehl am Platz ist? Muss ggf. eher in die showQuestion o.ä. rein.
+            function end(ws){
+                var endMessage = {
+                    type: 'end',
+                    quiz_id: '{{ $quiz->id }}',
+                    session_id: '{{ Session::getId() }}'
+                };
+
+                ws.send(JSON.stringify(endMessage));
             }
 
         });
