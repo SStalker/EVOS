@@ -11,6 +11,10 @@
 
 }
 
+#quizPinBtn {
+    margin-top: 5%;
+}
+
 #enterNamePanel {
     width: 300px;
     height: 300px;
@@ -22,6 +26,10 @@
     right: 0;
     margin: auto;
 
+}
+
+#enterNameBtn {
+    margin-top: 5%;
 }
 
 #waitingPanel {
