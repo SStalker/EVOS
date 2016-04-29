@@ -20,7 +20,7 @@ class AttendeeController extends Controller
 
     public function store(Request $request) {
 
-        return view('frontend.waiting');
+        return 'waiting';
 
     }
 
@@ -33,9 +33,5 @@ class AttendeeController extends Controller
         } else {
             return "wrongpin";
         }
-    }
-
-    public function enterName() {
-        return view('frontend.entername');
     }
 }
