@@ -9,6 +9,7 @@
 
     <!-- Angular JS -->
     <script src="app/js/jquery-2.2.2.js"></script>
+    <script src="app/js/bootstrap.min.js"></script>
     <script src="app/js/frontEnd.js"></script>
     <!-- Styles -->
     <link href="app/css/frontEnd.css" rel="stylesheet">

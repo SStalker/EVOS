@@ -7,6 +7,10 @@
         <label class="control-label">Quiz PIN eingeben: </label>
         <input id='quizPinInput' class="form-control">
         <button id='quizPinBtn' class="btn btn-default center-block">Okay</button>
+
+        <div class="alert alert-danger fade out text-center" id="quizAlert" style="margin-top: 15%">
+            Dieses Quiz existiert nicht.
+        </div>
     </div>
 
     <div id ="enterNamePanel" class="container" style="display: none;">

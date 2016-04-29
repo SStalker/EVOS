@@ -4,6 +4,11 @@
 
 $(document).ready(function() {
     var jqXhr;
+    $('#quizAlert').on('click', function() {
+        $('#quizAlert').toggleClass('in');
+        $('#quizAlert').toggleClass('out');
+    })
+
     $('#quizPinBtn').on('click', function(e) {
         
         var quizPin = $('#quizPinInput').val();
@@ -14,11 +19,19 @@ $(document).ready(function() {
                     $('#enterQuizPanel').fadeOut(400, function() {
                        $('#enterNamePanel').fadeIn(400);
                     });
+                } else if (response == 'wrongpin') {
+                    if ($('#quizAlert').hasClass('out')) {
+                        $('#quizAlert').toggleClass('out');
+                        $('#quizAlert').toggleClass('in');
+                    }
                 }
             })
             .fail(function() {
 
-                alert('nope');
+                if ($('#quizAlert').hasClass('out')) {
+                    $('#quizAlert').toggleClass('out');
+                    $('#quizAlert').toggleClass('in');
+                }
 
             });
 
