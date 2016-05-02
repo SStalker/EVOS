@@ -14,9 +14,9 @@
         Quiz erstellen
     </div>
 
-    {!! Form::open(['action' => ['QuizController@store', $category->id], 'method' => 'post']) !!}
+    {{ Form::open(['action' => ['QuizController@store', $category->id], 'method' => 'post']) }}
         @include('quizzes._form', ['submitLabel' => 'Speichern'])
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 
 @endsection

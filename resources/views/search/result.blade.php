@@ -6,7 +6,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            Suche nach {!! $input !!}
+            Suche nach {{ $input }}
         </div>
 
         <div class="panel-body">
@@ -22,13 +22,13 @@
                     @foreach($categories as $category)
                         <tr>
                             <td>
-                                <a href="{!! action('CategoryController@show', [$category->id]) !!}">{!! $category->title !!}</a>
+                                <a href="{{ action('CategoryController@show', [$category->id]) }}">{{ $category->title }}</a>
                             </td>
                             <td>
-                                {!! Form::open(['action' => ['CategoryController@destroy', $category->id], 'method' => 'delete']) !!}
-                                <a class="btn btn-default" href="{!! action('CategoryController@edit', [$category->id])!!}">Bearbeiten</a>
-                                {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
-                                {!! Form::close() !!}
+                                {{ Form::open(['action' => ['CategoryController@destroy', $category->id], 'method' => 'delete']) }}
+                                <a class="btn btn-default" href="{{ action('CategoryController@edit', [$category->id])}}">Bearbeiten</a>
+                                {{ Form::submit('Löschen', ['class'=>'btn btn-danger']) }}
+                                {{ Form::close() }}
                             </td>
                         </tr>
                     @endforeach
@@ -47,13 +47,13 @@
                     @foreach($quizzes as $quiz)
                         <tr>
                             <td>
-                                <a href="{!! action('QuizController@show', [$quiz->category->id, $quiz->id]) !!}">{!! $quiz->title !!}</a>
+                                <a href="{{ action('QuizController@show', [$quiz->category->id, $quiz->id]) }}">{{ $quiz->title }}</a>
                             </td>
                             <td>
-                                {!! Form::open(['action' => ['QuizController@destroy', $quiz->category->id, $quiz->id], 'method' => 'delete']) !!}
-                                <a class="btn btn-default" href="{!! action('QuizController@edit', [$quiz->category->id, $quiz->id])!!}">Bearbeiten</a>
-                                {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
-                                {!! Form::close() !!}
+                                {{ Form::open(['action' => ['QuizController@destroy', $quiz->category->id, $quiz->id], 'method' => 'delete']) }}
+                                <a class="btn btn-default" href="{{ action('QuizController@edit', [$quiz->category->id, $quiz->id])}}">Bearbeiten</a>
+                                {{ Form::submit('Löschen', ['class'=>'btn btn-danger']) }}
+                                {{ Form::close() }}
                             </td>
                         </tr>
                     @endforeach
@@ -72,13 +72,13 @@
                     @foreach($questions as $question)
                         <tr>
                             <td>
-                                <a href="{!! action('QuestionController@show', [$question->quiz->category->id, $question->quiz->id, $question->id]) !!}">{!! $question->question !!}</a>
+                                <a href="{{ action('QuestionController@show', [$question->quiz->category->id, $question->quiz->id, $question->id]) }}">{{ $question->question }}</a>
                             </td>
                             <td>
-                                {!! Form::open(['action' => ['QuestionController@destroy', $question->quiz->category->id, $question->quiz->id, $question->id], 'method' => 'delete']) !!}
-                                <a class="btn btn-default" href="{!! action('QuestionController@edit', [$question->quiz->category->id, $question->quiz->id, $question->id])!!}">Bearbeiten</a>
-                                {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
-                                {!! Form::close() !!}
+                                {{ Form::open(['action' => ['QuestionController@destroy', $question->quiz->category->id, $question->quiz->id, $question->id], 'method' => 'delete']) }}
+                                <a class="btn btn-default" href="{{ action('QuestionController@edit', [$question->quiz->category->id, $question->quiz->id, $question->id])}}">Bearbeiten</a>
+                                {{ Form::submit('Löschen', ['class'=>'btn btn-danger']) }}
+                                {{ Form::close() }}
                             </td>
                         </tr>
                     @endforeach
