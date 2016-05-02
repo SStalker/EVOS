@@ -12,8 +12,9 @@
             <a class="btn btn-primary" style="margin-top: -7px;" href="{{ action('QuizController@create', [$category->id]) }}">Quiz erstellen</a>
 
         </div>
-
-        Kategorie: {{ $category->title }}
+        <a href="{!! action('CategoryController@index', []) !!}">Kategorien</a>
+        &raquo;
+        <a href="{!! action('CategoryController@show', [$category->id]) !!}">{!! $category->title !!}</a>
     </div>
 
     <div class="panel-body">
