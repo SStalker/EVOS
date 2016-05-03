@@ -20,6 +20,7 @@ class AttendeeController extends Controller
 
     public function store(Request $request) {
 
+        echo $request->input('name');
         return 'waiting';
 
     }

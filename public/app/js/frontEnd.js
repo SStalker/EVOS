@@ -50,6 +50,8 @@ $(document).ready(function() {
                 $('#enterNamePanel').fadeOut(400, function() {
                     $('#waitingPanel').fadeIn(400);
                 });
+            } else {
+                
             }
         })
     })
