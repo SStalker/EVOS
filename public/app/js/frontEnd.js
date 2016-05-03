@@ -29,9 +29,12 @@ websocket.onmessage = function(event){
 function processMessage(data){
     //DEBUG
     console.log(data);
-    
-    switch (data.type){
-        case 'logon': processLogon(data);
+
+    var dataArray = JSON.parse(data);
+
+
+    switch (dataArray .type){
+        case 'logon': processLogon(dataArray);
             break;
         default: console.log('default');
     }
@@ -102,9 +105,11 @@ $(document).ready(function() {
 
                 var data = {
                     type: 'logon',
-                    quiz_id: quizPin,
+                    quiz_id: parseInt(quizPin),
                     nickname: name
                 }
+
+                console.log('send');
 
                 websocket.send(JSON.stringify(data));
 
