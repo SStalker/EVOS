@@ -89,10 +89,7 @@
             // Counts the answers for one question
             var answer_count = 0;
 
-            var wsUrl = '{!! url('/') !!}/EVOS-Sync/sync'
-                    .replace(/^http/, 'ws')
-                    .replace(/:8000\//, ':8080/')
-                    .replace(/localhost/, "127.0.0.1");
+            var wsUrl = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
             var ws = new WebSocket(wsUrl);
 
             ws.onerror = function (message) {
