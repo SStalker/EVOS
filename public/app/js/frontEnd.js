@@ -45,10 +45,16 @@ function processLogon(data){
 $(document).ready(function() {
     var quizPin;
     var jqXhr;
+    var name;
+
     $('#quizAlert').on('click', function() {
         $('#quizAlert').toggleClass('in');
         $('#quizAlert').toggleClass('out');
-    })
+    });
+    $('#nameAlert').on('click', function() {
+        $('#nameAlert').toggleClass('in');
+        $('#nameAlert').toggleClass('out');
+    });
 
     $('#quizPinBtn').on('click', function(e) {
         
@@ -79,16 +85,17 @@ $(document).ready(function() {
     });
 
     $('#enterNameBtn').on('click', function(e) {
-        var name = $('#enterNameInput').val();
+        name = $('#enterNameInput').val();
         $.ajax({
             url: '/attendee',
             method: 'POST',
             data: {
-                'name': name
+                'name': name,
+                'quiz_id': quizPin
             }
         }).done(function(response) {
             if (response == 'waiting') {
-                
+
                 $('#enterNamePanel').fadeOut(400, function() {
                     $('#waitingPanel').fadeIn(400);
                 });
@@ -104,6 +111,12 @@ $(document).ready(function() {
             } else {
                 console.log(response);
             }
-        })
+        }).fail(function() {
+
+            if ($('#nameAlert').hasClass('out')) {
+                $('#nameAlert').toggleClass('out');
+                $('#nameAlert').toggleClass('in');
+            }
+        });
     })
 });

@@ -2,7 +2,9 @@
 
 namespace EVOS\Http\Controllers;
 
+use EVOS\Attendee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use EVOS\Quiz;
 use EVOS\Http\Requests\AttendeeRequest;
 
@@ -18,21 +20,25 @@ class AttendeeController extends Controller
         return view('frontend.entrypoint');
     }
 
-    public function store(Request $request) {
-
-        echo $request->input('name');
-        return 'waiting';
+    public function store(AttendeeRequest $request) {
+        
+        $request['session_token'] = Session::getId();
+        $justCreated = Attendee::create($request->all());
+        if ($justCreated == null) {
+            return 'error';
+        } else {
+            return 'waiting';
+        }
 
     }
 
     public function getQuiz($pin) {
 
         $theQuiz = Quiz::find($pin);
-        //dd($keks);
         if ($theQuiz != null) {
-            return "quiz_exists";
+            return 'quiz_exists';
         } else {
-            return "wrongpin";
+            return 'wrongpin';
         }
     }
 }
