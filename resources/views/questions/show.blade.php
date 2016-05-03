@@ -34,16 +34,16 @@
         <div class="panel-body">
             <div class="container-fluid">
                 <div class="row answer">
-                    <div class="col-md-6">{{ $question->answerA }}</div>
-                    <div class="col-md-6">{{ $question->answerB }}</div>
+                    <div class="col-md-6 {{ $question->answerABool ? 'bg-success' : 'bg-danger' }}">{{ $question->answerA }}</div>
+                    <div class="col-md-6 {{ $question->answerBBool ? 'bg-success' : 'bg-danger' }}">{{ $question->answerB }}</div>
                 </div>
                 @if(!empty($question->answerC) || !empty($question->answerD))
                     <div class="row answer">
                         @if(!empty($question->answerC))
-                            <div class="col-md-{{ empty($question->answerD) ? '12' : '6' }}">{{ $question->answerC }}</div>
+                            <div class="col-md-{{ empty($question->answerD) ? '12' : '6' }} {{ $question->answerCBool ? 'bg-success' : 'bg-danger' }}">{{ $question->answerC }}</div>
                         @endif
                         @if(!empty($question->answerD))
-                            <div class="col-md-{{ empty($question->answerC) ? '12' : '6' }}">{{ $question->answerD }}</div>
+                            <div class="col-md-{{ empty($question->answerC) ? '12' : '6' }} {{ $question->answerDBool ? 'bg-success' : 'bg-danger' }}">{{ $question->answerD }}</div>
                         @endif
                     </div>
                 @endif
