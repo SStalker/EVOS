@@ -81,7 +81,8 @@ class CategoryController extends Controller
     public function edit(Category $categories)
     {
         return view('categories.edit')
-            ->with('category', $categories);
+            ->with('category', $categories)
+            ->with('parent_id', $categories->parent_id);
     }
 
     /**

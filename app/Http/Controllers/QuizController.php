@@ -124,10 +124,14 @@ class QuizController extends Controller
                 ->withErrors(['Quiz hat keine Fragen']);
         }
 
+        // Debugging maybe for later use
+        //$debug = $quizzes->questionsCounter ." >= ". $questions->count();
+        //var_dump($debug);
+
         // If counter is greater than array size then quiz ends
-        if($quizzes->questionsCounter >= $questions->count()-1)
+        if($quizzes->questionsCounter >= $questions->count())
         {
-            // Set the quiz as active
+            // Set the quiz as inactive
             $quizzes->isActive = false;
             $quizzes->questionsCounter = 0;
             $quizzes->save();
@@ -137,13 +141,7 @@ class QuizController extends Controller
                 ->withErrors(['Quiz ist zu Ende']);
         }
 
-        if($quizzes->isActive)
-        {
-            // Increase question counter
-            $quizzes->questionsCounter = ++$questionsCounter;
-            $quizzes->save();
-        }
-        else
+        if(!$quizzes->isActive)
         {
             // Set the quiz as active
             $quizzes->isActive = true;
@@ -151,6 +149,9 @@ class QuizController extends Controller
         }
 
         $question = $questions->get($questionsCounter);
+        ++$questionsCounter;
+        $quizzes->questionsCounter = $questionsCounter;
+        $quizzes->save();
 
         return view('questions.showQuestion')
                 ->with('question', $question);
