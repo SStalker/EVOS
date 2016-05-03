@@ -4,10 +4,42 @@
 
 @section('content')
 
+        <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>@yield('title')</title>
+
+        <!-- Fonts -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
+
+        <!-- Styles -->
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    </head>
+
+    <body id="app-layout">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+
+                <!-- Branding Image -->
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    <img src="{!! asset('images/evos.png') !!}">
+                </a>
+            </div>
+        </div>
+    </nav>
+
     <div class="center-block">
+
         <div id="loading" class="quiz-loading">
             Verbinde mit Server...
         </div>
+
         <div id="start" class="quiz-normal">
             <h1>{{ $quiz->title }}</h1>
             <h2>PIN: {{ $quiz->id }}</h2>
@@ -22,17 +54,37 @@
             </div>
 
             <div class="start-button">
-                <a class="btn btn-primary2" href="{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}">Starten</a>
+                <a id="start-button" class="btn btn-primary2" href="#">Starten</a>
             </div>
         </div>
+
+        <div id="question" class="quiz-question">
+            <h1 id="questionTitle"></h1>
+            <table id="question-answers" class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td id="answerA"></td>
+                    <td id="answerB"></td>
+                </tr>
+                <tr>
+                    <td id="answerC"></td>
+                    <td id="answerD"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3>Antworten: <span id="answer-count">0</span></h3>
+        </div>
     </div>
+</body>
 
     <script>
         $(function() {
             // The class quiz-normal must be hidden until the quiz is started successfully
             $('.quiz-normal').hide();
+            $('.quiz-question').hide();
 
-            // Counts the successfully loged on attendees
+            // Counts the successfully logged on attendees
             var attendee_count = 0;
             // Counts the answers for one question
             var answer_count = 0;
@@ -57,19 +109,31 @@
                     type: 'start',
                     user_id: {{ Auth::id() }},
                     quiz_id: {{ $quiz->id }},
-                    session_id: '{{ Session::getId() }}'
+                    session_id: {{ Session::getId() }}
                 };
 
                 ws.send(JSON.stringify(startMessage));
             };
 
-            // TESTEN
-            $('.start-button').click(function(){
+            $('#start-button').click(function(){
+                $('.quiz-normal').hide();
+                $('.quiz-question').show();
 
-                // Hier müssen noch UI Elemente ein-/ausgeblendet werden, quiz starten etc.
-                // ...
+                $.getJSON( '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}', function( data ) {
 
-                question(ws);
+                    $('#questionTitle').text(data.question);
+                    $('#answerA').text(data.answerA);
+                    $('#answerB').text(data.answerB);
+                    $('#answerC').text(data.answerC);
+                    $('#answerD').text(data.answerD);
+
+                    var countdown = (data.countdown * 1000);
+
+                    // A question-Message is send after the countdown has finished
+                    setTimeout(function(){
+                        question(ws);
+                    }, countdown);
+                });
             });
 
             // Message received from the server
@@ -153,6 +217,7 @@
                 }
 
                 answer_count++;
+                $('#answer-count').text(answer_count);
             }
 
             // The User sends a question to the server
@@ -160,8 +225,8 @@
                 // The user sends the messageType 'question' to induce the server to show a new question
                 var questionMessage = {
                     type: 'question',
-                    quiz_id: '{{ $quiz->id }}',
-                    session_id: '{{ Session::getId() }}'
+                    quiz_id: {{ $quiz->id }},
+                    session_id: {{ Session::getId() }}
                 };
 
                 sendMsg(questionMessage, ws);
@@ -174,8 +239,8 @@
             function end(ws){
                 var endMessage = {
                     type: 'end',
-                    quiz_id: '{{ $quiz->id }}',
-                    session_id: '{{ Session::getId() }}'
+                    quiz_id: {{ $quiz->id }},
+                    session_id: {{ Session::getId() }}
                 };
 
                 sendMsg(endMessage, ws);
