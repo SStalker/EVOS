@@ -18,6 +18,10 @@
         <label class="control-label">Namen eingeben: </label>
         <input id='enterNameInput' class="form-control">
         <button id='enterNameBtn' class="btn btn-default center-block">Okay</button>
+
+        <div class="alert alert-danger fade out text-center" id="nameAlert" style="margin-top: 15%">
+            Name konnte nicht eingetragen werden.
+        </div>
     </div>
 
     <div id ="waitingPanel" class="container" style="display: none;">
