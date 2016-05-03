@@ -29,18 +29,35 @@ websocket.onmessage = function(event){
 function processMessage(data){
     //DEBUG
     console.log(data);
-    
-    switch (data.type){
-        case 'logon': processLogon(data);
+
+    //Parse JSON to Object
+    var dataArray = JSON.parse(data);
+
+    switch (dataArray .type){
+        case 'logon': processLogon(dataArray);
+            break;
+        case 'question': processQuestion(dataArray);
+            break;
+        case 'end': processEnd(dataArray);
             break;
         default: console.log('default');
     }
 };
 
 function processLogon(data){
+    //DEBUG
     console.log('processLogon')
 }
 
+function processQuestion(data) {
+    //DEBUG
+    console.log('processQuestion')
+}
+
+function processEnd(data) {
+    //DEBUG
+    console.log('processEnd')
+}
 
 $(document).ready(function() {
     var quizPin;
@@ -102,9 +119,11 @@ $(document).ready(function() {
 
                 var data = {
                     type: 'logon',
-                    quiz_id: quizPin,
+                    quiz_id: parseInt(quizPin),
                     nickname: name
                 }
+
+                console.log('send');
 
                 websocket.send(JSON.stringify(data));
 
