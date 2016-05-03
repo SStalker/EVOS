@@ -46,6 +46,14 @@ class QuestionController extends Controller
      */
     public function store(Quiz $quizzes, QuestionRequest $request)
     {
+        $toggles = [
+            'a' => $request->get('answerAbool') != null ? true : false,
+            'b' => $request->get('answerBbool') != null ? true : false,
+            'c' => $request->get('answerCbool') != null ? true : false,
+            'd' => $request->get('answerDbool') != null ? true : false
+        ];
+
+        $request['correct_answers'] = json_encode($toggles);
         $request['quiz_id'] = $quizzes->id;
         $question = Question::create($request->all());
 
@@ -73,6 +81,12 @@ class QuestionController extends Controller
      */
     public function edit(Quiz $quizzes, Question $questions)
     {
+        $answers = json_decode($questions->correct_answers);
+        $questions->setAttribute('answerABool', $answers->a);
+        $questions->setAttribute('answerBBool', $answers->b);
+        $questions->setAttribute('answerCBool', $answers->c);
+        $questions->setAttribute('answerDBool', $answers->d);
+
         return view('questions.edit')
             ->with('question', $questions);
     }
@@ -86,6 +100,14 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, Quiz $quizzes, Question $questions)
     {
+        $toggles = [
+            'a' => $request->get('answerAbool') != null ? true : false,
+            'b' => $request->get('answerBbool') != null ? true : false,
+            'c' => $request->get('answerCbool') != null ? true : false,
+            'd' => $request->get('answerDbool') != null ? true : false
+        ];
+
+        $request['correct_answers'] = json_encode($toggles);
         $request['quiz_id'] = $quizzes->id;
         $questions->update($request->all());
 
@@ -107,4 +129,5 @@ class QuestionController extends Controller
             ->with('message', 'Frage wurde gelöscht!');
 
     }
+
 }

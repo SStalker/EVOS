@@ -13,6 +13,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+
+    <!-- JavaScripts -->
+    <script src="{{ asset('js/all.js') }}"></script>
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
@@ -29,7 +36,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{!! asset('images/evos.png') !!}">
+                    <img src="{{ asset('images/evos.png') }}">
                 </a>
             </div>
 
@@ -39,12 +46,12 @@
                     <li><a href="{{ url('/categories') }}">Kategorien</a></li>
                 </ul>
                 @if(Auth::user())
-                    {!! Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) !!}
+                    {{ Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) }}
                     <div class='form-group input-group-btn'>
-                        {!! Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) !!}
-                        {!! Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) !!}
+                        {{ Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) }}
+                        {{ Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) }}
                     </div>
-                    {!! Form::close() !!}
+                    {{ Form::close() }}
                 @endif
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
@@ -83,7 +90,7 @@
     @if(session('message'))
         <div class="alert alert-success" role="alert">
             <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-            {!! session('message') !!}
+            {{ session('message') }}
         </div>
     @endif
 
@@ -94,7 +101,6 @@
             </div>
         </div>
     </div>
-    <!-- JavaScripts -->
-    <script src="{{ asset('js/all.js') }}"></script>
+
 </body>
 </html>
