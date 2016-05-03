@@ -5,6 +5,8 @@
 $(document).ready(function() {
     var jqXhr;
     var quizPin;
+    var name;
+
     $('#quizAlert').on('click', function() {
         $('#quizAlert').toggleClass('in');
         $('#quizAlert').toggleClass('out');
@@ -43,7 +45,7 @@ $(document).ready(function() {
     });
 
     $('#enterNameBtn').on('click', function(e) {
-        var name = $('#enterNameInput').val();
+        name = $('#enterNameInput').val();
         $.ajax({
             url: '/attendee',
             method: 'POST',
@@ -53,6 +55,8 @@ $(document).ready(function() {
             }
         }).done(function(response) {
             if (response == 'waiting') {
+
+
                 $('#enterNamePanel').fadeOut(400, function() {
                     $('#waitingPanel').fadeIn(400);
                 });
