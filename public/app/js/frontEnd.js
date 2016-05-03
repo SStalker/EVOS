@@ -30,6 +30,7 @@ function processMessage(data){
     //DEBUG
     console.log(data);
 
+<<<<<<< HEAD
     //Parse JSON to Object
     var dataArray = JSON.parse(data);
 
