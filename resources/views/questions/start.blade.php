@@ -34,8 +34,12 @@
 
             // Counts the successfully loged on attendees
             var attendee_count = 0;
-            var wsUrl = '{!! url('/') !!}/sync'
+            // Counts the answers for one question
+            var answer_count = 0;
+
+            var wsUrl = '{!! url('/') !!}/EVOS-Sync/sync'
                     .replace(/^http/, 'ws')
+                    .replace(/:8000\//, ':8080/')
                     .replace(/localhost/, "127.0.0.1");
             var ws = new WebSocket(wsUrl);
 
@@ -51,8 +55,8 @@
                 // If the WebSocked was started successfully, the User has to inform the server
                 var startMessage = {
                     type: 'start',
-                    user_id: '{{ Auth::id() }}',
-                    quiz_id: '{{ $quiz->id }}',
+                    user_id: {{ Auth::id() }},
+                    quiz_id: {{ $quiz->id }},
                     session_id: '{{ Session::getId() }}'
                 };
 
@@ -61,6 +65,10 @@
 
             // TESTEN
             $('.start-button').click(function(){
+
+                // Hier müssen noch UI Elemente ein-/ausgeblendet werden, quiz starten etc.
+                // ...
+
                 question(ws);
             });
 
@@ -80,6 +88,9 @@
                         break;
                     case 'logon':
                         handleLogon(ws, message);
+                        break;
+                    case 'answer':
+                        handleAnswer(ws, message);
                         break;
                     default:
                         console.log('Received an invalid message.');
@@ -109,10 +120,39 @@
 
             // Server informs User of new users. User handles this.
             function handleLogon(ws, message){
-                // The user can only receive successful messages, logon can only fail by the attendees
+                // Invalid or failed message
+                if(message.successful === undefined) {
+                    console.log('Invalid logon message');
+                    console.log(message);
+                    return false;
+                }
+
+                if(message.successful === false){
+                    console.log('HandleLogon was not successful.');
+                    console.log('Reason: ' + message.reason);
+                    return false;
+                }
+
                 // For every new attendee the attendee-count increments
                 attendee_count ++;
                 $('#attendee-count').text(attendee_count);
+            }
+
+            // User will be informed if one Attendee sends a response for a question
+            function handleAnswer(ws, message){
+                if(message.successful === undefined) {
+                    console.log('Invalid answer message');
+                    console.log(message);
+                    return false;
+                }
+
+                if(message.successful === false){
+                    console.log('HandleAnswer was not successful.');
+                    console.log('Reason: ' + message.reason);
+                    return false;
+                }
+
+                answer_count++;
             }
 
             // The User sends a question to the server
@@ -124,11 +164,13 @@
                     session_id: '{{ Session::getId() }}'
                 };
 
-                ws.send(JSON.stringify(questionMessage));
+                sendMsg(questionMessage, ws);
+
+                // For every new question answer_count must be set to 0
+                answer_count = 0;
             }
 
             // The user ends the quiz
-            // Kann es sein, dass diese methode hier fehl am Platz ist? Muss ggf. eher in die showQuestion o.ä. rein.
             function end(ws){
                 var endMessage = {
                     type: 'end',
@@ -136,9 +178,17 @@
                     session_id: '{{ Session::getId() }}'
                 };
 
-                ws.send(JSON.stringify(endMessage));
+                sendMsg(endMessage, ws);
             }
 
+            function sendMsg(msg, ws){
+                try {
+                    ws.send(JSON.stringify(msg));
+                }catch(e){
+                    console.log("Message could not be send.");
+                    console.log(e);
+                }
+            }
         });
     </script>
 
