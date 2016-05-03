@@ -29,7 +29,7 @@
                     <tbody class="table-hover">
                     @foreach($quiz->questions as $question)
                         <tr>
-                            <td>{!! $question->question !!}</td>
+                            <td><a href="{!! action('QuestionController@show', [$quiz->id, $question->id]) !!}}">{!! $question->question !!}</a></td>
                             <td>
                                 {!! Form::open(['action' => ['QuestionController@destroy', $quiz->id, $question->id], 'method' => 'delete']) !!}
                                     <a class="btn btn-default" href="{!! action('QuestionController@edit', [$quiz->id, $question->id]) !!}">Bearbeiten</a>
