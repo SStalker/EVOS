@@ -58,8 +58,8 @@ function processLogon(data){
     //DEBUG
     console.log('processLogon');
     if(data.successful != undefined){
-        var successful = data.successful;
-        if(successful !== true) {
+        
+        if(data.successful !== true) {
             //error, not registered for quiz
             if (data.reason != undefined){
                 alert(data.reason);
@@ -67,6 +67,8 @@ function processLogon(data){
         }else{
             //waiting for quiz start
         }
+    }else{
+        //error because of not well formed syns server messages
     }
 }
 
