@@ -25,6 +25,11 @@ websocket.onmessage = function(event){
     processMessage(event.data);
 };
 
+function sendToSyncServer(data) {
+    console.log('send');
+    websocket.send(JSON.stringify(data));
+}
+
 /* parse/process incoming sync server messages */
 function processMessage(data){
     //DEBUG
@@ -33,30 +38,51 @@ function processMessage(data){
     //Parse JSON to Object
     var dataArray = JSON.parse(data);
 
-    switch (dataArray .type){
-        case 'logon': processLogon(dataArray);
-            break;
-        case 'question': processQuestion(dataArray);
-            break;
-        case 'end': processEnd(dataArray);
-            break;
-        default: console.log('default');
+    if(dataArray.type != undefined){
+
+        switch (dataArray.type){
+            case 'logon': processLogon(dataArray);
+                break;
+            case 'question': processQuestion(dataArray);
+                break;
+            case 'end': processEnd(dataArray);
+                break;
+            default: console.log('default');
+        }
+    }else{
+        //error or something for undefined response;
     }
 };
 
 function processLogon(data){
     //DEBUG
-    console.log('processLogon')
+    console.log('processLogon');
+    if(data.successful != undefined){
+        var successful = data.successful;
+        if(successful !== true) {
+            //error, not registered for quiz
+            if (data.reason != undefined){
+                alert(data.reason);
+            }
+        }else{
+            //waiting for quiz start
+        }
+    }
 }
 
 function processQuestion(data) {
     //DEBUG
-    console.log('processQuestion')
+    console.log('processQuestion');
+
+    //Call function to get next question from Laravel server
+
 }
 
 function processEnd(data) {
     //DEBUG
-    console.log('processEnd')
+    console.log('processEnd');
+
+    //show results or something like that, or show evaluation, or show some other sort of end screen
 }
 
 $(document).ready(function() {
@@ -117,15 +143,14 @@ $(document).ready(function() {
                     $('#waitingPanel').fadeIn(400);
                 });
 
+                //Create object for sending purpose
                 var data = {
                     type: 'logon',
                     quiz_id: parseInt(quizPin),
                     nickname: name
                 }
 
-                console.log('send');
-
-                websocket.send(JSON.stringify(data));
+                sendToSyncServer(data);
 
             } else {
                 console.log(response);
