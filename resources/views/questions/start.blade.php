@@ -55,8 +55,13 @@
             </table>
 
             <h3>Antworten: <span id="answer-count">0</span></h3>
+            <h3>Verbleibende Zeit: <span id="countdown"></span></h3>
         </div>
-    </div>
+
+        <div id="end" class="quiz-end">
+            <h1>Das Quiz wurde beendet.</h1>
+            <!-- Ggf. Ergebnisse anzeigen etc. -->
+        </div>
 
     <script>
         $(function() {
@@ -86,32 +91,19 @@
                     type: 'start',
                     user_id: {{ Auth::id() }},
                     quiz_id: {{ $quiz->id }},
-                    session_id: {{ Session::getId() }}
+                    session_id: '{{ Session::getId() }}'
                 };
 
-                ws.send(JSON.stringify(startMessage));
+                sendMsg(startMessage, ws);
             };
 
             $('#start-button').click(function(){
                 $('.quiz-normal').hide();
                 $('.quiz-question').show();
 
-                $.getJSON( '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}', function( data ) {
-
-                    $('#questionTitle').text(data.question);
-                    $('#answerA').text(data.answerA);
-                    $('#answerB').text(data.answerB);
-                    $('#answerC').text(data.answerC);
-                    $('#answerD').text(data.answerD);
-
-                    var countdown = (data.countdown * 1000);
-
-                    // A question-Message is send after the countdown has finished
-                    setTimeout(function(){
-                        question(ws);
-                    }, countdown);
-                });
+                quiz();
             });
+
 
             // Message received from the server
             ws.onmessage = function (message) {
@@ -203,7 +195,7 @@
                 var questionMessage = {
                     type: 'question',
                     quiz_id: {{ $quiz->id }},
-                    session_id: {{ Session::getId() }}
+                    session_id: '{{ Session::getId() }}'
                 };
 
                 sendMsg(questionMessage, ws);
@@ -217,7 +209,7 @@
                 var endMessage = {
                     type: 'end',
                     quiz_id: {{ $quiz->id }},
-                    session_id: {{ Session::getId() }}
+                    session_id: '{{ Session::getId() }}'
                 };
 
                 sendMsg(endMessage, ws);
@@ -231,6 +223,44 @@
                     console.log(e);
                 }
             }
+
+            function quiz(){
+                // For every new question the server must be informed
+                question(ws);
+
+                $.getJSON( '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}', function( data ) {
+
+                    console.log(data);
+
+                    $('#questionTitle').text(data.question);
+                    $('#answerA').text(data.answerA);
+                    $('#answerB').text(data.answerB);
+                    $('#answerC').text(data.answerC);
+                    $('#answerD').text(data.answerD);
+
+                    var countdown = (data.countdown * 1000);
+
+                    // Shows the countdown for the current question
+                    countDown(data.countdown);
+
+                    // This function is called after every question, till the quiz is finished
+                    // NOTIZ: Hier fehlt noch: Nach letzter Frage "quiz-end" anzeigen
+                    setTimeout(function () {
+                        quiz();
+                    }, countdown);
+                });
+            }
+
+            function countDown (duration) {
+                var countdown = setInterval(function () {
+                    if (--duration) {
+                        $('#countdown').html(duration);
+                    } else {
+                        clearInterval(countdown);
+                    }
+                }, 1000);
+            }
+
         });
     </script>
 
