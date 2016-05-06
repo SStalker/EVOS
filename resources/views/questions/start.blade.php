@@ -56,6 +56,10 @@
 
             <h3>Antworten: <span id="answer-count">0</span></h3>
             <h3>Verbleibende Zeit: <span id="countdown"></span></h3>
+
+            <div class="next-button">
+                <a id="next-button" class="btn btn-primary2" href="#">Nächste Frage</a>
+            </div>
         </div>
 
         <div id="end" class="quiz-end">
@@ -65,9 +69,10 @@
 
     <script>
         $(function() {
-            // The class quiz-normal must be hidden until the quiz is started successfully
+            // This classes must be hidden until the quiz is started successfully
             $('.quiz-normal').hide();
             $('.quiz-question').hide();
+            $('.quiz-end').hide();
 
             // Counts the successfully logged on attendees
             var attendee_count = 0;
@@ -104,6 +109,9 @@
                 quiz();
             });
 
+            $('#next-button').click(function(){
+                quiz();
+            });
 
             // Message received from the server
             ws.onmessage = function (message) {
@@ -225,6 +233,8 @@
             }
 
             function quiz(){
+                $('#next-button').attr('disabled', 'disabled');
+
                 // For every new question the server must be informed
                 question(ws);
 
@@ -243,10 +253,10 @@
                     // Shows the countdown for the current question
                     countDown(data.countdown);
 
-                    // This function is called after every question, till the quiz is finished
-                    // NOTIZ: Hier fehlt noch: Nach letzter Frage "quiz-end" anzeigen
-                    setTimeout(function () {
-                        quiz();
+                    // Enable next-button after the current question has finished.
+                    // Shows the correct answers
+                    setInterval(function () {
+                        $('#next-button').removeAttr('disabled');
                     }, countdown);
                 });
             }
