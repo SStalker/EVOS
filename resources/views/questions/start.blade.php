@@ -43,11 +43,11 @@
             <h1 id="questionTitle"></h1>
             <table id="question-answers" class="table table-bordered">
                 <tbody>
-                <tr style="min-height: 100px;">
+                <tr style="height:150px; text-align: center; font-size: 24px;">
                     <td id="answerA"></td>
                     <td id="answerB"></td>
                 </tr>
-                <tr style="min-height: 100px;">
+                <tr style="height:150px; text-align: center; font-size:24px;">
                     <td id="answerC"></td>
                     <td id="answerD"></td>
                 </tr>
@@ -64,7 +64,12 @@
 
         <div id="end" class="quiz-end">
             <h1>Das Quiz wurde beendet.</h1>
-            <!-- Ggf. Ergebnisse anzeigen etc. -->
+
+            Hier werden ggf. Ergebnisse etc. angezeigt.
+
+            <div class="end-button">
+                <a id="end-button" class="btn btn-primary2" href="{{ url('/categories') }}">Quiz Beenden</a>
+            </div>
         </div>
 
     <script>
@@ -233,22 +238,27 @@
             }
 
             function quiz(){
+                // Some default settings
+                $('#answerA').removeClass("bg-success bg-danger");
+                $('#answerB').removeClass("bg-success bg-danger");
+                $('#answerC').removeClass("bg-success bg-danger");
+                $('#answerD').removeClass("bg-success bg-danger");
                 $('#next-button').attr('disabled', 'disabled');
 
                 // For every new question the server must be informed
                 question(ws);
 
                 $.getJSON( '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}', function( data ) {
-
                     console.log(data);
 
-                    $('#questionTitle').text(data.question);
-                    $('#answerA').text(data.answerA);
-                    $('#answerB').text(data.answerB);
-                    $('#answerC').text(data.answerC);
-                    $('#answerD').text(data.answerD);
-
                     var countdown = (data.countdown * 1000);
+                    var correctAnswers = jQuery.parseJSON(data.correct_answers);
+
+                    $('#questionTitle').text(data.question);
+                    data.answerA !== "" ? $('#answerA').text(data.answerA) : $('#answerA').text("-");
+                    data.answerB !== "" ? $('#answerB').text(data.answerB) : $('#answerB').text("-");
+                    data.answerC !== "" ? $('#answerC').text(data.answerC) : $('#answerC').text("-");
+                    data.answerD !== "" ? $('#answerD').text(data.answerD) : $('#answerD').text("-");
 
                     // Shows the countdown for the current question
                     countDown(data.countdown);
@@ -257,6 +267,11 @@
                     // Shows the correct answers
                     setInterval(function () {
                         $('#next-button').removeAttr('disabled');
+
+                        correctAnswers.a ? $('#answerA').addClass("bg-success") : $('#answerA').addClass("bg-danger");
+                        correctAnswers.b ? $('#answerB').addClass("bg-success") : $('#answerB').addClass("bg-danger");
+                        correctAnswers.c ? $('#answerC').addClass("bg-success") : $('#answerC').addClass("bg-danger");
+                        correctAnswers.d ? $('#answerD').addClass("bg-success") : $('#answerD').addClass("bg-danger");
                     }, countdown);
                 });
             }

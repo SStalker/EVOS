@@ -170,7 +170,7 @@ class QuizController extends Controller
                 redirect('categories/'.$categories->id.'/quizzes/'. $quizzes->id)
                 ->withErrors(['Quiz ist zu Ende']);
         }
-
+        
         return $quizzes->questions->get($quizzes->questionsCounter);
     }
 
