@@ -43,11 +43,11 @@
             <h1 id="questionTitle"></h1>
             <table id="question-answers" class="table table-bordered">
                 <tbody>
-                <tr>
+                <tr style="min-height: 100px;">
                     <td id="answerA"></td>
                     <td id="answerB"></td>
                 </tr>
-                <tr>
+                <tr style="min-height: 100px;">
                     <td id="answerC"></td>
                     <td id="answerD"></td>
                 </tr>
