@@ -58,7 +58,7 @@
             <h3>Verbleibende Zeit: <span id="countdown"></span></h3>
 
             <div class="next-button">
-                <a id="next-button" class="btn btn-primary2" href="#">Nächste Frage</a>
+                <a id="next-button" class="btn btn-primary2" href="#" style="display: none;">Nächste Frage</a>
             </div>
         </div>
 
@@ -168,7 +168,7 @@
             // Server informs User of new users. User handles this.
             function handleLogon(ws, message) {
                 // Invalid or failed message
-                if (message.successful === undefined) {
+                if (message.successful !== undefined) {
                     console.log('Invalid logon message');
                     console.log(message);
                     return false;
@@ -256,10 +256,10 @@
                     var correctAnswers = jQuery.parseJSON(data.correct_answers);
 
                     $('#questionTitle').text(data.question);
-                    data.answerA !== "" ? $('#answerA').text(data.answerA) : $('#answerA').text("-");
-                    data.answerB !== "" ? $('#answerB').text(data.answerB) : $('#answerB').text("-");
-                    data.answerC !== "" ? $('#answerC').text(data.answerC) : $('#answerC').text("-");
-                    data.answerD !== "" ? $('#answerD').text(data.answerD) : $('#answerD').text("-");
+                    $('#answerA').text(data.answerA || '');
+                    $('#answerB').text(data.answerB || '');
+                    $('#answerC').text(data.answerC || '');
+                    $('#answerD').text(data.answerD || '');
 
                     // Shows the countdown for the current question
                     countDown(data.countdown);
@@ -282,7 +282,7 @@
             function countDown(duration) {
                 var countdown = setInterval(function () {
                     if (--duration) {
-                        $('#countdown').html(duration);
+                        $('#countdown').text(duration);
                     } else {
                         clearInterval(countdown);
                     }
