@@ -28,4 +28,22 @@
         <img src="images/evos.png" class="img-responsive">
         <p>Und jetzt warten wir mal.....</p>
     </div>
+
+    <div id="questionPanel" class="container-fluid" style="display: none">
+        <div class="row">
+            <div id="answerA" class="col-md-6">
+                <span> A </span>
+            </div>
+            <div id="answerB" class="col-md-6">
+                <span> B </span>
+            </div>
+            <div class="clearfix"></div>
+            <div id="answerC" class="col-md-6">
+                <span> C </span>
+            </div>
+            <div id="answerD" class="col-md-6">
+                <span> D </span>
+            </div>
+        </div>
+    </div>
 @endsection

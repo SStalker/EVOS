@@ -7,11 +7,11 @@
     <input type="hidden" name="_token" value="{{csrf_token()}}">
     <title>eVos - HS - Osnabrueck</title>
 
-    <!-- Styles -->
+    <!-- Styles (wenn fertig, per gulp ein file mit benötigten styles erzeugen und hereinladen)-->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     <link href="css/frontEnd.css" rel="stylesheet">
 
-    <!-- JS -->
+    <!-- JS (Wenn fertig, per gul passende files zusammen packen und herinladen)-->
     <script>
         //Websocket
         var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';

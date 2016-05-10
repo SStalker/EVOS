@@ -80,7 +80,15 @@ function processQuestion(data) {
 
     var jqhxr = $.getJSON('http://localhost:8000/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
         .done(function() {
+
             console.log(jqhxr.responseJSON);
+
+            $('#waitingPanel').fadeOut(400, function() {
+                $('#questionPanel').fadeIn(400);
+            });
+            /*
+            $('#questionPanel #answerA span').html(jqhxr.responseJSON.a);
+            */
         });
 
 }
@@ -182,4 +190,7 @@ $(document).ready(function() {
             }
         });
     })
+
+    /*Mouse click binding for answer boxes*/
+
 });
