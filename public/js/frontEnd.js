@@ -3,6 +3,7 @@
  */
 
 var websocketOk;
+var quizObj;
 websocket.onopen = function(event){
     websocketOk = true;
     //DEBUG
@@ -73,8 +74,14 @@ function processLogon(data){
 function processQuestion(data) {
     //DEBUG
     console.log('processQuestion');
+    console.log(data);
 
     //Call function to get next question from Laravel server
+
+    var jqhxr = $.getJSON('http://localhost:8000/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
+        .done(function() {
+            console.log(jqhxr.responseJSON);
+        });
 
 }
 
@@ -105,12 +112,8 @@ $(document).ready(function() {
         quizPin = $('#quizPinInput').val();
         jqXhr = $.ajax('/quiz/'+quizPin)
             .done(function(response) {
-            
-                if (response == 'quiz_exists') {
-                    $('#enterQuizPanel').fadeOut(400, function() {
-                       $('#enterNamePanel').fadeIn(400);
-                    });
-                } else if (response == 'wrongpin') {
+
+                if (response == 'wrongpin') {
                     $('#quizAlert').text('Das Quiz existiert nicht!');
                     if ($('#quizAlert').hasClass('out')) {
                         $('#quizAlert').toggleClass('out');
@@ -122,7 +125,15 @@ $(document).ready(function() {
                         $('#quizAlert').toggleClass('out');
                         $('#quizAlert').toggleClass('in');
                     }
+                } else {
+                    quizObj = response;
+                    console.log(quizObj);
+                    $('#enterQuizPanel').fadeOut(400, function () {
+                        $('#enterNamePanel').fadeIn(400);
+                    });
+
                 }
+
             })
             .fail(function() {
 

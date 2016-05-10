@@ -32,12 +32,12 @@ class AttendeeController extends Controller
 
     }
 
-    public function getQuiz($pin) {
+    public function getQuiz(Quiz $pin) {
 
-        $theQuiz = Quiz::find($pin);
-        if ($theQuiz != null) {
-            if ($theQuiz->isActive) {
-                return 'quiz_exists';
+
+        if ($pin != null) {
+            if ($pin->isActive) {
+                return $pin;
             } else {
                 return 'quiz_not_active';
             }
