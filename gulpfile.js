@@ -16,6 +16,6 @@ var elixir = require('laravel-elixir');
 //elixir.config.sourcemaps = false;
 
 elixir(function(mix) {
-    mix.styles(['bootstrap.css'], 'public/css/styles.css');
-    mix.scripts(['jquery-2.2.2.js', 'bootstrap.js'], 'public/js/all.js');
+    mix.styles(['bootstrap.css', 'bootstrap-toggle.css'], 'public/css/styles.css');
+    mix.scripts(['jquery-2.2.2.js', 'bootstrap.js', 'bootstrap-toggle.js'], 'public/js/all.js');
 });

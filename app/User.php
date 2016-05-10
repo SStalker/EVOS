@@ -31,6 +31,6 @@ class User extends Authenticatable
 
     public function rootCategories()
     {
-        return $this->hasMany('EVOS\Category')->whereNull('parent_id')->get();
+        return $this->hasMany('EVOS\Category')->where('parent_id', '=', '0')->get();
     }
 }

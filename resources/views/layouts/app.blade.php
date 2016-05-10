@@ -17,6 +17,7 @@
 
     <!-- JavaScripts -->
     <script src="{{ asset('js/all.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
     <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
@@ -35,7 +36,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{!! asset('images/evos.png') !!}">
+                    <img src="{{ asset('images/evos.png') }}">
                 </a>
             </div>
 
@@ -44,13 +45,15 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/categories') }}">Kategorien</a></li>
                 </ul>
-                {!! Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) !!}
-                <div class='form-group input-group-btn'>
-                    {!! Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) !!}
-                    {!! Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) !!}
-                </div>
-                {!! Form::close() !!}
-                        <!-- Right Side Of Navbar -->
+                @if(Auth::user())
+                    {{ Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) }}
+                    <div class='form-group input-group-btn'>
+                        {{ Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) }}
+                        {{ Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) }}
+                    </div>
+                    {{ Form::close() }}
+                @endif
+                <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
@@ -87,11 +90,11 @@
     @if(session('message'))
         <div class="alert alert-success" role="alert">
             <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-            {!! session('message') !!}
+            {{ session('message') }}
         </div>
     @endif
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 @yield('content')

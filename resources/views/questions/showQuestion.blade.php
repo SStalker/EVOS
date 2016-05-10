@@ -9,3 +9,4 @@
     <a class="btn btn-primary next-button" href="{!! action('QuizController@next', [$question->quiz->category->id, $question->quiz->id]) !!}">Nächste Frage</a>
 
 @endsection
+
