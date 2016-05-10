@@ -58,7 +58,7 @@
             <h3>Verbleibende Zeit: <span id="countdown"></span></h3>
 
             <div class="next-button">
-                <a id="next-button" class="btn btn-primary2" href="#">Nächste Frage</a>
+                <a id="next-button" class="btn btn-primary2" href="#" style="display: none;">Nächste Frage</a>
             </div>
         </div>
 
