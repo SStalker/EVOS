@@ -17,7 +17,7 @@ class CategoriesTableSeeder extends Seeder
         ]);
 
         DB::table('categories')->insert([
-            'title' => 'Sinnlos',
+            'title' => 'Mathematik für E - Beispiele',
             'user_id' => 1
         ]);
     }
