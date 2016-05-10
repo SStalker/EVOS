@@ -94,6 +94,7 @@ $(document).ready(function() {
         $('#quizAlert').toggleClass('in');
         $('#quizAlert').toggleClass('out');
     });
+
     $('#nameAlert').on('click', function() {
         $('#nameAlert').toggleClass('in');
         $('#nameAlert').toggleClass('out');
@@ -110,12 +111,17 @@ $(document).ready(function() {
                        $('#enterNamePanel').fadeIn(400);
                     });
                 } else if (response == 'wrongpin') {
+                    $('#quizAlert').text('Das Quiz existiert nicht!');
                     if ($('#quizAlert').hasClass('out')) {
                         $('#quizAlert').toggleClass('out');
                         $('#quizAlert').toggleClass('in');
                     }
                 } else if (response == 'quiz_not_active') {
-                    alert ('Quiz nicht aktiv!');
+                    $('#quizAlert').text('Das Quiz ist nicht aktiv!');
+                    if ($('#quizAlert').hasClass('out')) {
+                        $('#quizAlert').toggleClass('out');
+                        $('#quizAlert').toggleClass('in');
+                    }
                 }
             })
             .fail(function() {
