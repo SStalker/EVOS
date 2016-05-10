@@ -256,10 +256,10 @@
                     var correctAnswers = jQuery.parseJSON(data.correct_answers);
 
                     $('#questionTitle').text(data.question);
-                    data.answerA !== "" ? $('#answerA').text(data.answerA) : $('#answerA').text("-");
-                    data.answerB !== "" ? $('#answerB').text(data.answerB) : $('#answerB').text("-");
-                    data.answerC !== "" ? $('#answerC').text(data.answerC) : $('#answerC').text("-");
-                    data.answerD !== "" ? $('#answerD').text(data.answerD) : $('#answerD').text("-");
+                    $('#answerA').text(data.answerA || '');
+                    $('#answerB').text(data.answerB || '');
+                    $('#answerC').text(data.answerC || '');
+                    $('#answerD').text(data.answerD || '');
 
                     // Shows the countdown for the current question
                     countDown(data.countdown);
