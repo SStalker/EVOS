@@ -22,13 +22,24 @@ class QuizzesTableSeeder extends Seeder
         ]);
 
         DB::table('quizzes')->insert([
-            'title' => 'Guck mal rein',
+            'title' => 'Mathematik für E - Differentialgleichungen',
             'category_id' => 2
         ]);
-        
+
         DB::table('quizzes')->insert([
-            'title' => 'Oder lass es sein',
+            'title' => 'Mathematik für E - Reihen',
             'category_id' => 2
         ]);
+
+        DB::table('quizzes')->insert([
+            'title' => 'Mathematik für E - Komplexe Zahlen',
+            'category_id' => 2
+        ]);
+
+        DB::table('quizzes')->insert([
+            'title' => 'Mathematik für E - Funktionen mit mehreren Veränderlichen',
+            'category_id' => 2
+        ]);
+
     }
 }
