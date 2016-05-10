@@ -1,7 +1,7 @@
 <div class="panel-body">
     <div class="form-group">
         <label for="question">Frage</label>
-        {{ Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 3]) }} <br>
+            {{ Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 3]) }} <br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#previewBox" data-preview="questionInput">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
@@ -10,7 +10,7 @@
     </div>
     <div class="form-group">
         <label for="answerA">Antwort 1</label>
-        {{ Form::text('answerA', null, ['id' => 'answerA', 'class' => 'form-control']) }}<br>
+            {{ Form::text('answerA', null, ['id' => 'answerA', 'class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#previewBox" data-preview="answerA">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
@@ -22,7 +22,7 @@
     </div>
     <div class="form-group">
         <label for="answerB">Antwort 2</label>
-        {{ Form::text('answerB', null, ['id' => 'answerB','class' => 'form-control']) }}<br>
+            {{ Form::text('answerB', null, ['id' => 'answerB','class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#previewBox" data-preview="answerB">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
@@ -34,7 +34,7 @@
     </div>
     <div class="form-group">
         <label for="answerC">Antwort 3</label>
-        {{ Form::text('answerC', null, ['id' => 'answerC', 'class' => 'form-control']) }}<br>
+            {{ Form::text('answerC', null, ['id' => 'answerC', 'class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#previewBox" data-preview="answerC">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
@@ -46,7 +46,7 @@
     </div>
     <div class="form-group">
         <label for="answerD">Antwort 4</label>
-        {{ Form::text('answerD', null, ['id' => 'answerD', 'class' => 'form-control']) }}<br>
+            {{ Form::text('answerD', null, ['id' => 'answerD', 'class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal" data-target="#previewBox" data-preview="answerD">Vorschau</a>
         <label class="btn btn-default" for="file-selector" style="margin-top:-7px">
             <input id="file-selector" type="file" style="display:none;">
