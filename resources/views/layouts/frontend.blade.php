@@ -7,14 +7,20 @@
     <input type="hidden" name="_token" value="{{csrf_token()}}">
     <title>eVos - HS - Osnabrueck</title>
 
-    <!-- Angular JS -->
-    <script src="app/js/jquery-2.2.2.js"></script>
-    <script src="app/js/bootstrap.min.js"></script>
-    <script src="app/js/frontEnd.js"></script>
     <!-- Styles -->
-    <link href="app/css/frontEnd.css" rel="stylesheet">
-    <link href="app/css/bootstrap.min.css" rel="stylesheet">
-    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link href="css/frontEnd.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script>
+        //Websocket
+        var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
+        var websocket = new WebSocket(url);
+    </script>
+
+    <script src="{{ asset('js/all.js') }}"></script>
+    <script src="js/frontEnd.js"></script>
+
     <script>
         $.ajaxSetup(
                 {

@@ -2,8 +2,6 @@
  * Created by davidherzog on 09.04.16.
  */
 
-var url = "127.0.0.1";
-var websocket = new WebSocket("ws://"+ url +":8080/EVOS-Sync/sync");
 var websocketOk;
 websocket.onopen = function(event){
     websocketOk = true;
