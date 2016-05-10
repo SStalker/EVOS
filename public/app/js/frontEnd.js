@@ -116,6 +116,8 @@ $(document).ready(function() {
                         $('#quizAlert').toggleClass('out');
                         $('#quizAlert').toggleClass('in');
                     }
+                } else if (response == 'quiz_not_active') {
+                    alert ('Quiz nicht aktiv!');
                 }
             })
             .fail(function() {

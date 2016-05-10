@@ -36,7 +36,11 @@ class AttendeeController extends Controller
 
         $theQuiz = Quiz::find($pin);
         if ($theQuiz != null) {
-            return 'quiz_exists';
+            if ($theQuiz->isActive) {
+                return 'quiz_exists';
+            } else {
+                return 'quiz_not_active';
+            }
         } else {
             return 'wrongpin';
         }
