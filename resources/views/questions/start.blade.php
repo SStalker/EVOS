@@ -168,7 +168,7 @@
             // Server informs User of new users. User handles this.
             function handleLogon(ws, message) {
                 // Invalid or failed message
-                if (message.successful === undefined) {
+                if (message.successful !== undefined) {
                     console.log('Invalid logon message');
                     console.log(message);
                     return false;
