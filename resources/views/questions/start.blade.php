@@ -71,9 +71,10 @@
                 <a id="end-button" class="btn btn-primary2" href="{{ url('/categories') }}">Quiz Beenden</a>
             </div>
         </div>
+    </div>
 
     <script>
-        $(function() {
+        $(function () {
             // This classes must be hidden until the quiz is started successfully
             $('.quiz-normal').hide();
             $('.quiz-question').hide();
@@ -88,7 +89,7 @@
             var ws = new WebSocket(wsUrl);
 
             ws.onerror = function (message) {
-                $('.error').append("<h1>Beim Verbinden ist ein Fehler aufgetreten!</h1>Das Quiz kann zurzeit aus technischen Gründen nicht gestartet werden. <a href="/">Zur Startseite</a>").show();
+                $('.error').append("<h1>Beim Verbinden ist ein Fehler aufgetreten!</h1>Das Quiz kann zurzeit aus technischen Gründen nicht gestartet werden. <a href=" / ">Zur Startseite</a>").show();
             };
 
             ws.onclose = function (message) {
@@ -107,14 +108,14 @@
                 sendMsg(startMessage, ws);
             };
 
-            $('#start-button').click(function(){
+            $('#start-button').click(function () {
                 $('.quiz-normal').hide();
                 $('.quiz-question').show();
 
                 quiz();
             });
 
-            $('#next-button').click(function(){
+            $('#next-button').click(function () {
                 quiz();
             });
 
@@ -144,15 +145,15 @@
             };
 
             // After successfully registering a new quiz, the server informs the user. The user handles this.
-            function handleStart(ws, message){
+            function handleStart(ws, message) {
                 // Invalid or failed message
-                if(message.successful === undefined) {
+                if (message.successful === undefined) {
                     console.log('Invalid start message');
                     console.log(message);
                     return false;
                 }
 
-                if(message.successful === false){
+                if (message.successful === false) {
                     console.log('QuizStart was not successful.');
                     console.log('Reason: ' + message.reason);
                     return false;
@@ -165,34 +166,34 @@
             }
 
             // Server informs User of new users. User handles this.
-            function handleLogon(ws, message){
+            function handleLogon(ws, message) {
                 // Invalid or failed message
-                if(message.successful === undefined) {
+                if (message.successful === undefined) {
                     console.log('Invalid logon message');
                     console.log(message);
                     return false;
                 }
 
-                if(message.successful === false){
+                if (message.successful === false) {
                     console.log('HandleLogon was not successful.');
                     console.log('Reason: ' + message.reason);
                     return false;
                 }
 
                 // For every new attendee the attendee-count increments
-                attendee_count ++;
+                attendee_count++;
                 $('#attendee-count').text(attendee_count);
             }
 
             // User will be informed if one Attendee sends a response for a question
-            function handleAnswer(ws, message){
-                if(message.successful === undefined) {
+            function handleAnswer(ws, message) {
+                if (message.successful === undefined) {
                     console.log('Invalid answer message');
                     console.log(message);
                     return false;
                 }
 
-                if(message.successful === false){
+                if (message.successful === false) {
                     console.log('HandleAnswer was not successful.');
                     console.log('Reason: ' + message.reason);
                     return false;
@@ -203,7 +204,7 @@
             }
 
             // The User sends a question to the server
-            function question(ws){
+            function question(ws) {
                 // The user sends the messageType 'question' to induce the server to show a new question
                 var questionMessage = {
                     type: 'question',
@@ -218,7 +219,7 @@
             }
 
             // The user ends the quiz
-            function end(ws){
+            function end(ws) {
                 var endMessage = {
                     type: 'end',
                     quiz_id: {{ $quiz->id }},
@@ -228,16 +229,16 @@
                 sendMsg(endMessage, ws);
             }
 
-            function sendMsg(msg, ws){
+            function sendMsg(msg, ws) {
                 try {
                     ws.send(JSON.stringify(msg));
-                }catch(e){
+                } catch (e) {
                     console.log("Message could not be send.");
                     console.log(e);
                 }
             }
 
-            function quiz(){
+            function quiz() {
                 // Some default settings
                 $('#answerA').removeClass("bg-success bg-danger");
                 $('#answerB').removeClass("bg-success bg-danger");
@@ -248,7 +249,7 @@
                 // For every new question the server must be informed
                 question(ws);
 
-                $.getJSON( '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}', function( data ) {
+                $.getJSON('{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}', function (data) {
                     console.log(data);
 
                     var countdown = (data.countdown * 1000);
@@ -278,7 +279,7 @@
                 });
             }
 
-            function countDown (duration) {
+            function countDown(duration) {
                 var countdown = setInterval(function () {
                     if (--duration) {
                         $('#countdown').html(duration);
