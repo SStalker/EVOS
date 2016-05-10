@@ -243,7 +243,7 @@
                 $('#answerB').removeClass("bg-success bg-danger");
                 $('#answerC').removeClass("bg-success bg-danger");
                 $('#answerD').removeClass("bg-success bg-danger");
-                $('#next-button').hide();
+                $('#next-button').fadeOut("slow");
 
                 // For every new question the server must be informed
                 question(ws);
@@ -266,7 +266,9 @@
                     // Enable next-button after the current question has finished.
                     // Shows the correct answers
                     setInterval(function () {
-                        $('#next-button').show();
+                        $('#next-button').fadeIn("slow");
+
+                        $('#countdown').text('Keine verbleibende Zeit');
 
                         correctAnswers.a ? $('#answerA').addClass("bg-success") : $('#answerA').addClass("bg-danger");
                         correctAnswers.b ? $('#answerB').addClass("bg-success") : $('#answerB').addClass("bg-danger");
