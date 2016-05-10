@@ -14,7 +14,7 @@ class QuizController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['next','create', 'store', 'update', 'destroy', 'edit']]);
+        $this->middleware('auth', ['only' => ['start', 'next','create', 'store', 'update', 'destroy', 'edit']]);
     }
 
     /**
@@ -108,53 +108,70 @@ class QuizController extends Controller
     }
 
     /**
+     * Starts a new quiz.
+     *
+     * @param Category $categories
+     * @param Quiz $quizzes
+     */
+    public function start(Category $categories, Quiz $quizzes)
+    {
+        // If collection is empty redirect with error
+        $questions = $quizzes->questions;
+
+        // If no questions then redirect with error
+        if($questions->isEmpty())
+        {
+            return redirect('categories/'.$categories->id.'/quizzes/'. $quizzes->id)
+                ->withErrors(['Quiz hat keine Fragen']);
+        }
+
+        // TODO: We need an option to re-join oder abort a running quiz.
+        if(!$quizzes->isActive) {
+            // Now we can start the quiz
+            $quizzes->isActive = true;
+            $quizzes->questionsCounter = 0;
+            $quizzes->save();
+        }
+
+        return view('questions.start')
+            ->with('quiz', $quizzes);
+    }
+
+    /**
+     * Returns the next question of the quiz as JSON.
+     *
      * @param  int $id
      * @return The next question or first (Starts the quiz)
      */
     public function next(Category $categories, Quiz $quizzes)
     {
-        // If collection is empty redirect with error
-        $questions = $quizzes->questions;
-        $questionsCounter = $quizzes->questionsCounter;
-
-        // If no questions then redirect with error
-        if($questions->isEmpty())
+        if($quizzes->isActive)
         {
-            return redirect('categories/'.$categories->id.'/quizzes/'.$quizzes->id)
-                ->withErrors(['Quiz hat keine Fragen']);
+            $quizzes->questionsCounter++;
+            $quizzes->save();
+        } else {
+            return request()->ajax() ?
+                request()->json(['error' => '1']) : // 1 = not active
+                redirect('categories/'.$categories->id.'/quizzes/'. $quizzes->id)
+                ->withErrors(['Quiz wurde nicht getstartet']);
         }
 
-        // Debugging maybe for later use
-        //$debug = $quizzes->questionsCounter ." >= ". $questions->count();
-        //var_dump($debug);
-
         // If counter is greater than array size then quiz ends
-        if($quizzes->questionsCounter >= $questions->count())
+        if($quizzes->questionsCounter >= $quizzes->questions->count()-1)
         {
-            // Set the quiz as inactive
+            // Set the quiz as active
             $quizzes->isActive = false;
             $quizzes->questionsCounter = 0;
             $quizzes->save();
 
             //TODO Show end results
-            return redirect('categories/'.$categories->id.'/quizzes/'.$quizzes->id)
+            return request()->ajax() ?
+                request()->json(['error' => '2']) : // 2 = quiz finished
+                redirect('categories/'.$categories->id.'/quizzes/'. $quizzes->id)
                 ->withErrors(['Quiz ist zu Ende']);
         }
-
-        if(!$quizzes->isActive)
-        {
-            // Set the quiz as active
-            $quizzes->isActive = true;
-            $quizzes->save();
-        }
-
-        $question = $questions->get($questionsCounter);
-        ++$questionsCounter;
-        $quizzes->questionsCounter = $questionsCounter;
-        $quizzes->save();
-
-        return view('questions.showQuestion')
-                ->with('question', $question);
+        
+        return $quizzes->questions->get($quizzes->questionsCounter);
     }
 
     /**
