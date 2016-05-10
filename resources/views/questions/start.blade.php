@@ -282,7 +282,7 @@
             function countDown(duration) {
                 var countdown = setInterval(function () {
                     if (--duration) {
-                        $('#countdown').html(duration);
+                        $('#countdown').text(duration);
                     } else {
                         clearInterval(countdown);
                     }
