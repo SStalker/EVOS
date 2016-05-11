@@ -74,221 +74,201 @@
     </div>
 
     <script>
-        $(function () {
-            // This classes must be hidden until the quiz is started successfully
-            $('.quiz-normal').hide();
-            $('.quiz-question').hide();
-            $('.quiz-end').hide();
+        var user_id = {{ Auth::id() }};
+        var quiz_id = {{ $quiz->id }};
+        var session_id = '{{ Session::getId() }}';
+        var next_route = '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}';
 
-            // Counts the successfully logged on attendees
-            var attendee_count = 0;
-            // Counts the answers for one question
-            var answer_count = 0;
+        function SyncServer(ws_url) {
+            this.attendee_count = 0;
+            this.answer_count = 0;
+            this.ws = new WebSocket(ws_url);
+            this.ws.onerror = this.onError;
+            this.ws.onclose = this.onClose;
+            this.ws.onopen = this.onOpen;
+            this.ws.parent = this;
+        }
 
-            var wsUrl = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
-            var ws = new WebSocket(wsUrl);
+        SyncServer.prototype.onError = function (ev) {
+            console.log('Error');
+            console.log(ev);
+        };
 
-            ws.onerror = function (message) {
-                $('.error').append("<h1>Beim Verbinden ist ein Fehler aufgetreten!</h1>Das Quiz kann zurzeit aus technischen Gründen nicht gestartet werden. <a href=" / ">Zur Startseite</a>").show();
-            };
+        SyncServer.prototype.onClose = function (ev) {
+            console.log('Close');
+            console.log(ev);
+        };
 
-            ws.onclose = function (message) {
-                // ...
-            };
+        SyncServer.prototype.onOpen = function (ev) {
+            console.log('Opened WebSocket');
+            console.log(ev);
+            this.parent.startQuiz();
+        };
 
-            ws.onopen = function (message) {
-                // If the WebSocked was started successfully, the User has to inform the server
-                var startMessage = {
-                    type: 'start',
-                    user_id: {{ Auth::id() }},
-                    quiz_id: {{ $quiz->id }},
-                    session_id: '{{ Session::getId() }}'
-                };
+        SyncServer.prototype.onMessage = function (ev) {
+            var message = ev.data;
+            if (message.type === undefined) {
+                console.log('Received invalid message! It didn\'t contain a type!');
+                return;
+            }
 
-                sendMsg(startMessage, ws);
-            };
+            switch (message.type) {
+                case 'start':
+                    this.handleStart(message);
+                    break;
 
-            $('#start-button').click(function () {
-                $('.quiz-normal').hide();
-                $('.quiz-question').show();
+                case 'logon':
+                    this.handleLogon(message);
+                    break;
 
-                quiz();
-            });
+                case 'answer':
+                    this.handleAnswer(message);
+                    break;
 
-            $('#next-button').click(function () {
-                quiz();
-            });
-
-            // Message received from the server
-            ws.onmessage = function (message) {
-                message = JSON.parse(message.data);
-                console.log(message);
-
-                if (message.type === undefined) {
-                    console.log('Received invalid message! Didn\'t contain a type!');
-                    return;
-                }
-                console.log(message);
-                switch (message.type) {
-                    case 'start':
-                        handleStart(ws, message);
-                        break;
-                    case 'logon':
-                        handleLogon(ws, message);
-                        break;
-                    case 'answer':
-                        handleAnswer(ws, message);
-                        break;
-                    default:
-                        console.log('Received an invalid message.');
-                }
-            };
-
-            // After successfully registering a new quiz, the server informs the user. The user handles this.
-            function handleStart(ws, message) {
-                // Invalid or failed message
-                if (message.successful === undefined) {
-                    console.log('Invalid start message');
+                default:
+                    console.log('Received an invalid message.');
                     console.log(message);
-                    return false;
-                }
+                    break;
+            }
+        };
 
-                if (message.successful === false) {
-                    console.log('QuizStart was not successful.');
-                    console.log('Reason: ' + message.reason);
-                    return false;
-                }
+        SyncServer.prototype.startQuiz = function () {
+            console.log('starting quiz');
+            var startMessage = {
+                type: 'start',
+                user_id: user_id,
+                quiz_id: quiz_id,
+                session_id: session_id
+            };
+            this.sendMessage(startMessage);
+        };
 
-                // Successful message.
-                // Now we have to inform the attendees by showing the logon view and the quizID.
-                $('.quiz-loading').hide();
-                $('.quiz-normal').show();
+        SyncServer.prototype.handleStart = function (message) {
+            console.log('handle start');
+            if (message.successful !== undefined && message.successful === false) {
+                console.log('QuizStart was not successful.');
+                console.log('Reason: ' + message.reason);
+                return false;
             }
 
-            // Server informs User of new users. User handles this.
-            function handleLogon(ws, message) {
-                // Invalid or failed message
-                if (message.successful !== undefined) {
-                    console.log('Invalid logon message');
-                    console.log(message);
-                    return false;
-                }
+            $('.quiz-loading').hide();
+            $('.quiz-normal').show();
+        };
 
-                if (message.successful === false) {
-                    console.log('HandleLogon was not successful.');
-                    console.log('Reason: ' + message.reason);
-                    return false;
-                }
-
-                // For every new attendee the attendee-count increments
-                attendee_count++;
-                $('#attendee-count').text(attendee_count);
+        SyncServer.prototype.handleLogon = function (message) {
+            if (message.successful !== undefined && message.successful === false) {
+                console.log('Logon was not successful.');
+                console.log('Reason: ' + message.reason);
+                return false;
             }
 
-            // User will be informed if one Attendee sends a response for a question
-            function handleAnswer(ws, message) {
-                if (message.successful === undefined) {
-                    console.log('Invalid answer message');
-                    console.log(message);
-                    return false;
-                }
+            this.attendee_count++;
+            $('#attendee-count').text(this.attendee_count);
+        };
 
-                if (message.successful === false) {
-                    console.log('HandleAnswer was not successful.');
-                    console.log('Reason: ' + message.reason);
-                    return false;
-                }
-
-                answer_count++;
-                $('#answer-count').text(answer_count);
+        SyncServer.prototype.handleAnswer = function (message) {
+            if (message.successful !== undefined && message.successful === false) {
+                console.log('Answer was not successful.');
+                console.log('Reason: ' + message.reason);
+                return false;
             }
 
-            // The User sends a question to the server
-            function question(ws) {
-                // The user sends the messageType 'question' to induce the server to show a new question
-                var questionMessage = {
-                    type: 'question',
-                    quiz_id: {{ $quiz->id }},
-                    session_id: '{{ Session::getId() }}'
-                };
+            this.answer_count++;
+            $('#answer-count').text(this.answer_count);
+        };
 
-                sendMsg(questionMessage, ws);
-
-                // For every new question answer_count must be set to 0
-                answer_count = 0;
+        SyncServer.prototype.sendMessage = function (msg) {
+            try {
+                this.ws.send(JSON.stringify(msg));
             }
-
-            // The user ends the quiz
-            function end(ws) {
-                var endMessage = {
-                    type: 'end',
-                    quiz_id: {{ $quiz->id }},
-                    session_id: '{{ Session::getId() }}'
-                };
-
-                sendMsg(endMessage, ws);
+            catch (e) {
+                console.log('Error while sending');
+                console.log(e);
             }
+        };
 
-            function sendMsg(msg, ws) {
-                try {
-                    ws.send(JSON.stringify(msg));
-                } catch (e) {
-                    console.log("Message could not be send.");
-                    console.log(e);
-                }
-            }
+        SyncServer.prototype.quiz = function () {
+            // Some default settings
+            $('#answerA').removeClass("bg-success bg-danger");
+            $('#answerB').removeClass("bg-success bg-danger");
+            $('#answerC').removeClass("bg-success bg-danger");
+            $('#answerD').removeClass("bg-success bg-danger");
+            $('#next-button').fadeOut("slow");
 
-            function quiz() {
-                // Some default settings
-                $('#answerA').removeClass("bg-success bg-danger");
-                $('#answerB').removeClass("bg-success bg-danger");
-                $('#answerC').removeClass("bg-success bg-danger");
-                $('#answerD').removeClass("bg-success bg-danger");
-                $('#next-button').fadeOut("slow");
+            // For every new question the server must be informed
+            this.question();
 
-                // For every new question the server must be informed
-                question(ws);
+            $.getJSON(next_route, function (data) {
+                console.log(data);
 
-                $.getJSON('{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}', function (data) {
-                    console.log(data);
+                this.duration = data.countdown;
+                var correctAnswers = jQuery.parseJSON(data.correct_answers);
 
-                    var countdown = (data.countdown * 1000);
-                    var correctAnswers = jQuery.parseJSON(data.correct_answers);
+                $('#questionTitle').text(data.question);
+                $('#answerA').text(data.answerA || '');
+                $('#answerB').text(data.answerB || '');
+                $('#answerC').text(data.answerC || '');
+                $('#answerD').text(data.answerD || '');
 
-                    $('#questionTitle').text(data.question);
-                    $('#answerA').text(data.answerA || '');
-                    $('#answerB').text(data.answerB || '');
-                    $('#answerC').text(data.answerC || '');
-                    $('#answerD').text(data.answerD || '');
-
-                    // Shows the countdown for the current question
-                    countDown(data.countdown);
-
-                    // Enable next-button after the current question has finished.
-                    // Shows the correct answers
-                    setInterval(function () {
+                // Shows the countdown for the current question
+                var that = this;
+                this.countdown = setInterval(function () {
+                    that.duration--;
+                    if (that.duration > 0) {
+                        $('#countdown').text(that.duration);
+                    } else {
+                        clearInterval(that.countdown);
                         $('#next-button').fadeIn("slow");
-
                         $('#countdown').text('Keine verbleibende Zeit');
 
                         correctAnswers.a ? $('#answerA').addClass("bg-success") : $('#answerA').addClass("bg-danger");
                         correctAnswers.b ? $('#answerB').addClass("bg-success") : $('#answerB').addClass("bg-danger");
                         correctAnswers.c ? $('#answerC').addClass("bg-success") : $('#answerC').addClass("bg-danger");
                         correctAnswers.d ? $('#answerD').addClass("bg-success") : $('#answerD').addClass("bg-danger");
-                    }, countdown);
-                });
-            }
-
-            function countDown(duration) {
-                var countdown = setInterval(function () {
-                    if (--duration) {
-                        $('#countdown').text(duration);
-                    } else {
-                        clearInterval(countdown);
                     }
                 }, 1000);
-            }
+            });
+        }
 
+        SyncServer.prototype.question = function () {
+            // The user sends the messageType 'question' to induce the server to show a new question
+            var questionMessage = {
+                type: 'question',
+                quiz_id: quiz_id,
+                session_id: session_id
+            };
+
+            this.sendMessage(questionMessage);
+            // For every new question answer_count must be set to 0
+            this.answer_count = 0;
+        }
+
+        SyncServer.prototype.end = function () {
+            var endMessage = {
+                type: 'end',
+                quiz_id: quiz_id,
+                session_id: session_id
+            };
+
+            this.sendMessage(endMessage);
+        }
+
+        $(function () {
+            $('.quiz-normal').hide();
+            $('.quiz-question').hide();
+            $('.quiz-end').hide();
+
+            var syncServer = new SyncServer('ws://127.0.0.1:8080/EVOS-Sync/sync');
+            console.log(syncServer);
+
+            $('#start-button').click(function () {
+                $('.quiz-normal').hide();
+                $('.quiz-question').show();
+
+                syncServer.quiz();
+            });
+
+            $('#next-button').click(syncServer.quiz);
         });
     </script>
 
