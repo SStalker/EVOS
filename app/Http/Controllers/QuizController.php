@@ -184,6 +184,8 @@ class QuizController extends Controller
         $questionsCounter = $quizzes->questionsCounter;
         $question = $questions->get($questionsCounter);
 
+        $question['correct_answers'] = null;
+
         return $question;
     }
 }
