@@ -87,6 +87,7 @@
             this.ws.onclose = this.onClose;
             this.ws.onopen = this.onOpen;
             this.ws.parent = this;
+            this.ws.onmessage = this.onMessage;
         }
 
         SyncServer.prototype.onError = function (ev) {
@@ -106,23 +107,25 @@
         };
 
         SyncServer.prototype.onMessage = function (ev) {
-            var message = ev.data;
+            var message = JSON.parse(ev.data);
             if (message.type === undefined) {
                 console.log('Received invalid message! It didn\'t contain a type!');
+                console.log(message);
                 return;
             }
 
+            var that = this.parent;
             switch (message.type) {
                 case 'start':
-                    this.handleStart(message);
+                    that.handleStart(message);
                     break;
 
                 case 'logon':
-                    this.handleLogon(message);
+                    that.handleLogon(message);
                     break;
 
                 case 'answer':
-                    this.handleAnswer(message);
+                    that.handleAnswer(message);
                     break;
 
                 default:
@@ -259,7 +262,6 @@
             $('.quiz-end').hide();
 
             var syncServer = new SyncServer('ws://127.0.0.1:8080/EVOS-Sync/sync');
-            console.log(syncServer);
 
             $('#start-button').click(function () {
                 $('.quiz-normal').hide();
