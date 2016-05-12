@@ -69,6 +69,12 @@ class QuestionController extends Controller
      */
     public function show(Quiz $quizzes, Question $questions)
     {
+        $answers = json_decode($questions->correct_answers);
+        $questions->setAttribute('answerABool', $answers->a);
+        $questions->setAttribute('answerBBool', $answers->b);
+        $questions->setAttribute('answerCBool', $answers->c);
+        $questions->setAttribute('answerDBool', $answers->d);
+
         return view('questions.show')
             ->with('question', $questions);
     }

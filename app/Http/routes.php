@@ -27,6 +27,7 @@ Route::get('/', function () {
 
 Route::get('/search', 'SearchController@getSearch');
 Route::get('attendees/create/{id}', 'AttendeeController@create');
+Route::get('categories/{categories}/quizzes/{quizzes}/start', 'QuizController@start');
 Route::get('categories/{categories}/quizzes/{quizzes}/next', 'QuizController@next');
 Route::get('categories/{categories}/quizzes/{quizzes}/choices', 'QuizController@choices');
 

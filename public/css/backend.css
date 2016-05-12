@@ -1,0 +1,11 @@
+.start-button, .next-button {
+    position: absolute !important;
+    bottom: 5px;
+    right: 5px;
+}
+
+.btn-primary2 {
+    background-color: #39AE77;
+    border-color: #087135;
+    color: #FFFFFF;
+}
