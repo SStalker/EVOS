@@ -59,6 +59,7 @@
 
             <div class="next-button">
                 <a id="next-button" class="btn btn-primary2" href="#" style="display: none;">Nächste Frage</a>
+                <a id="end-button" class="btn btn-danger" href="#" style="display: none;">Quiz beenden</a>
             </div>
         </div>
 
@@ -68,7 +69,7 @@
             Hier werden ggf. Ergebnisse etc. angezeigt.
 
             <div class="end-button">
-                <a id="end-button" class="btn btn-primary2" href="{{ url('/categories') }}">Quiz Beenden</a>
+                <a id="leave-button" class="btn btn-primary2" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
             </div>
         </div>
     </div>
@@ -87,6 +88,7 @@
             this.ws.onclose = this.onClose;
             this.ws.onopen = this.onOpen;
             this.ws.parent = this;
+            this.ws.onmessage = this.onMessage;
         }
 
         SyncServer.prototype.onError = function (ev) {
@@ -106,23 +108,25 @@
         };
 
         SyncServer.prototype.onMessage = function (ev) {
-            var message = ev.data;
+            var message = JSON.parse(ev.data);
             if (message.type === undefined) {
                 console.log('Received invalid message! It didn\'t contain a type!');
+                console.log(message);
                 return;
             }
 
+            var that = this.parent;
             switch (message.type) {
                 case 'start':
-                    this.handleStart(message);
+                    that.handleStart(message);
                     break;
 
                 case 'logon':
-                    this.handleLogon(message);
+                    that.handleLogon(message);
                     break;
 
                 case 'answer':
-                    this.handleAnswer(message);
+                    that.handleAnswer(message);
                     break;
 
                 default:
@@ -218,7 +222,11 @@
                         $('#countdown').text(that.duration);
                     } else {
                         clearInterval(that.countdown);
-                        $('#next-button').fadeIn("slow");
+                        if(data.last == true) {
+                            $('#end-button').fadeIn("slow");
+                        } else {
+                            $('#next-button').fadeIn("slow");
+                        }
                         $('#countdown').text('Keine verbleibende Zeit');
 
                         correctAnswers.a ? $('#answerA').addClass("bg-success") : $('#answerA').addClass("bg-danger");
@@ -259,7 +267,6 @@
             $('.quiz-end').hide();
 
             var syncServer = new SyncServer('ws://127.0.0.1:8080/EVOS-Sync/sync');
-            console.log(syncServer);
 
             $('#start-button').click(function () {
                 $('.quiz-normal').hide();
@@ -268,7 +275,16 @@
                 syncServer.quiz();
             });
 
-            $('#next-button').click(syncServer.quiz);
+            $('#next-button').click(function () {
+                syncServer.quiz();
+            });
+
+            $('#end-button').click(function () {
+                $('.quiz-normal').fadeOut('slow');
+                $('.quiz-question').fadeOut('slow').done(function () {
+                    $('.quiz-end').fadeIn('slow');
+                });
+            });
         });
     </script>
 
