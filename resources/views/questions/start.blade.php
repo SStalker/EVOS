@@ -202,6 +202,7 @@
             // For every new question the server must be informed
             this.question();
 
+            var self = this;
             $.getJSON(next_route, function (data) {
                 console.log(data);
 
@@ -223,6 +224,7 @@
                     } else {
                         clearInterval(that.countdown);
                         if(data.last == true) {
+                            self.end();
                             $('#end-button').fadeIn("slow");
                         } else {
                             $('#next-button').fadeIn("slow");
@@ -281,7 +283,7 @@
 
             $('#end-button').click(function () {
                 $('.quiz-normal').fadeOut('slow');
-                $('.quiz-question').fadeOut('slow').done(function () {
+                $('.quiz-question').fadeOut('slow', function () {
                     $('.quiz-end').fadeIn('slow');
                 });
             });
