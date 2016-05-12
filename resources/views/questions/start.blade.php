@@ -59,6 +59,7 @@
 
             <div class="next-button">
                 <a id="next-button" class="btn btn-primary2" href="#" style="display: none;">Nächste Frage</a>
+                <a id="end-button" class="btn btn-danger" href="#" style="display: none;">Quiz beenden</a>
             </div>
         </div>
 
@@ -68,7 +69,7 @@
             Hier werden ggf. Ergebnisse etc. angezeigt.
 
             <div class="end-button">
-                <a id="end-button" class="btn btn-primary2" href="{{ url('/categories') }}">Quiz Beenden</a>
+                <a id="leave-button" class="btn btn-primary2" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
             </div>
         </div>
     </div>
@@ -221,7 +222,11 @@
                         $('#countdown').text(that.duration);
                     } else {
                         clearInterval(that.countdown);
-                        $('#next-button').fadeIn("slow");
+                        if(data.last == true) {
+                            $('#end-button').fadeIn("slow");
+                        } else {
+                            $('#next-button').fadeIn("slow");
+                        }
                         $('#countdown').text('Keine verbleibende Zeit');
 
                         correctAnswers.a ? $('#answerA').addClass("bg-success") : $('#answerA').addClass("bg-danger");
@@ -270,7 +275,16 @@
                 syncServer.quiz();
             });
 
-            $('#next-button').click(syncServer.quiz);
+            $('#next-button').click(function () {
+                syncServer.quiz();
+            });
+
+            $('#end-button').click(function () {
+                $('.quiz-normal').fadeOut('slow');
+                $('.quiz-question').fadeOut('slow').done(function () {
+                    $('.quiz-end').fadeIn('slow');
+                });
+            });
         });
     </script>
 
