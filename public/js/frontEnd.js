@@ -4,6 +4,7 @@
 
 var websocketOk;
 var quizObj;
+var toAnswer = false;
 websocket.onopen = function(event){
     websocketOk = true;
     //DEBUG
@@ -51,8 +52,7 @@ function processMessage(data){
     }else{
         //error or something for undefined response;
     }
-};
-
+}
 function processLogon(data){
     //DEBUG
     console.log('processLogon');
@@ -86,9 +86,9 @@ function processQuestion(data) {
             $('#waitingPanel').fadeOut(400, function() {
                 $('#questionPanel').fadeIn(400);
             });
-            /*
-            $('#questionPanel #answerA span').html(jqhxr.responseJSON.a);
-            */
+
+            toAnswer = true;
+
         });
 
 }
@@ -96,6 +96,10 @@ function processQuestion(data) {
 function processEnd(data) {
     //DEBUG
     console.log('processEnd');
+
+    $('#quesPanel').fadeOut(400, function() {
+        $('#questionPanel').fadeIn(400);
+    });
 
     //show results or something like that, or show evaluation, or show some other sort of end screen
 }
@@ -106,13 +110,11 @@ $(document).ready(function() {
     var name;
 
     $('#quizAlert').on('click', function() {
-        $('#quizAlert').toggleClass('in');
-        $('#quizAlert').toggleClass('out');
+        $('#quizAlert').toggleClass('in').toggleClass('out');
     });
 
     $('#nameAlert').on('click', function() {
-        $('#nameAlert').toggleClass('in');
-        $('#nameAlert').toggleClass('out');
+        $('#nameAlert').toggleClass('in').toggleClass('out');
     });
 
     $('#quizPinBtn').on('click', function(e) {
@@ -124,14 +126,12 @@ $(document).ready(function() {
                 if (response == 'wrongpin') {
                     $('#quizAlert').text('Das Quiz existiert nicht!');
                     if ($('#quizAlert').hasClass('out')) {
-                        $('#quizAlert').toggleClass('out');
-                        $('#quizAlert').toggleClass('in');
+                        $('#quizAlert').toggleClass('out').toggleClass('in');
                     }
                 } else if (response == 'quiz_not_active') {
                     $('#quizAlert').text('Das Quiz ist nicht aktiv!');
                     if ($('#quizAlert').hasClass('out')) {
-                        $('#quizAlert').toggleClass('out');
-                        $('#quizAlert').toggleClass('in');
+                        $('#quizAlert').toggleClass('out').toggleClass('in');
                     }
                 } else {
                     quizObj = response;
@@ -146,8 +146,7 @@ $(document).ready(function() {
             .fail(function() {
 
                 if ($('#quizAlert').hasClass('out')) {
-                    $('#quizAlert').toggleClass('out');
-                    $('#quizAlert').toggleClass('in');
+                    $('#quizAlert').toggleClass('out').toggleClass('in');
                 }
 
             });
@@ -175,7 +174,7 @@ $(document).ready(function() {
                     type: 'logon',
                     quiz_id: parseInt(quizPin),
                     nickname: name
-                }
+                };
 
                 sendToSyncServer(data);
 
@@ -185,12 +184,30 @@ $(document).ready(function() {
         }).fail(function() {
 
             if ($('#nameAlert').hasClass('out')) {
-                $('#nameAlert').toggleClass('out');
-                $('#nameAlert').toggleClass('in');
+                $('#nameAlert').toggleClass('out').toggleClass('in');
             }
         });
-    })
+    });
 
     /*Mouse click binding for answer boxes*/
+    $('.answer').click(function (event) {
+
+        if (toAnswer){
+//            console.log(this.getAttribute('data-value'));
+
+            var data = {
+                type: 'answer',
+                quiz_id: parseInt(quizPin),
+                answer: [this.getAttribute('data-value')]
+            };
+
+            sendToSyncServer(data);
+            toAnswer = false;
+            $('#questionPanel').fadeOut(400, function() {
+                $('#waitingPanel').fadeIn(400);
+            });
+        }
+
+    })
 
 });
