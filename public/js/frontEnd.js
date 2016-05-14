@@ -97,8 +97,8 @@ function processEnd(data) {
     //DEBUG
     console.log('processEnd');
 
-    $('#quesPanel').fadeOut(400, function() {
-        $('#questionPanel').fadeIn(400);
+    $('#questionPanel').fadeOut(400, function() {
+        $('#waitingPanel').fadeIn(400);
     });
 
     //show results or something like that, or show evaluation, or show some other sort of end screen
