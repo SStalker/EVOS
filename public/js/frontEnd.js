@@ -233,4 +233,10 @@ $(document).ready(function() {
         location.reload();
     });
 
+    $(window).bind('beforeunload', function() {
+        if ($('#questionPanel').is(':visible') || $('#waitingPanel').is(':visible')) {
+            return 'Das Quiz läuft noch! Trotzdem die Seite neu laden?';
+        }
+    })
+
 });
