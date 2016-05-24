@@ -76,9 +76,17 @@ function processQuestion(data) {
     console.log('processQuestion');
     console.log(data);
 
-    //Call function to get next question from Laravel server
+    $('#waitingPanel').fadeOut(400, function() {
+        $('#questionPanel').fadeIn(400);
+    });
 
-    var jqhxr = $.getJSON('http://localhost:8000/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
+    toAnswer = true;
+
+/*
+    var urlshort = url.split('/');
+
+    //Call function to get next question from Laravel server
+   var jqhxr = $.getJSON('http://'+ urlshort[2] +'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
         .done(function() {
 
             console.log(jqhxr.responseJSON);
@@ -90,7 +98,7 @@ function processQuestion(data) {
             toAnswer = true;
 
         });
-
+*/
 }
 
 function processEnd(data) {
@@ -116,6 +124,7 @@ $(document).ready(function() {
     var jqXhr;
     var name;
     var enterName = true;
+
 
     $('#quizAlert').on('click', function() {
         $('#quizAlert').toggleClass('in').toggleClass('out');
