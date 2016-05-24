@@ -215,6 +215,9 @@
                 $('#answerC').text(data.answerC || '');
                 $('#answerD').text(data.answerD || '');
 
+                // MathJax refresh
+                MathJax.Hub.Typeset();
+
                 // Shows the countdown for the current question
                 var that = this;
                 this.countdown = setInterval(function () {
