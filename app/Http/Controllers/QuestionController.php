@@ -55,6 +55,10 @@ class QuestionController extends Controller
 
         $request['correct_answers'] = json_encode($toggles);
         $request['quiz_id'] = $quizzes->id;
+
+        // Ugly way to create an int
+        $request->all()['countdown'] = (int)$request->get('countdown');
+
         $question = Question::create($request->all());
 
         return redirect('quizzes/'.$quizzes->id.'/questions/'.$question->id)
@@ -115,6 +119,10 @@ class QuestionController extends Controller
 
         $request['correct_answers'] = json_encode($toggles);
         $request['quiz_id'] = $quizzes->id;
+
+        // Ugly way to create an int
+        $request->all()['countdown'] = (int)$request->get('countdown');
+
         $questions->update($request->all());
 
         return redirect('quizzes/'.$quizzes->id.'/questions/'.$questions->id)
