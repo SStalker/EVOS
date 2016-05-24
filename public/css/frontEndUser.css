@@ -1,0 +1,23 @@
+.correct-answer{
+    background:#97FF82;
+}
+
+.incorrect-answer{
+    background:#FF8282;
+}
+
+.bg-red{
+    background:#FF8282;
+}
+
+.bg-green{
+    background:#97FF82;
+}
+
+.bg-blue{
+    background:#8286FF;
+}
+
+.bg-yellow{
+    background:#FBFF82;
+}

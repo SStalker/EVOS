@@ -44,12 +44,12 @@
             <table id="question-answers" class="table table-bordered">
                 <tbody>
                 <tr style="height:150px; text-align: center; font-size: 24px;">
-                    <td id="answerA"></td>
-                    <td id="answerB"></td>
+                    <td id="answerA" class="bg-blue"></td>
+                    <td id="answerB" class="bg-green"></td>
                 </tr>
                 <tr style="height:150px; text-align: center; font-size:24px;">
-                    <td id="answerC"></td>
-                    <td id="answerD"></td>
+                    <td id="answerC" class="bg-red"></td>
+                    <td id="answerD" class="bg-yellow"></td>
                 </tr>
                 </tbody>
             </table>
@@ -195,10 +195,10 @@
 
         SyncServer.prototype.quiz = function () {
             // Some default settings
-            $('#answerA').removeClass("bg-success bg-danger");
-            $('#answerB').removeClass("bg-success bg-danger");
-            $('#answerC').removeClass("bg-success bg-danger");
-            $('#answerD').removeClass("bg-success bg-danger");
+            $('#answerA').removeClass("correct-answer incorrect-answer");
+            $('#answerB').removeClass("correct-answer incorrect-answer");
+            $('#answerC').removeClass("correct-answer incorrect-answer");
+            $('#answerD').removeClass("correct-answer incorrect-answer");
             $('#next-button').fadeOut("slow");
 
             // For every new question the server must be informed
@@ -236,10 +236,10 @@
                         }
                         $('#countdown').text('Keine verbleibende Zeit');
 
-                        correctAnswers.a ? $('#answerA').addClass("bg-success") : $('#answerA').addClass("bg-danger");
-                        correctAnswers.b ? $('#answerB').addClass("bg-success") : $('#answerB').addClass("bg-danger");
-                        correctAnswers.c ? $('#answerC').addClass("bg-success") : $('#answerC').addClass("bg-danger");
-                        correctAnswers.d ? $('#answerD').addClass("bg-success") : $('#answerD').addClass("bg-danger");
+                        correctAnswers.a ? $('#answerA').addClass("correct-answer") : $('#answerA').addClass("incorrect-answer");
+                        correctAnswers.b ? $('#answerB').addClass("correct-answer") : $('#answerB').addClass("incorrect-answer");
+                        correctAnswers.c ? $('#answerC').addClass("correct-answer") : $('#answerC').addClass("incorrect-answer");
+                        correctAnswers.d ? $('#answerD').addClass("correct-answer") : $('#answerD').addClass("incorrect-answer");
                     }
                 }, 1000);
             });
@@ -269,13 +269,6 @@
         }
 
         $(function () {
-            MathJax.Hub.Config({
-                tex2jax: {
-                    inlineMath: [['$','$'], ['\\(','\\)']],
-                    processEscapes: true
-                }
-            });
-
             $('.quiz-normal').hide();
             $('.quiz-question').hide();
             $('.quiz-end').hide();
