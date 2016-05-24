@@ -55,5 +55,13 @@
                 </div>
             </div>
         </div>
+
+        <div id="endQuizPanel" class="container" style="display: none; text-align: center;">
+            <img src="images/evos.png" class="img-responsive center-block logo">
+            <p style="margin-top: 2%">Das Quiz ist zu Ende!</p>
+            <button id='startNewBtn' class="btn btn-default center-block" style="margin-top: 2%">Neue PIN eingeben!</button>
+        </div>
     </div>
+
+
 @endsection

@@ -97,9 +97,16 @@ function processEnd(data) {
     //DEBUG
     console.log('processEnd');
 
-    $('#questionPanel').fadeOut(400, function() {
-        $('#waitingPanel').fadeIn(400);
-    });
+    if ($('#questionPanel').is(':visible')) {
+        $('#questionPanel').fadeOut(400, function() {
+            $('#endQuizPanel').fadeIn(400);
+        });
+    } else if ($('#waitingPanel').is(':visible')) {
+        $('#waitingPanel').fadeOut(400, function() {
+            $('#endQuizPanel').fadeIn(400);
+        });
+    }
+
 
     //show results or something like that, or show evaluation, or show some other sort of end screen
 }
@@ -209,5 +216,9 @@ $(document).ready(function() {
         }
 
     })
+
+    $('#startNewBtn').on('click', function() {
+        location.reload();
+    });
 
 });
