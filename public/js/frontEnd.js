@@ -115,6 +115,7 @@ $(document).ready(function() {
     var quizPin;
     var jqXhr;
     var name;
+    var enterName = true;
 
     $('#quizAlert').on('click', function() {
         $('#quizAlert').toggleClass('in').toggleClass('out');
@@ -161,39 +162,41 @@ $(document).ready(function() {
     });
 
     $('#enterNameBtn').on('click', function(e) {
-        name = $('#enterNameInput').val();
-        $.ajax({
-            url: '/attendee',
-            method: 'POST',
-            data: {
-                'name': name,
-                'quiz_id': quizPin
-            }
-        }).done(function(response) {
-            if (response == 'waiting') {
+        if(enterName){
+            enterName =false;
+            name = $('#enterNameInput').val();
+            $.ajax({
+                url: '/attendee',
+                method: 'POST',
+                data: {
+                    'name': name,
+                    'quiz_id': quizPin
+                }
+            }).done(function(response) {
+                if (response == 'waiting') {
 
-                $('#enterNamePanel').fadeOut(400, function() {
-                    $('#waitingPanel').fadeIn(400);
-                });
+                    $('#enterNamePanel').fadeOut(400, function() {
+                        $('#waitingPanel').fadeIn(400);
+                    });
 
-                //Create object for sending purpose
-                var data = {
-                    type: 'logon',
-                    quiz_id: parseInt(quizPin),
-                    nickname: name
-                };
+                    //Create object for sending purpose
+                    var data = {
+                        type: 'logon',
+                        quiz_id: parseInt(quizPin),
+                        nickname: name
+                    };
 
-                sendToSyncServer(data);
+                    sendToSyncServer(data);
 
-            } else {
-                console.log(response);
-            }
-        }).fail(function() {
-
-            if ($('#nameAlert').hasClass('out')) {
-                $('#nameAlert').toggleClass('out').toggleClass('in');
-            }
-        });
+                } else {
+                    console.log(response);
+                }
+            }).fail(function() {
+                if ($('#nameAlert').hasClass('out')) {
+                    $('#nameAlert').toggleClass('out').toggleClass('in');
+                }
+            });
+        }
     });
 
     /*Mouse click binding for answer boxes*/

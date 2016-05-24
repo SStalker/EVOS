@@ -75,6 +75,8 @@
     </div>
 
     <script>
+
+
         var user_id = {{ Auth::id() }};
         var quiz_id = {{ $quiz->id }};
         var session_id = '{{ Session::getId() }}';
@@ -215,6 +217,9 @@
                 $('#answerC').text(data.answerC || '');
                 $('#answerD').text(data.answerD || '');
 
+                // MathJax refresh
+                MathJax.Hub.Typeset();
+
                 // Shows the countdown for the current question
                 var that = this;
                 this.countdown = setInterval(function () {
@@ -264,6 +269,13 @@
         }
 
         $(function () {
+            MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [['$','$'], ['\\(','\\)']],
+                    processEscapes: true
+                }
+            });
+
             $('.quiz-normal').hide();
             $('.quiz-question').hide();
             $('.quiz-end').hide();
