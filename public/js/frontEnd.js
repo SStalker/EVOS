@@ -202,6 +202,7 @@ $(document).ready(function() {
                 }
             }).fail(function() {
                 if ($('#nameAlert').hasClass('out')) {
+                    enterName = true;
                     $('#nameAlert').toggleClass('out').toggleClass('in');
                 }
             });
