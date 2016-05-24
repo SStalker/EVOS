@@ -75,6 +75,8 @@
     </div>
 
     <script>
+
+
         var user_id = {{ Auth::id() }};
         var quiz_id = {{ $quiz->id }};
         var session_id = '{{ Session::getId() }}';
@@ -267,6 +269,13 @@
         }
 
         $(function () {
+            MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [['$','$'], ['\\(','\\)']],
+                    processEscapes: true
+                }
+            });
+
             $('.quiz-normal').hide();
             $('.quiz-question').hide();
             $('.quiz-end').hide();
