@@ -75,8 +75,6 @@
     </div>
 
     <script>
-
-
         var user_id = {{ Auth::id() }};
         var quiz_id = {{ $quiz->id }};
         var session_id = '{{ Session::getId() }}';
@@ -195,6 +193,11 @@
 
         SyncServer.prototype.quiz = function () {
             // Some default settings
+            $('#answerA').addClass("bg-blue");
+            $('#answerB').addClass("bg-green");
+            $('#answerC').addClass("bg-red");
+            $('#answerD').addClass("bg-yellow");
+
             $('#answerA').removeClass("correct-answer incorrect-answer");
             $('#answerB').removeClass("correct-answer incorrect-answer");
             $('#answerC').removeClass("correct-answer incorrect-answer");
@@ -235,6 +238,11 @@
                             $('#next-button').fadeIn("slow");
                         }
                         $('#countdown').text('Keine verbleibende Zeit');
+
+                        $('#answerA').removeClass("bg-blue");
+                        $('#answerB').removeClass("bg-green");
+                        $('#answerC').removeClass("bg-red");
+                        $('#answerD').removeClass("bg-yellow");
 
                         correctAnswers.a ? $('#answerA').addClass("correct-answer") : $('#answerA').addClass("incorrect-answer");
                         correctAnswers.b ? $('#answerB').addClass("correct-answer") : $('#answerB').addClass("incorrect-answer");
