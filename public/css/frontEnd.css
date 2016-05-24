@@ -77,6 +77,22 @@
     margin: auto;
 }
 
+#answerA{
+    background:#8286FF;
+}
+
+#answerB{
+    background:#97FF82;
+}
+
+#answerC{
+    background:#FF8282;
+}
+
+#answerD{
+    background:#FBFF82;
+}
+
 /*
  * Abstand zur zweiten Reihe der Antwortmöglichkeiten hinzugefügt
  */
