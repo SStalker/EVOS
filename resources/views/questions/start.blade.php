@@ -3,17 +3,6 @@
 @section('title', 'Quiz')
 
 @section('content')
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{!! asset('images/evos.png') !!}">
-                </a>
-            </div>
-        </div>
-    </nav>
 
     <div class="center-block">
 
