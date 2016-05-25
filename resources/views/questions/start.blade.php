@@ -33,7 +33,7 @@
             <table id="question-answers" class="table table-bordered">
                 <tbody>
                 <tr style="height:150px; text-align: center; font-size: 24px;">
-                    <td id="answerA" class="bg-blue"></td>
+                    <td id="answerA" class="bg-blue" style="width:50%;"></td>
                     <td id="answerB" class="bg-green"></td>
                 </tr>
                 <tr style="height:150px; text-align: center; font-size:24px;">
