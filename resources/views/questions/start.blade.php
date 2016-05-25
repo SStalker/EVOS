@@ -179,6 +179,10 @@
 
             this.answer_count++;
             $('#answer-count').text(this.answer_count);
+
+            if(this.answer_count == this.attendee_count){
+                $('.next-button').show();
+            }
         };
 
         SyncServer.prototype.sendMessage = function (msg) {
