@@ -1,6 +1,6 @@
 @extends('layouts.quizbackend')
 
-@section('title', 'Bitte anmelden!')
+@section('title', 'Quiz')
 
 @section('content')
     <nav class="navbar navbar-default navbar-static-top">
