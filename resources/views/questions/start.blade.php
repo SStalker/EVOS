@@ -1,19 +1,8 @@
 @extends('layouts.quizbackend')
 
-@section('title', 'Bitte anmelden!')
+@section('title', 'Quiz')
 
 @section('content')
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{!! asset('images/evos.png') !!}">
-                </a>
-            </div>
-        </div>
-    </nav>
 
     <div class="center-block">
 
@@ -44,12 +33,12 @@
             <table id="question-answers" class="table table-bordered">
                 <tbody>
                 <tr style="height:150px; text-align: center; font-size: 24px;">
-                    <td id="answerA"></td>
-                    <td id="answerB"></td>
+                    <td id="answerA" class="bg-blue" style="width:50%;"></td>
+                    <td id="answerB" class="bg-green"></td>
                 </tr>
                 <tr style="height:150px; text-align: center; font-size:24px;">
-                    <td id="answerC"></td>
-                    <td id="answerD"></td>
+                    <td id="answerC" class="bg-red"></td>
+                    <td id="answerD" class="bg-yellow"></td>
                 </tr>
                 </tbody>
             </table>
@@ -179,6 +168,10 @@
 
             this.answer_count++;
             $('#answer-count').text(this.answer_count);
+
+            if(this.answer_count == this.attendee_count){
+                $('.next-button').show();
+            }
         };
 
         SyncServer.prototype.sendMessage = function (msg) {
@@ -193,10 +186,15 @@
 
         SyncServer.prototype.quiz = function () {
             // Some default settings
-            $('#answerA').removeClass("bg-success bg-danger");
-            $('#answerB').removeClass("bg-success bg-danger");
-            $('#answerC').removeClass("bg-success bg-danger");
-            $('#answerD').removeClass("bg-success bg-danger");
+            $('#answerA').addClass("bg-blue");
+            $('#answerB').addClass("bg-green");
+            $('#answerC').addClass("bg-red");
+            $('#answerD').addClass("bg-yellow");
+
+            $('#answerA').removeClass("correct-answer incorrect-answer");
+            $('#answerB').removeClass("correct-answer incorrect-answer");
+            $('#answerC').removeClass("correct-answer incorrect-answer");
+            $('#answerD').removeClass("correct-answer incorrect-answer");
             $('#next-button').fadeOut("slow");
 
             // For every new question the server must be informed
@@ -215,6 +213,9 @@
                 $('#answerC').text(data.answerC || '');
                 $('#answerD').text(data.answerD || '');
 
+                // MathJax refresh
+                MathJax.Hub.Typeset();
+
                 // Shows the countdown for the current question
                 var that = this;
                 this.countdown = setInterval(function () {
@@ -231,10 +232,15 @@
                         }
                         $('#countdown').text('Keine verbleibende Zeit');
 
-                        correctAnswers.a ? $('#answerA').addClass("bg-success") : $('#answerA').addClass("bg-danger");
-                        correctAnswers.b ? $('#answerB').addClass("bg-success") : $('#answerB').addClass("bg-danger");
-                        correctAnswers.c ? $('#answerC').addClass("bg-success") : $('#answerC').addClass("bg-danger");
-                        correctAnswers.d ? $('#answerD').addClass("bg-success") : $('#answerD').addClass("bg-danger");
+                        $('#answerA').removeClass("bg-blue");
+                        $('#answerB').removeClass("bg-green");
+                        $('#answerC').removeClass("bg-red");
+                        $('#answerD').removeClass("bg-yellow");
+
+                        correctAnswers.a ? $('#answerA').addClass("correct-answer") : $('#answerA').addClass("incorrect-answer");
+                        correctAnswers.b ? $('#answerB').addClass("correct-answer") : $('#answerB').addClass("incorrect-answer");
+                        correctAnswers.c ? $('#answerC').addClass("correct-answer") : $('#answerC').addClass("incorrect-answer");
+                        correctAnswers.d ? $('#answerD').addClass("correct-answer") : $('#answerD').addClass("incorrect-answer");
                     }
                 }, 1000);
             });

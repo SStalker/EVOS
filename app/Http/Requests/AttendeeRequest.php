@@ -13,7 +13,7 @@ class AttendeeRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,6 @@ class AttendeeRequest extends Request
     {
         return [
             'name' => 'required',
-            'sesssion_token' => 'required',
             'quiz_id' => 'required'
         ];
     }

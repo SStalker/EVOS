@@ -14,11 +14,13 @@
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/frontEndUser.css') }}" rel="stylesheet">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
     <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 
@@ -33,6 +35,17 @@
     </style>
 </head>
 <body id="app-layout">
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+
+            <!-- Branding Image -->
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{!! asset('images/evos.png') !!}">
+            </a>
+        </div>
+    </div>
+</nav>
 
     <div class="container-fluid">
         <div class="row">
