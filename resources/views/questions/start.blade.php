@@ -1,19 +1,8 @@
 @extends('layouts.quizbackend')
 
-@section('title', 'Bitte anmelden!')
+@section('title', 'Quiz')
 
 @section('content')
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{!! asset('images/evos.png') !!}">
-                </a>
-            </div>
-        </div>
-    </nav>
 
     <div class="center-block">
 
@@ -44,7 +33,7 @@
             <table id="question-answers" class="table table-bordered">
                 <tbody>
                 <tr style="height:150px; text-align: center; font-size: 24px;">
-                    <td id="answerA" class="bg-blue"></td>
+                    <td id="answerA" class="bg-blue" style="width:50%;"></td>
                     <td id="answerB" class="bg-green"></td>
                 </tr>
                 <tr style="height:150px; text-align: center; font-size:24px;">
@@ -75,8 +64,6 @@
     </div>
 
     <script>
-
-
         var user_id = {{ Auth::id() }};
         var quiz_id = {{ $quiz->id }};
         var session_id = '{{ Session::getId() }}';
@@ -181,6 +168,10 @@
 
             this.answer_count++;
             $('#answer-count').text(this.answer_count);
+
+            if(this.answer_count == this.attendee_count){
+                $('.next-button').show();
+            }
         };
 
         SyncServer.prototype.sendMessage = function (msg) {
@@ -195,6 +186,11 @@
 
         SyncServer.prototype.quiz = function () {
             // Some default settings
+            $('#answerA').addClass("bg-blue");
+            $('#answerB').addClass("bg-green");
+            $('#answerC').addClass("bg-red");
+            $('#answerD').addClass("bg-yellow");
+
             $('#answerA').removeClass("correct-answer incorrect-answer");
             $('#answerB').removeClass("correct-answer incorrect-answer");
             $('#answerC').removeClass("correct-answer incorrect-answer");
@@ -235,6 +231,11 @@
                             $('#next-button').fadeIn("slow");
                         }
                         $('#countdown').text('Keine verbleibende Zeit');
+
+                        $('#answerA').removeClass("bg-blue");
+                        $('#answerB').removeClass("bg-green");
+                        $('#answerC').removeClass("bg-red");
+                        $('#answerD').removeClass("bg-yellow");
 
                         correctAnswers.a ? $('#answerA').addClass("correct-answer") : $('#answerA').addClass("incorrect-answer");
                         correctAnswers.b ? $('#answerB').addClass("correct-answer") : $('#answerB').addClass("incorrect-answer");
