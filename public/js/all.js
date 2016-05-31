@@ -2,7 +2,9 @@
  * jQuery JavaScript Library v2.2.2
  * http://jquery.com/
  *
- * Includes Sizzle.js
+ * Includes S
+ *
+ * izzle.js
  * http://sizzlejs.com/
  *
  * Copyright jQuery Foundation and other contributors
