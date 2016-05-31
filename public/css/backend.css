@@ -9,3 +9,11 @@
     border-color: #087135;
     color: #FFFFFF;
 }
+
+.correct-answer{
+    background:#97FF82;
+}
+
+.incorrect-answer{
+    background:#FF8282;
+}
