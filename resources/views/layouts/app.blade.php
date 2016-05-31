@@ -47,9 +47,11 @@
                 </ul>
                 @if(Auth::user())
                     {{ Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) }}
-                    <div class='form-group input-group-btn'>
+                    <div class='input-group'>
                         {{ Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) }}
-                        {{ Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) }}
+                        <span class="input-group-btn">
+                            {{ Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) }}
+                        </span>
                     </div>
                     {{ Form::close() }}
                 @endif
