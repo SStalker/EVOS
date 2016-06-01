@@ -2,6 +2,7 @@
  * Created by davidherzog on 09.04.16.
  */
 
+var websocket = new WebSocket(url);
 var websocketOk;
 var quizObj;
 var toAnswer = false;
@@ -120,6 +121,7 @@ function processEnd(data) {
 }
 
 $(document).ready(function() {
+
     var quizPin;
     var jqXhr;
     var name;
@@ -137,7 +139,7 @@ $(document).ready(function() {
     $('#quizPinBtn').on('click', function(e) {
         
         quizPin = $('#quizPinInput').val();
-        jqXhr = $.ajax('/quiz/'+quizPin)
+        jqXhr = $.ajax(appUrl+'/quiz/'+quizPin)
             .done(function(response) {
 
                 if (response == 'wrongpin') {
@@ -175,7 +177,7 @@ $(document).ready(function() {
             enterName =false;
             name = $('#enterNameInput').val();
             $.ajax({
-                url: '/attendee',
+                url: appUrl+'/attendee',
                 method: 'POST',
                 data: {
                     'name': name,

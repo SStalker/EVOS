@@ -15,7 +15,7 @@
     <script>
         //Websocket
         var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
-        var websocket = new WebSocket(url);
+        var appUrl = '{{ url('/') }}';
     </script>
 
     <script src="{{ asset('js/all.js') }}"></script>
