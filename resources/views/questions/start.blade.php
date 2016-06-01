@@ -68,6 +68,7 @@
         var quiz_id = {{ $quiz->id }};
         var session_id = '{{ Session::getId() }}';
         var next_route = '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}';
+        var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
 
         function SyncServer(ws_url) {
             this.attendee_count = 0;
@@ -274,7 +275,8 @@
             $('.quiz-question').hide();
             $('.quiz-end').hide();
 
-            var syncServer = new SyncServer('ws://127.0.0.1:8080/EVOS-Sync/sync');
+
+            var syncServer = new SyncServer(url);
 
             $('#start-button').click(function () {
                 $('.quiz-normal').hide();
