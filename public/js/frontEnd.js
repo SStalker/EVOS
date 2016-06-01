@@ -63,9 +63,15 @@ function processLogon(data){
             //error, not registered for quiz
             if (data.reason != undefined){
                 alert(data.reason);
+                //reload after error
+                location.reload(true);
             }
         }else{
-            //waiting for quiz start
+
+            $('#enterNamePanel').fadeOut(400, function() {
+                $('#waitingPanel').fadeIn(400);
+            });
+
         }
     }else{
         //error because of not well formed syns server messages
@@ -84,10 +90,8 @@ function processQuestion(data) {
     toAnswer = true;
 
 /*
-    var urlshort = url.split('/');
-
     //Call function to get next question from Laravel server
-   var jqhxr = $.getJSON('http://'+ urlshort[2] +'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
+    var jqhxr = $.getJSON(appUrl+'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
         .done(function() {
 
             console.log(jqhxr.responseJSON);
@@ -185,11 +189,6 @@ $(document).ready(function() {
                 }
             }).done(function(response) {
                 if (response == 'waiting') {
-
-                    $('#enterNamePanel').fadeOut(400, function() {
-                        $('#waitingPanel').fadeIn(400);
-                    });
-
                     //Create object for sending purpose
                     var data = {
                         type: 'logon',
