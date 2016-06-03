@@ -178,11 +178,16 @@ class QuizController extends Controller
      */
     public function choices(Category $categories, Quiz $quizzes)
     {
+
         $questions = $quizzes->questions;
         $questionsCounter = $quizzes->questionsCounter;
-        $question = $questions->get($questionsCounter);
 
-        $question['correct_answers'] = null;
+        //$question = $questions->get($questionsCounter);
+        //$question['correct_answers'] = null;
+
+
+        $countdown = $questions->get($questionsCounter)['countdown'];
+        $question = [ 'countdown' => $countdown ];
 
         return $question;
     }

@@ -13,13 +13,12 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
 
     <!-- JavaScripts -->
     <script src="{{ asset('js/all.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
     <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
@@ -35,7 +34,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/dashboard') }}">
                     <img src="{{ asset('images/evos.png') }}">
                 </a>
             </div>
@@ -47,9 +46,11 @@
                 </ul>
                 @if(Auth::user())
                     {{ Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) }}
-                    <div class='form-group input-group-btn'>
+                    <div class='input-group'>
                         {{ Form::text('searchtext', null, ['class' => 'form-control', 'placeholder' => 'Suche...']) }}
-                        {{ Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) }}
+                        <span class="input-group-btn">
+                            {{ Form::button('Suchen', ['type' => 'submit', 'class' => 'btn btn-default ']) }}
+                        </span>
                     </div>
                     {{ Form::close() }}
                 @endif

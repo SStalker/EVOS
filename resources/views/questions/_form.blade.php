@@ -17,7 +17,7 @@
             Bild anhängen
         </label>
         <div class="pull-right" style="margin-top:-7px;">
-            {{ Form::checkbox('answerAbool', null, (isset($question) ? $question->answerABool : null), ['data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
+            {{ Form::checkbox('answerAbool', null, (isset($question) ? $question->answerABool : null), ['data-id'=>'answerA', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
         </div>
     </div>
     <div class="form-group">
@@ -29,7 +29,7 @@
             Bild anhängen
         </label>
         <div class="pull-right" style="margin-top:-7px;">
-            {{ Form::checkbox('answerBbool', null, (isset($question) ? $question->answerBBool : null), ['data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
+            {{ Form::checkbox('answerBbool', null, (isset($question) ? $question->answerBBool : null), ['data-id'=>'answerB', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
         </div>
     </div>
     <div class="form-group">
@@ -41,7 +41,7 @@
             Bild anhängen
         </label>
         <div class="pull-right" style="margin-top:-7px;">
-            {{ Form::checkbox('answerCbool', null, (isset($question) ? $question->answerCBool : null), ['data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
+            {{ Form::checkbox('answerCbool', null, (isset($question) ? $question->answerCBool : null), ['data-id'=>'answerC', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
         </div>
     </div>
     <div class="form-group">
@@ -53,7 +53,7 @@
             Bild anhängen
         </label>
         <div class="pull-right" style="margin-top:-7px;">
-            {{ Form::checkbox('answerDbool', null, (isset($question) ? $question->answerDBool : null), ['data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
+            {{ Form::checkbox('answerDbool', null, (isset($question) ? $question->answerDBool : null), ['data-id'=>'answerD', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
         </div>
     </div>
     <div class="form-group">
@@ -63,7 +63,7 @@
 </div>
 
 <div class="panel-footer">
-    {{ Form::submit($submitLabel, ['class'=>'btn btn-primary']) }}
+    {{ Form::submit($submitLabel, ['id'=>'formSubmit','class'=>'btn btn-primary', 'disabled']) }}
 </div>
 
 <!-- Preview for questions and answers -->
@@ -82,7 +82,47 @@
 </div>
 
 <script>
+    //check if submit can be enabled
+    function enableSubmit() {
+
+        //get references
+        var answerA = $("#answerA").val();
+        var answerB = $("#answerB").val();
+
+        var isToggled = false;
+
+        //Check if any answer is toggled right
+        $.each($('.toggle.btn input[type=checkbox]'), function() {
+
+            //If checkbox is checked
+            if($(this).prop('checked')){
+                //Get id of answer for this checkbox
+                var answer = $(this).attr('data-id');
+
+                //If answer of checkbox is not empty
+                if($('#'+answer).val() !== ""){
+                    isToggled = true;
+                }
+
+            }
+        });
+
+        //Enable or disable the button
+        if(answerA != "" && answerB != "" && isToggled){
+            document.getElementById("formSubmit").disabled = false;
+        }else {
+            document.getElementById("formSubmit").disabled = true;
+        }
+    }
+
     $( document ).ready(function() {
+
+        //Check if submit button should be enabled
+        enableSubmit();
+
+        //Check enableSubmit each time an input is done and every end every check of right answer
+        $("input[id^='answer']").on('keyup', enableSubmit);
+        $('.toggle.btn input[type=checkbox]').on('change', enableSubmit);
 
         $(".preview").click(function(){
             var id = $(this).data('preview');
