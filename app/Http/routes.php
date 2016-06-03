@@ -29,8 +29,9 @@ Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
 Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 Route::post('password/reset', 'Auth\PasswordController@reset');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'AttendeeController@index');
+Route::get('/dashboard', function(){
+   return view('home');
 });
 
 Route::get('/start', 'AttendeeController@index');
