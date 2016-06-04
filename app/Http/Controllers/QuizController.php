@@ -180,7 +180,7 @@ class QuizController extends Controller
     {
 
         $questions = $quizzes->questions;
-        $questionsCounter = $quizzes->questionsCounter;
+        $questionsCounter = $quizzes->questionsCounter-1;
 
         //$question = $questions->get($questionsCounter);
         //$question['correct_answers'] = null;

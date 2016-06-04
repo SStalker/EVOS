@@ -69,10 +69,13 @@
         var session_id = '{{ Session::getId() }}';
         var next_route = '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}';
         var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
+        var correctAnswers;
 
         function SyncServer(ws_url) {
             this.attendee_count = 0;
             this.answer_count = 0;
+            this.correctAnswers_count = 0;
+            this.incorrectAnswers_count = 0;
             this.ws = new WebSocket(ws_url);
             this.ws.onerror = this.onError;
             this.ws.onclose = this.onClose;
@@ -98,6 +101,7 @@
         };
 
         SyncServer.prototype.onMessage = function (ev) {
+            console.log(ev);
             var message = JSON.parse(ev.data);
             if (message.type === undefined) {
                 console.log('Received invalid message! It didn\'t contain a type!');
@@ -170,6 +174,18 @@
             this.answer_count++;
             $('#answer-count').text(this.answer_count);
 
+            // counts the correct and incorrect answers
+            var chosenAnswer = message.answer[0];
+            if(correctAnswers.a && chosenAnswer == 'a'
+                || correctAnswers.b && chosenAnswer == 'b'
+                || correctAnswers.c && chosenAnswer == 'c'
+                || correctAnswers.d && chosenAnswer == 'd'){
+
+                this.correctAnswers_count++;
+            }else{
+                this.incorrectAnswers_count++;
+            }
+
             if(this.answer_count == this.attendee_count){
                 $('.next-button').show();
             }
@@ -187,6 +203,8 @@
 
         SyncServer.prototype.quiz = function () {
             // Some default settings
+            $('#answer-count').text("0");
+
             $('#answerA').addClass("bg-blue");
             $('#answerB').addClass("bg-green");
             $('#answerC').addClass("bg-red");
@@ -206,7 +224,7 @@
                 console.log(data);
 
                 this.duration = data.countdown;
-                var correctAnswers = jQuery.parseJSON(data.correct_answers);
+                correctAnswers = jQuery.parseJSON(data.correct_answers);
 
                 $('#questionTitle').text(data.question);
                 $('#answerA').text(data.answerA || '');
@@ -224,14 +242,20 @@
                     if (that.duration > 0) {
                         $('#countdown').text(that.duration);
                     } else {
+                        var percent_correct = self.correctAnswers_count / self.answer_count * 100;
+                        var percent_incorrect = self.incorrectAnswers_count / self.answer_count * 100;
+
                         clearInterval(that.countdown);
+
                         if(data.last == true) {
                             self.end();
                             $('#end-button').fadeIn("slow");
                         } else {
                             $('#next-button').fadeIn("slow");
                         }
+
                         $('#countdown').text('Keine verbleibende Zeit');
+                        $('#answer-count').text('Richtig: ' + percent_correct + '%, falsch: ' + percent_incorrect + '%');
 
                         $('#answerA').removeClass("bg-blue");
                         $('#answerB').removeClass("bg-green");
@@ -258,6 +282,8 @@
             this.sendMessage(questionMessage);
             // For every new question answer_count must be set to 0
             this.answer_count = 0;
+            this.correctAnswers_count = 0;
+            this.incorrectAnswers_count = 0;
         }
 
         SyncServer.prototype.end = function () {
