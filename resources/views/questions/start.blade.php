@@ -242,8 +242,13 @@
                     if (that.duration > 0) {
                         $('#countdown').text(that.duration);
                     } else {
-                        var percent_correct = self.correctAnswers_count / self.answer_count * 100;
-                        var percent_incorrect = self.incorrectAnswers_count / self.answer_count * 100;
+                        var percent_correct = 0;
+                        var percent_incorrect = 0;
+
+                        if(self.answer_count != 0) {
+                            percent_correct = self.correctAnswers_count / self.answer_count * 100;
+                            percent_incorrect = self.incorrectAnswers_count / self.answer_count * 100;
+                        }
 
                         clearInterval(that.countdown);
 
@@ -255,7 +260,7 @@
                         }
 
                         $('#countdown').text('Keine verbleibende Zeit');
-                        $('#answer-count').text('Richtig: ' + percent_correct + '%, falsch: ' + percent_incorrect + '%');
+                        $('#answer-count').text('Richtig: ' + Math.round(percent_correct) + '%, falsch: ' + Math.round(percent_incorrect) + '%');
 
                         $('#answerA').removeClass("bg-blue");
                         $('#answerB').removeClass("bg-green");
