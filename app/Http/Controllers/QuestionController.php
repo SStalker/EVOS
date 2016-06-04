@@ -57,7 +57,7 @@ class QuestionController extends Controller
         $request['quiz_id'] = $quizzes->id;
 
         // Ugly way to create an int
-        $request->all()['countdown'] = (int)$request->get('countdown');
+        $request->all()['countdown'] = intval($request->get('countdown'));
 
         $question = Question::create($request->all());
 
