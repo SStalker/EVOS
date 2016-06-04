@@ -55,7 +55,8 @@
         <div id="end" class="quiz-end">
             <h1>Das Quiz wurde beendet.</h1>
 
-            Hier werden ggf. Ergebnisse etc. angezeigt.
+            <h2 id="allCorrectAnswers"></h2>
+            <h2 id="allIncorrectAnswers"></h2>
 
             <div class="end-button">
                 <a id="leave-button" class="btn btn-primary2" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
@@ -73,9 +74,15 @@
 
         function SyncServer(ws_url) {
             this.attendee_count = 0;
+            this.questions_count = 0;
+            // Answers per question
             this.answer_count = 0;
             this.correctAnswers_count = 0;
             this.incorrectAnswers_count = 0;
+            // All answers
+            this.allCorrectAnswers_count = 0;
+            this.allIncorrectAnswers_count = 0;
+
             this.ws = new WebSocket(ws_url);
             this.ws.onerror = this.onError;
             this.ws.onclose = this.onClose;
@@ -187,7 +194,7 @@
             }
 
             if(this.answer_count == this.attendee_count){
-                $('.next-button').show();
+                $('#next-button').fadeIn("slow");
             }
         };
 
@@ -215,6 +222,8 @@
             $('#answerC').removeClass("correct-answer incorrect-answer");
             $('#answerD').removeClass("correct-answer incorrect-answer");
             $('#next-button').fadeOut("slow");
+
+            this.questions_count++;
 
             // For every new question the server must be informed
             this.question();
@@ -248,6 +257,9 @@
                         if(self.answer_count != 0) {
                             percent_correct = self.correctAnswers_count / self.answer_count * 100;
                             percent_incorrect = self.incorrectAnswers_count / self.answer_count * 100;
+
+                            self.allCorrectAnswers_count += percent_correct;
+                            self.allIncorrectAnswers_count += percent_incorrect;
                         }
 
                         clearInterval(that.countdown);
@@ -321,6 +333,11 @@
             });
 
             $('#end-button').click(function () {
+                var percent_correct = Math.round(syncServer.allCorrectAnswers_count / syncServer.questions_count);
+                var percent_incorrect = Math.round(syncServer.allIncorrectAnswers_count / syncServer.questions_count);
+                $('#allCorrectAnswers').text("Richtige Antworten insgesamt: " + percent_correct + "%");
+                $('#allIncorrectAnswers').text("Falsche Antworten insgesamt: " + percent_incorrect + "%");
+
                 $('.quiz-normal').fadeOut('slow');
                 $('.quiz-question').fadeOut('slow', function () {
                     $('.quiz-end').fadeIn('slow');
