@@ -30,7 +30,13 @@
         </div>
 
         <div id="questionPanel" class="container-fluid" style="display: none">
-            <img src="{{ asset('images/evos.png') }}" class="img-responsive logo">
+
+            <div class="logoTimer">
+                <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block">
+                <div class="progress center-block">
+                    <div id="countdown" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1" style="width: 100%"></div>
+                </div>
+            </div>
             <div class="row">
                 <div  class="col-md-6 ">
                     <div id="answerA" data-value="a" class="answer panel panel-default" >
@@ -57,7 +63,7 @@
         </div>
 
         <div id="endQuizPanel" class="container" style="display: none; text-align: center;">
-            <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block logo">
+            <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block">
             <p style="margin-top: 2%">Das Quiz ist zu Ende!</p>
             <button id='startNewBtn' class="btn btn-default center-block" style="margin-top: 2%">Neue PIN eingeben!</button>
         </div>

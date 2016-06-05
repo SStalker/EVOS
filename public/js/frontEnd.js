@@ -6,6 +6,7 @@ var websocket = new WebSocket(url);
 var websocketOk;
 var quizObj;
 var toAnswer = false;
+var end = false;
 websocket.onopen = function(event){
     websocketOk = true;
     //DEBUG
@@ -83,45 +84,63 @@ function processQuestion(data) {
     console.log('processQuestion');
     console.log(data);
 
-    $('#waitingPanel').fadeOut(400, function() {
-        $('#questionPanel').fadeIn(400);
-    });
-
-    toAnswer = true;
-
-/*
     //Call function to get next question from Laravel server
-    var jqhxr = $.getJSON(appUrl+'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
-        .done(function() {
+    $.getJSON(appUrl+'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
+        .done(function(response) {
 
-            console.log(jqhxr.responseJSON);
+            display = document.getElementById('countdown');
+            display.setAttribute('aria-valuemax',response['countdown']);
+            display.setAttribute('aria-valuemin','0');
+            startTimer(response["countdown"], display);
 
             $('#waitingPanel').fadeOut(400, function() {
                 $('#questionPanel').fadeIn(400);
             });
-
             toAnswer = true;
-
         });
-*/
 }
 
 function processEnd(data) {
+    end = true;
     //DEBUG
     console.log('processEnd');
 
-    if ($('#questionPanel').is(':visible')) {
-        $('#questionPanel').fadeOut(400, function() {
-            $('#endQuizPanel').fadeIn(400);
-        });
-    } else if ($('#waitingPanel').is(':visible')) {
+    if ($('#waitingPanel').is(':visible')) {
         $('#waitingPanel').fadeOut(400, function() {
             $('#endQuizPanel').fadeIn(400);
         });
+    }else if ($('#questionPanel').is(':visible')) {
+        $('#questionPanel').fadeOut(400, function() {
+            $('#endQuizPanel').fadeIn(400);
+        });
     }
-
-
     //show results or something like that, or show evaluation, or show some other sort of end screen
+}
+
+function startTimer(duration, display) {
+    var timer = --duration, seconds;
+    var percent;
+    display.setAttribute('aria-valuenow',duration);
+    display.style.width = '100%';
+
+    var interval = setInterval(function () {
+        seconds = parseInt(timer % 60, 10);
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        percent = seconds / (duration+1) * 100;
+
+        display.setAttribute('aria-valuenow',seconds);
+        display.style.width = percent+'%';
+
+        if (--timer < 0 || !toAnswer) {
+            if(document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end){
+                $('#questionPanel').fadeOut(400, function() {
+                    $('#waitingPanel').fadeIn(400);
+                });
+            }
+            clearInterval(interval);
+        }
+    }, 1000);
 }
 
 $(document).ready(function() {
@@ -141,11 +160,9 @@ $(document).ready(function() {
     });
 
     $('#quizPinBtn').on('click', function(e) {
-        
         quizPin = $('#quizPinInput').val();
         jqXhr = $.ajax(appUrl+'/quiz/'+quizPin)
             .done(function(response) {
-
                 if (response == 'wrongpin') {
                     $('#quizAlert').text('Das Quiz existiert nicht!');
                     if ($('#quizAlert').hasClass('out')) {
@@ -162,9 +179,7 @@ $(document).ready(function() {
                     $('#enterQuizPanel').fadeOut(400, function () {
                         $('#enterNamePanel').fadeIn(400);
                     });
-
                 }
-
             })
             .fail(function() {
 
@@ -173,7 +188,6 @@ $(document).ready(function() {
                 }
 
             });
-
     });
 
     $('#enterNameBtn').on('click', function(e) {
@@ -224,12 +238,9 @@ $(document).ready(function() {
 
             sendToSyncServer(data);
             toAnswer = false;
-            $('#questionPanel').fadeOut(400, function() {
-                $('#waitingPanel').fadeIn(400);
-            });
-        }
 
-    })
+        }
+    });
 
     $('#startNewBtn').on('click', function() {
         location.reload();
@@ -239,6 +250,6 @@ $(document).ready(function() {
         if ($('#questionPanel').is(':visible') || $('#waitingPanel').is(':visible')) {
             return 'Das Quiz läuft noch! Trotzdem die Seite neu laden?';
         }
-    })
+    });
 
 });

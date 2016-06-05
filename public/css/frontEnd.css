@@ -48,13 +48,6 @@
     max-width: 1200px;
 }
 
-#countdown{
-    border: 1px solid black;
-    border-radius: 15px;
-    padding: 5px;
-    margin-top: 3px;
-}
-
 .answer {
     text-align: center;
     margin:0;
@@ -75,6 +68,10 @@
 
 .logoTimer img{
     margin-bottom: 10px;
+}
+
+#questionPanel .progress{
+    max-width: 300px;
 }
 
 #answerA{
