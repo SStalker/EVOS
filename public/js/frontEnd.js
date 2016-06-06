@@ -143,6 +143,13 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
+function onReturn(name, event) {
+    if(event.which === 13){
+        $('#'+name).trigger('click');
+    }
+}
+
+
 $(document).ready(function() {
 
     var quizPin;
@@ -150,6 +157,14 @@ $(document).ready(function() {
     var name;
     var enterName = true;
 
+
+    $("#quizPinInput").keypress(function (event) {
+        onReturn('quizPinBtn', event);
+    });
+
+    $("#enterNameInput").keypress(function (event) {
+        onReturn('enterNameBtn', event);
+    });
 
     $('#quizAlert').on('click', function() {
         $('#quizAlert').toggleClass('in').toggleClass('out');
