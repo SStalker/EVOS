@@ -25,8 +25,8 @@
         </div>
 
         <div id ="waitingPanel" class="container" style="display: none;">
-            <img src="{{ asset('images/evos.png') }}" class="img-responsive">
-            <p>Und jetzt warten wir mal.....</p>
+            <img src="{{ asset('images/evos.png') }}" class="img-responsive" style="margin: auto;">
+            <div id="loadingGif"><img src="{{asset('images/loading.gif')}}"></div>
         </div>
 
         <div id="questionPanel" class="container-fluid" style="display: none">
