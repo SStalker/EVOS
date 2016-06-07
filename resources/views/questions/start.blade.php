@@ -47,7 +47,7 @@
             <h3>Verbleibende Zeit: <span id="countdown"></span></h3>
 
             <div class="next-button">
-                <a id="next-button" class="btn btn-primary2" href="#" style="display: none;">Nächste Frage</a>
+                <a id="next-button" class="btn btn-primary" href="#" style="display: none;">Nächste Frage</a>
                 <a id="end-button" class="btn btn-danger" href="#" style="display: none;">Quiz beenden</a>
             </div>
         </div>
@@ -59,7 +59,7 @@
             <h2 id="allIncorrectAnswers"></h2>
 
             <div class="end-button">
-                <a id="leave-button" class="btn btn-primary2" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
+                <a id="leave-button" class="btn btn-primary" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
             </div>
         </div>
     </div>
