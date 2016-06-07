@@ -193,9 +193,9 @@
                 this.incorrectAnswers_count++;
             }
 
-            if(this.answer_count == this.attendee_count){
+            /*if(this.answer_count == this.attendee_count){
                 $('#next-button').fadeIn("slow");
-            }
+            }*/
         };
 
         SyncServer.prototype.sendMessage = function (msg) {
