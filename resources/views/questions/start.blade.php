@@ -130,6 +130,10 @@
                     that.handleAnswer(message);
                     break;
 
+                case 'disconnect':
+                    that.handleDisconnect(message);
+                    break;
+
                 default:
                     console.log('Received an invalid message.');
                     console.log(message);
@@ -196,6 +200,11 @@
             /*if(this.answer_count == this.attendee_count){
                 $('#next-button').fadeIn("slow");
             }*/
+        };
+
+        SyncServer.prototype.handleDisconnect = function(message) {
+            this.attendee_count--;
+            $('#attendee-count').text(this.attendee_count);
         };
 
         SyncServer.prototype.sendMessage = function (msg) {
