@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <input type="hidden" name="_token" value="{{csrf_token()}}">
+    <meta name="_token" content="{{ csrf_token() }}">
     <title>eVos - HS - Osnabrueck</title>
 
     <!-- Styles (wenn fertig, per gulp ein file mit benötigten styles erzeugen und hereinladen)-->
@@ -26,7 +26,7 @@
                 {
                     headers:
                     {
-                        'X-CSRF-Token': $('input[name="_token"]').val()
+                        'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                     }
                 });
     </script>
