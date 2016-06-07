@@ -31,7 +31,7 @@
             &raquo;
             <a href="{!! action('QuizController@show', [$question->quiz->category->id, $question->quiz->id]) !!}">{!! $question->quiz->title !!}</a>
             &raquo;
-            <a href="{!! action('QuestionController@show', [$question->quiz->category->id, $question->quiz->id, $question->id]) !!}">{!! $question->question !!}</a>
+            <a href="{!! action('QuestionController@show', [$question->quiz->category->id, $question->id]) !!}">{!! $question->question !!}</a>
         </div>
 
         <div class="panel-body">

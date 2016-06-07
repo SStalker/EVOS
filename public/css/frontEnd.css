@@ -1,13 +1,12 @@
+.wrapper{
+    padding: 5% 0;
+}
+
 #enterQuizPanel {
+
+    padding: 10% 0;
     width: 300px;
     height: 300px;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
 
 }
 
@@ -16,15 +15,10 @@
 }
 
 #enterNamePanel {
+
+    padding: 10% 0;
     width: 300px;
     height: 300px;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
 
 }
 
@@ -33,29 +27,34 @@
 }
 
 #waitingPanel {
+
+    padding: 10% 0;
     width: 300px;
     height: 300px;
 
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
+}
+
+#loadingGif {
+
+    text-align: center;
+    padding: 20%;
 
 }
 
-#questionPanel{
+#endQuizPanel{
+
+    padding: 10% 0;
     min-width: 300px;
     max-width: 1200px;
-    height: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
 }
+
+#questionPanel {
+
+    padding: 10% 0;
+    min-width: 300px;
+    max-width: 1200px;
+}
+
 .answer {
     text-align: center;
     margin:0;
@@ -69,12 +68,17 @@
     box-shadow: 0px 3px 15px #66b6f0;
 }
 
-.logo{
-    position: absolute;
-    left: 0px;
-    bottom: 60px;
-    right: 0px;
-    margin: auto;
+.logoTimer{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logoTimer img{
+    margin-bottom: 10px;
+}
+
+#questionPanel .progress{
+    max-width: 300px;
 }
 
 #answerA{
@@ -101,6 +105,7 @@
 }
 
 @media all and (max-width: 991px) {
+
     .clearfix{
         margin-bottom: 0;
     }

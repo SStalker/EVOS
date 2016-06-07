@@ -2,9 +2,11 @@
  * Created by davidherzog on 09.04.16.
  */
 
+var websocket = new WebSocket(url);
 var websocketOk;
 var quizObj;
 var toAnswer = false;
+var end = false;
 websocket.onopen = function(event){
     websocketOk = true;
     //DEBUG
@@ -62,9 +64,15 @@ function processLogon(data){
             //error, not registered for quiz
             if (data.reason != undefined){
                 alert(data.reason);
+                //reload after error
+                location.reload(true);
             }
         }else{
-            //waiting for quiz start
+
+            $('#enterNamePanel').fadeOut(400, function() {
+                $('#waitingPanel').fadeIn(400);
+            });
+
         }
     }else{
         //error because of not well formed syns server messages
@@ -77,38 +85,86 @@ function processQuestion(data) {
     console.log(data);
 
     //Call function to get next question from Laravel server
+    $.getJSON(appUrl+'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
+        .done(function(response) {
 
-    var jqhxr = $.getJSON('http://localhost:8000/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
-        .done(function() {
-
-            console.log(jqhxr.responseJSON);
+            display = document.getElementById('countdown');
+            display.setAttribute('aria-valuemax',response['countdown']);
+            display.setAttribute('aria-valuemin','0');
+            startTimer(response["countdown"], display);
 
             $('#waitingPanel').fadeOut(400, function() {
                 $('#questionPanel').fadeIn(400);
             });
-
             toAnswer = true;
-
         });
-
 }
 
 function processEnd(data) {
+    end = true;
     //DEBUG
     console.log('processEnd');
 
-    $('#questionPanel').fadeOut(400, function() {
-        $('#waitingPanel').fadeIn(400);
-    });
-
+    if ($('#waitingPanel').is(':visible')) {
+        $('#waitingPanel').fadeOut(400, function() {
+            $('#endQuizPanel').fadeIn(400);
+        });
+    }else if ($('#questionPanel').is(':visible')) {
+        $('#questionPanel').fadeOut(400, function() {
+            $('#endQuizPanel').fadeIn(400);
+        });
+    }
     //show results or something like that, or show evaluation, or show some other sort of end screen
 }
 
+function startTimer(duration, display) {
+    var timer = --duration, seconds;
+    var percent;
+    display.setAttribute('aria-valuenow',duration);
+    display.style.width = '100%';
+
+    var interval = setInterval(function () {
+        seconds = parseInt(timer % 60, 10);
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        percent = seconds / (duration+1) * 100;
+
+        display.setAttribute('aria-valuenow',seconds);
+        display.style.width = percent+'%';
+
+        if (--timer < 0 || !toAnswer) {
+            if(document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end){
+                $('#questionPanel').fadeOut(400, function() {
+                    $('#waitingPanel').fadeIn(400);
+                });
+            }
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+function onReturn(name, event) {
+    if(event.which === 13){
+        $('#'+name).trigger('click');
+    }
+}
+
+
 $(document).ready(function() {
+
     var quizPin;
     var jqXhr;
     var name;
     var enterName = true;
+
+
+    $("#quizPinInput").keypress(function (event) {
+        onReturn('quizPinBtn', event);
+    });
+
+    $("#enterNameInput").keypress(function (event) {
+        onReturn('enterNameBtn', event);
+    });
 
     $('#quizAlert').on('click', function() {
         $('#quizAlert').toggleClass('in').toggleClass('out');
@@ -119,11 +175,9 @@ $(document).ready(function() {
     });
 
     $('#quizPinBtn').on('click', function(e) {
-        
         quizPin = $('#quizPinInput').val();
-        jqXhr = $.ajax('/quiz/'+quizPin)
+        jqXhr = $.ajax(appUrl+'/quiz/'+quizPin)
             .done(function(response) {
-
                 if (response == 'wrongpin') {
                     $('#quizAlert').text('Das Quiz existiert nicht!');
                     if ($('#quizAlert').hasClass('out')) {
@@ -140,9 +194,7 @@ $(document).ready(function() {
                     $('#enterQuizPanel').fadeOut(400, function () {
                         $('#enterNamePanel').fadeIn(400);
                     });
-
                 }
-
             })
             .fail(function() {
 
@@ -151,7 +203,6 @@ $(document).ready(function() {
                 }
 
             });
-
     });
 
     $('#enterNameBtn').on('click', function(e) {
@@ -159,7 +210,7 @@ $(document).ready(function() {
             enterName =false;
             name = $('#enterNameInput').val();
             $.ajax({
-                url: '/attendee',
+                url: appUrl+'/attendee',
                 method: 'POST',
                 data: {
                     'name': name,
@@ -167,11 +218,6 @@ $(document).ready(function() {
                 }
             }).done(function(response) {
                 if (response == 'waiting') {
-
-                    $('#enterNamePanel').fadeOut(400, function() {
-                        $('#waitingPanel').fadeIn(400);
-                    });
-
                     //Create object for sending purpose
                     var data = {
                         type: 'logon',
@@ -186,6 +232,7 @@ $(document).ready(function() {
                 }
             }).fail(function() {
                 if ($('#nameAlert').hasClass('out')) {
+                    enterName = true;
                     $('#nameAlert').toggleClass('out').toggleClass('in');
                 }
             });
@@ -206,11 +253,18 @@ $(document).ready(function() {
 
             sendToSyncServer(data);
             toAnswer = false;
-            $('#questionPanel').fadeOut(400, function() {
-                $('#waitingPanel').fadeIn(400);
-            });
-        }
 
-    })
+        }
+    });
+
+    $('#startNewBtn').on('click', function() {
+        location.reload();
+    });
+
+    $(window).bind('beforeunload', function() {
+        if ($('#questionPanel').is(':visible') || $('#waitingPanel').is(':visible')) {
+            return 'Das Quiz läuft noch! Trotzdem die Seite neu laden?';
+        }
+    });
 
 });
