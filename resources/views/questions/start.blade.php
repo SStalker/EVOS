@@ -24,7 +24,7 @@
             </div>
 
             <div class="start-button">
-                <a id="start-button" class="btn btn-primary2" href="#">Starten</a>
+                <a id="start-button" class="btn btn-primary" href="#">Starten</a>
             </div>
         </div>
 
