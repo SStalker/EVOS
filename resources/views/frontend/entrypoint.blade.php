@@ -27,7 +27,7 @@
         <div id ="waitingPanel" class="container" style="display: none;">
             <img src="{{ asset('images/evos.png') }}" class="img-responsive" style="margin: auto;">
             <div id="loadingGif"><img src="{{asset('images/loading.gif')}}"></div>
-            <p>Quiz wird bald gestartet!</p>
+            <p>Frage wird geladen!</p>
         </div>
 
         <div id="questionPanel" class="container-fluid" style="display: none">
