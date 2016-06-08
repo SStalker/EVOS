@@ -31,7 +31,7 @@ Route::post('password/reset', 'Auth\PasswordController@reset');
 
 Route::get('/', 'AttendeeController@index');
 Route::get('/dashboard', function(){
-   return view('home');
+   return redirect('categories');
 });
 
 Route::get('/start', 'AttendeeController@index');
