@@ -29,4 +29,10 @@ class Question extends Model
     {
         return $this->hasMany('EVOS\Attendee');
     }
+
+    public function getCorrectAnswers()
+    {
+        $correctAnswers = json_decode($this->correct_answers, true);
+        return $correctAnswers;
+    }
 }

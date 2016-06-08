@@ -29,6 +29,11 @@ class User extends Authenticatable
         return $this->hasMany('EVOS\Category');
     }
 
+    public function shares()
+    {
+        return $this->hasMany('EVOS\Share');
+    }
+
     public function rootCategories()
     {
         return $this->hasMany('EVOS\Category')->where('parent_id', '=', '0')->get();

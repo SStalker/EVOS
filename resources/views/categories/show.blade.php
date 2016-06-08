@@ -58,7 +58,7 @@
                         <thead>
                         <tr>
                             <th>Quiz</th>
-                            <th style="width:30%">Aktionen</th>
+                            <th style="width:35%">Aktionen</th>
                         </tr>
                         </thead>
                         <tbody class="table-hover">
@@ -68,7 +68,7 @@
                                     <a href="{{ action('QuizController@show', [$category->id, $quiz->id]) }}">{{ $quiz->title }}</a>
                                 </td>
                                 <td>
-                                    {!! Form::open(['action' => ['QuizController@destroy', $category->id, $quiz->id], 'method' => 'delete']) !!}
+                                    {!! Form::open(['action' => ['QuizController@destroy', $category->id, $quiz->id], 'method' => 'delete', 'style' => 'display: inline-block']) !!}
                                     @if(!$quiz->questions->isEmpty())
                                         <a class="btn btn-primary"
                                            href="{!! action('QuizController@start', [$category->id, $quiz->id])!!}">Quiz
@@ -77,6 +77,10 @@
                                     <a class="btn btn-default"
                                        href="{!! action('QuizController@edit', [$category->id, $quiz->id])!!}">Bearbeiten</a>
                                     {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
+                                    {!! Form::close() !!}
+                                    {!! Form::open(['action' => ['ShareController@store'], 'method' => 'POST', 'style' => 'display: inline-block']) !!}
+                                    {!! Form::submit('Teilen', ['class'=>'btn btn-info']) !!}
+                                    {!! Form::hidden('quiz_id', $quiz->id) !!}
                                     {!! Form::close() !!}
                                 </td>
                             </tr>
