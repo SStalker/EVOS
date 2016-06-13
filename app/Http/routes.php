@@ -31,7 +31,7 @@ Route::post('password/reset', 'Auth\PasswordController@reset');
 
 Route::get('/', 'AttendeeController@index');
 Route::get('/dashboard', function(){
-   return view('home');
+   return redirect('categories');
 });
 
 Route::get('/start', 'AttendeeController@index');
@@ -46,6 +46,7 @@ Route::resource('categories', 'CategoryController');
 Route::resource('categories.quizzes', 'QuizController');
 Route::resource('quizzes.questions', 'QuestionController');
 Route::resource('attendee', 'AttendeeController');
+Route::resource('share', 'ShareController');
 
 
 
