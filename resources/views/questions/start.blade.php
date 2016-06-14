@@ -241,7 +241,7 @@
             var self = this;
             $.getJSON(next_route, function (data) {
                 // For every new question the server must be informed
-                this.question();
+                self.question();
 
                 self.duration = data.countdown;
                 correctAnswers = jQuery.parseJSON(data.correct_answers);
