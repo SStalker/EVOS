@@ -182,6 +182,10 @@
                 return false;
             }
 
+            if (self.duration <= 0) {
+                return;
+            }
+
             this.answer_count++;
             $('#answer-count').text(this.answer_count);
 
@@ -241,7 +245,7 @@
             $.getJSON(next_route, function (data) {
                 console.log(data);
 
-                this.duration = data.countdown;
+                self.duration = data.countdown;
                 correctAnswers = jQuery.parseJSON(data.correct_answers);
 
                 $('#questionTitle').text(data.question);
@@ -256,9 +260,9 @@
                 // Shows the countdown for the current question
                 var that = this;
                 this.countdown = setInterval(function () {
-                    that.duration--;
-                    if (that.duration > 0) {
-                        $('#countdown').text(that.duration);
+                    self.duration--;
+                    if (self.duration > 0) {
+                        $('#countdown').text(self.duration);
                     } else {
                         var percent_correct = 0;
                         var percent_incorrect = 0;
