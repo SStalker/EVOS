@@ -84,6 +84,15 @@ function processQuestion(data) {
     console.log('processQuestion');
     console.log(data);
 
+    //Just for Debug purposes for Smartphones (No Console available)
+    if ($('#nextQuestionAlert').hasClass('out')) {
+        $('#nextQuestionAlert').toggleClass('out').toggleClass('in');
+
+        setTimeout(function() {
+            $('#nextQuestionAlert').toggleClass('in').toggleClass('out')
+        }, 1000);
+    }
+    
     //Call function to get next question from Laravel server
     $.getJSON(appUrl+'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
         .done(function(response) {
@@ -209,6 +218,10 @@ $(document).ready(function() {
         if(enterName){
             enterName =false;
             name = $('#enterNameInput').val();
+            //provide a default name if no name is inserted
+            if (name == '') {
+                name = 'Anonym';
+            }
             $.ajax({
                 url: appUrl+'/attendee',
                 method: 'POST',
