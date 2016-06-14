@@ -87,6 +87,7 @@ function processQuestion(data) {
         .done(function(response) {
 
             toAnswer = true;
+            console.log(response["countdown"]);
             display = document.getElementById('countdown');
             display.setAttribute('aria-valuemax',response['countdown']);
             display.setAttribute('aria-valuemin','0');
