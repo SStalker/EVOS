@@ -128,14 +128,16 @@ function startTimer(duration, display) {
         display.setAttribute('aria-valuenow',seconds);
         display.style.width = percent+'%';
 
+
+        console.log(timer);
+        console.log(toAnswer);
+
         if (--timer < 0 || !toAnswer) {
             if(document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end){
                 $('#questionPanel').fadeOut(400, function() {
                     $('#waitingPanel').fadeIn(400);
                 });
             }
-            console.log(timer);
-            console.log(toAnswer);
             clearInterval(interval);
         }
     }, 1000);
