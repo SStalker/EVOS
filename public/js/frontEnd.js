@@ -50,14 +50,14 @@ function processMessage(data){
             case 'end': processEnd(dataArray);
                 break;
             default: console.log('default');
+                break;
         }
     }else{
         //error or something for undefined response;
     }
 }
 function processLogon(data){
-    //DEBUG
-    console.log('processLogon');
+
     if(data.successful != undefined){
         
         if(data.successful !== true) {
@@ -80,9 +80,6 @@ function processLogon(data){
 }
 
 function processQuestion(data) {
-    //DEBUG
-    console.log('processQuestion');
-    console.log(data);
 
     //Just for Debug purposes for Smartphones (No Console available)
     if ($('#nextQuestionAlert').hasClass('out')) {
@@ -111,8 +108,6 @@ function processQuestion(data) {
 
 function processEnd(data) {
     end = true;
-    //DEBUG
-    console.log('processEnd');
 
     if ($('#waitingPanel').is(':visible')) {
         $('#waitingPanel').fadeOut(400, function() {
@@ -253,7 +248,6 @@ $(document).ready(function() {
     $('.answer').click(function (event) {
 
         if (toAnswer){
-//            console.log(this.getAttribute('data-value'));
 
             var data = {
                 type: 'answer',
