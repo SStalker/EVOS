@@ -23,6 +23,7 @@ class AttendeeController extends Controller
     public function store(AttendeeRequest $request) {
         
         $request['session_token'] = Session::getId();
+        $request['name'] = 'Anonymer Alf';
         $justCreated = Attendee::create($request->all());
         if ($justCreated == null) {
             return 'error';

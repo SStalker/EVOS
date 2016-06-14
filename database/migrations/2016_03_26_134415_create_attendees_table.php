@@ -15,7 +15,7 @@ class CreateAttendeesTable extends Migration
         Schema::create('attendees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('quiz_id');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('session_token');
             $table->timestamps();
             $table->softDeletes();
