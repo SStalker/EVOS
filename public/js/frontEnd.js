@@ -218,10 +218,7 @@ $(document).ready(function() {
         if(enterName){
             enterName =false;
             name = $('#enterNameInput').val();
-            //provide a default name if no name is inserted
-            if (name == '') {
-                name = 'Anonym';
-            }
+
             $.ajax({
                 url: appUrl+'/attendee',
                 method: 'POST',

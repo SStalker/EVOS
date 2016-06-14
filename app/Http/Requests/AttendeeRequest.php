@@ -24,7 +24,6 @@ class AttendeeRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
             'quiz_id' => 'required'
         ];
     }
