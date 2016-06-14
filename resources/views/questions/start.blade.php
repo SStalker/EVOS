@@ -238,12 +238,10 @@
 
             this.questions_count++;
 
-            // For every new question the server must be informed
-            this.question();
-
             var self = this;
             $.getJSON(next_route, function (data) {
-                console.log(data);
+                // For every new question the server must be informed
+                this.question();
 
                 self.duration = data.countdown;
                 correctAnswers = jQuery.parseJSON(data.correct_answers);
