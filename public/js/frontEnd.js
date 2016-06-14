@@ -97,6 +97,7 @@ function processQuestion(data) {
     $.getJSON(appUrl+'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
         .done(function(response) {
 
+            toAnswer = true;
             display = document.getElementById('countdown');
             display.setAttribute('aria-valuemax',response['countdown']);
             display.setAttribute('aria-valuemin','0');
@@ -105,7 +106,6 @@ function processQuestion(data) {
             $('#waitingPanel').fadeOut(400, function() {
                 $('#questionPanel').fadeIn(400);
             });
-            toAnswer = true;
         });
 }
 
