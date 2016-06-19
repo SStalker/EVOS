@@ -79,7 +79,7 @@
                                     {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
                                     {!! Form::close() !!}
                                     {!! Form::open(['action' => ['ShareController@store'], 'method' => 'POST', 'style' => 'display: inline-block']) !!}
-                                    {!! Form::submit('Teilen', ['class'=>'btn btn-info']) !!}
+                                    {!! Form::submit('Teilen', ['data-toggle'=>'tooltip', 'class'=>'btn btn-info', 'title'=>'Dieses Quiz für andere Nutzer zur Verfügung stellen', 'data-placement'=>'left']) !!}
                                     {!! Form::hidden('quiz_id', $quiz->id) !!}
                                     {!! Form::close() !!}
                                 </td>
@@ -96,4 +96,12 @@
         </div>
     </div>
 
+    <script>
+        $( document ).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
 @endsection
+
+
