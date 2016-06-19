@@ -63,7 +63,7 @@
 </div>
 
 <div class="panel-footer">
-    {{ Form::submit($submitLabel, ['id'=>'formSubmit','class'=>'btn btn-primary', 'disabled']) }}
+    {{ Form::submit($submitLabel, ['data-toggle'=>'tooltip', 'id'=>'formSubmit','class'=>'btn btn-primary', 'disabled']) }}
 </div>
 
 <!-- Preview for questions and answers -->
@@ -110,12 +110,18 @@
         //Enable or disable the button
         if(answerA != "" && answerB != "" && isToggled){
             document.getElementById("formSubmit").disabled = false;
+            // delete tooltip
+            $('#formSubmit').attr('title', '');
         }else {
             document.getElementById("formSubmit").disabled = true;
+            // set tooltip
+            $('#formSubmit').attr('title', 'Nicht genügend Eingabedaten vorhanden.');
         }
     }
 
     $( document ).ready(function() {
+
+        $('[data-toggle="tooltip"]').tooltip();
 
         //Check if submit button should be enabled
         enableSubmit();
