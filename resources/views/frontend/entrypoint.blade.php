@@ -27,7 +27,7 @@
         <div id ="waitingPanel" class="container" style="display: none;">
             <img src="{{ asset('images/evos.png') }}" class="img-responsive" style="margin: auto;">
             <div id="loadingGif"><img src="{{asset('images/loading.gif')}}"></div>
-            <p>Frage wird geladen!</p>
+            <p>Bitte warten...</p>
 
             <!--Debug purpose for Smartphones (no console)-->
             <div class="alert alert-danger fade out text-center" id="nextQuestionAlert" style="margin-top: 15%">
