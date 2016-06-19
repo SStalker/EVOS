@@ -29,6 +29,10 @@ Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
 Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 Route::post('password/reset', 'Auth\PasswordController@reset');
 
+// ChangePassword routes
+Route::get('change_password', 'Auth\PasswordController@getChangePassword');
+Route::post('change_password', 'Auth\PasswordController@postChangePassword');
+
 Route::get('/', 'AttendeeController@index');
 Route::get('/dashboard', function(){
    return redirect('categories');
