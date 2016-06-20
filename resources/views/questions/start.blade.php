@@ -191,22 +191,22 @@
 
             // counts the correct and incorrect answers
             var chosenAnswer = message.answer[0];
-            if(correctAnswers.a && chosenAnswer == 'a'
-                || correctAnswers.b && chosenAnswer == 'b'
-                || correctAnswers.c && chosenAnswer == 'c'
-                || correctAnswers.d && chosenAnswer == 'd'){
+            if (correctAnswers.a && chosenAnswer == 'a'
+                    || correctAnswers.b && chosenAnswer == 'b'
+                    || correctAnswers.c && chosenAnswer == 'c'
+                    || correctAnswers.d && chosenAnswer == 'd') {
 
                 this.correctAnswers_count++;
-            }else{
+            } else {
                 this.incorrectAnswers_count++;
             }
 
             /*if(this.answer_count == this.attendee_count){
-                $('#next-button').fadeIn("slow");
-            }*/
+             $('#next-button').fadeIn("slow");
+             }*/
         };
 
-        SyncServer.prototype.handleDisconnect = function(message) {
+        SyncServer.prototype.handleDisconnect = function (message) {
             this.attendee_count--;
             $('#attendee-count').text(this.attendee_count);
         };
@@ -265,7 +265,7 @@
                         var percent_correct = 0;
                         var percent_incorrect = 0;
 
-                        if(self.answer_count != 0) {
+                        if (self.answer_count != 0) {
                             percent_correct = self.correctAnswers_count / self.answer_count * 100;
                             percent_incorrect = self.incorrectAnswers_count / self.answer_count * 100;
 
@@ -275,7 +275,7 @@
 
                         clearInterval(that.countdown);
 
-                        if(data.last == true) {
+                        if (data.last == true) {
                             self.end();
                             $('#end-button').fadeIn("slow");
                         } else {
@@ -329,13 +329,14 @@
             $('.quiz-question').hide();
             $('.quiz-end').hide();
 
-
+            var hasStarted = false;
             var syncServer = new SyncServer(url);
 
             $('#start-button').click(function () {
                 $('.quiz-normal').hide();
                 $('.quiz-question').show();
 
+                hasStarted = true;
                 syncServer.quiz();
             });
 
@@ -353,6 +354,20 @@
                 $('.quiz-question').fadeOut('slow', function () {
                     $('.quiz-end').fadeIn('slow');
                 });
+            });
+
+            // Prevent reload
+            $(window).on('beforeunload', function () {
+                if (hasStarted === true) {
+                    return 'Das Quiz läuft noch! Trotzdem die Seite neu laden?';
+                }
+            });
+
+            // Inform attendees that the quiz has ended.
+            $(window).on('unload', function () {
+                if (hasStarted === true) {
+                    syncServer.end();
+                }
             });
         });
     </script>
