@@ -94,8 +94,12 @@ function processQuestion(data) {
             toAnswer = true;
             display = document.getElementById('countdown');
             display.setAttribute('aria-valuemax',response['countdown']);
+            display.setAttribute('aria-valuenow',response['countdown']);
             display.setAttribute('aria-valuemin','0');
             startTimer(response["countdown"], display);
+
+            console.log('AOISHDOIAHSJOIDOIASD');
+            console.log(display);
 
             $('#waitingPanel').fadeOut(400, function() {
                 $('#questionPanel').fadeIn(400);
@@ -125,7 +129,7 @@ function startTimer(duration, display) {
     display.style.width = '100%';
 
     var interval = setInterval(function () {
-        seconds = parseInt(timer % 60, 10);
+        seconds = timer;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
         percent = seconds / (duration+1) * 100;
