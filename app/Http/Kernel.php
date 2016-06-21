@@ -47,6 +47,7 @@ class Kernel extends HttpKernel
         'auth' => \EVOS\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \EVOS\Http\Middleware\RedirectIfAuthenticated::class,
+        'admin' => \EVOS\Http\Middleware\AdminMiddleware::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

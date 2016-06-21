@@ -44,6 +44,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/categories') }}">Kategorien</a></li>
                     <li><a href="{{ url('/share') }}">Freigaben</a></li>
+                    <li><a href="{{ url('/users') }}" class="alert-danger">Benutzer</a></li>
                 </ul>
                 @if(Auth::user())
                     {{ Form::open(['url' => 'search', 'method' => 'GET', 'class' => 'input-group navbar-form navbar-left']) }}

@@ -51,6 +51,7 @@ Route::resource('categories.quizzes', 'QuizController');
 Route::resource('quizzes.questions', 'QuestionController');
 Route::resource('attendee', 'AttendeeController');
 Route::resource('share', 'ShareController');
+Route::resource('users', 'UserController');
 
 
 
