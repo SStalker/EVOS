@@ -6,7 +6,7 @@
             <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block" style="margin-bottom: 10%">
             <label class="control-label">Quiz PIN </label>
             <input id='quizPinInput' class="form-control">
-            <button id='quizPinBtn' class="btn btn-default center-block">Okay</button>
+            <button id='quizPinBtn' class="btn btn-default center-block">Weiter</button>
 
             <div class="alert alert-danger fade out text-center" id="quizAlert" style="margin-top: 15%">
                 Dieses Quiz existiert nicht.
@@ -17,7 +17,7 @@
             <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block" style="margin-bottom: 10%">
             <label class="control-label">Name </label>
             <input id='enterNameInput' class="form-control">
-            <button id='enterNameBtn' class="btn btn-default center-block">Okay</button>
+            <button id='enterNameBtn' class="btn btn-default center-block">Weiter</button>
 
             <div class="alert alert-danger fade out text-center" id="nameAlert" style="margin-top: 15%">
                 Name konnte nicht eingetragen werden.
