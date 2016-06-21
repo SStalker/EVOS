@@ -4,7 +4,7 @@
     <div class="wrapper">
         <div id="enterQuizPanel" class="container">
             <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block" style="margin-bottom: 10%">
-            <label class="control-label">Quiz PIN eingeben: </label>
+            <label class="control-label">Quiz PIN </label>
             <input id='quizPinInput' class="form-control">
             <button id='quizPinBtn' class="btn btn-default center-block">Okay</button>
 
@@ -15,7 +15,7 @@
 
         <div id ="enterNamePanel" class="container" style="display: none;">
             <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block" style="margin-bottom: 10%">
-            <label class="control-label">Namen eingeben: </label>
+            <label class="control-label">Name </label>
             <input id='enterNameInput' class="form-control">
             <button id='enterNameBtn' class="btn btn-default center-block">Okay</button>
 
