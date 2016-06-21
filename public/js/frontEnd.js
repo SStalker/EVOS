@@ -36,7 +36,7 @@ function sendToSyncServer(data) {
 function processMessage(data){
     //DEBUG
     console.log(data);
-    
+
     //Parse JSON to Object
     var dataArray = JSON.parse(data);
 
@@ -59,7 +59,7 @@ function processMessage(data){
 function processLogon(data){
 
     if(data.successful != undefined){
-        
+
         if(data.successful !== true) {
             //error, not registered for quiz
             if (data.reason != undefined){
@@ -86,8 +86,12 @@ function processQuestion(data) {
     $.getJSON(appUrl+'/categories/'+quizObj.category_id+'/quizzes/'+quizObj.id+'/choices')
         .done(function(response) {
 
+            response['answerA'] ? $('#answerA').parent().show() : $('#answerA').parent().hide();
+            response['answerB'] ? $('#answerB').parent().show() : $('#answerB').parent().hide();
+            response['answerC'] ? $('#answerC').parent().show() : $('#answerC').parent().hide();
+            response['answerD'] ? $('#answerD').parent().show() : $('#answerD').parent().hide();
+
             toAnswer = true;
-            console.log(response);
             display = document.getElementById('countdown');
             display.setAttribute('aria-valuemax',response['countdown']);
             display.setAttribute('aria-valuemin','0');
@@ -128,10 +132,6 @@ function startTimer(duration, display) {
 
         display.setAttribute('aria-valuenow',seconds);
         display.style.width = percent+'%';
-
-
-        console.log(timer);
-        console.log(toAnswer);
 
         if (--timer < 0 || !toAnswer) {
             if(document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end){

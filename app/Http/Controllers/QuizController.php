@@ -182,12 +182,14 @@ class QuizController extends Controller
         $questions = $quizzes->questions;
         $questionsCounter = $quizzes->questionsCounter-1;
 
-        //$question = $questions->get($questionsCounter);
-        //$question['correct_answers'] = null;
-
-
-        $countdown = $questions->get($questionsCounter)['countdown'];
-        $question = [ 'countdown' => $countdown ];
+        $q = $questions->get($questionsCounter);
+        $question = [
+            'countdown' => $q['countdown'],
+            'answerA' => !empty($q['answerA']),
+            'answerB' => !empty($q['answerB']),
+            'answerC' => !empty($q['answerC']),
+            'answerD' => !empty($q['answerD']),
+        ];
 
         return $question;
     }
