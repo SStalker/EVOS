@@ -322,6 +322,8 @@
             };
 
             this.sendMessage(endMessage);
+
+            window.onbeforeunload = null;
         }
 
         $(function () {
@@ -356,19 +358,13 @@
                 });
             });
 
-            // Prevent reload
-            $(window).on('beforeunload', function () {
-                if (hasStarted === true) {
-                    return 'Das Quiz läuft noch! Trotzdem die Seite neu laden?';
-                }
-            });
-
             // Inform attendees that the quiz has ended.
-            $(window).on('unload', function () {
+            window.onbeforeunload = function () {
                 if (hasStarted === true) {
                     syncServer.end();
+                    return 'Das Quiz läuft noch! Trotzdem die Seite neu laden?';
                 }
-            });
+            };
         });
     </script>
 
