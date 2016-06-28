@@ -71,6 +71,13 @@
                                         <a class="btn btn-primary"
                                            href="{!! action('QuizController@start', [$category->id, $quiz->id])!!}">Quiz
                                             starten</a>
+                                    @else
+                                        <a class="btn btn-primary"
+                                           href="{!! action('QuizController@start', [$category->id, $quiz->id])!!}"
+                                           data-toggle="tooltip" data-placement="left"
+                                           title="Das Quiz enthält keine Fragen und kann daher nicht gestartet werden."
+                                           disabled>Quiz
+                                            starten</a>
                                     @endif
                                     <a class="btn btn-default"
                                        href="{!! action('QuizController@edit', [$category->id, $quiz->id])!!}">Bearbeiten</a>
@@ -81,6 +88,10 @@
                                         {!! Form::submit('Teilen', ['data-toggle'=>'tooltip', 'class'=>'btn btn-info', 'title'=>'Dieses Quiz für andere Nutzer zur Verfügung stellen', 'data-placement'=>'left']) !!}
                                         {!! Form::hidden('quiz_id', $quiz->id) !!}
                                         {!! Form::close() !!}
+                                    @else
+                                        <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="left"
+                                           title="Das Quiz enthält keine Fragen und kann daher nicht geteilt werden."
+                                           disabled>Teilen</a>
                                     @endif
                                 </td>
                             </tr>
