@@ -17,7 +17,7 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
         if(!Auth::user()->isAdmin) {
-            redirect(action('CategoryController@index'))
+            return redirect(action('CategoryController@index'))
                 ->withErrors(['Keine Berechtigung!']);
         }
         return $next($request);
