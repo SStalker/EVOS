@@ -27,9 +27,8 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Titel</th>
-                            <th>Besitzer</th>
-                            <th style="width:30%">Aktionen</th>
+                            <th style="min-width: 130px;">Unterkategorie</th>
+                            <th style="width:30%; min-width: 260px;">Aktionen</th>
                         </tr>
                         </thead>
                         <tbody class="table-hover">
@@ -38,7 +37,6 @@
                                 <td>
                                     <a href="{{ action('CategoryController@show', [$childCategory->id]) }}">{{ $childCategory->title }}</a>
                                 </td>
-                                <td>{{ $childCategory->user->name }}</td>
                                 <td>
 
                                     {{ Form::open(['action' => ['CategoryController@destroy', $childCategory->id], 'method' => 'delete']) }}
@@ -57,8 +55,8 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Quiz</th>
-                            <th style="width:35%">Aktionen</th>
+                            <th style="min-width: 130px;">Quiz</th>
+                            <th style="width:30%; min-width: 260px;">Aktionen</th>
                         </tr>
                         </thead>
                         <tbody class="table-hover">
