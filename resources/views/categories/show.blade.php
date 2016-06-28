@@ -75,11 +75,13 @@
                                     <a class="btn btn-default"
                                        href="{!! action('QuizController@edit', [$category->id, $quiz->id])!!}">Bearbeiten</a>
                                     {!! Form::submit('Löschen', ['class'=>'btn btn-danger']) !!}
-                                    {!! Form::close() !!}
-                                    {!! Form::open(['action' => ['ShareController@store'], 'method' => 'POST', 'style' => 'display: inline-block']) !!}
-                                    {!! Form::submit('Teilen', ['data-toggle'=>'tooltip', 'class'=>'btn btn-info', 'title'=>'Dieses Quiz für andere Nutzer zur Verfügung stellen', 'data-placement'=>'left']) !!}
-                                    {!! Form::hidden('quiz_id', $quiz->id) !!}
-                                    {!! Form::close() !!}
+                                    @if(!$quiz->questions->isEmpty())
+                                        {!! Form::close() !!}
+                                        {!! Form::open(['action' => ['ShareController@store'], 'method' => 'POST', 'style' => 'display: inline-block']) !!}
+                                        {!! Form::submit('Teilen', ['data-toggle'=>'tooltip', 'class'=>'btn btn-info', 'title'=>'Dieses Quiz für andere Nutzer zur Verfügung stellen', 'data-placement'=>'left']) !!}
+                                        {!! Form::hidden('quiz_id', $quiz->id) !!}
+                                        {!! Form::close() !!}
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -95,7 +97,7 @@
     </div>
 
     <script>
-        $( document ).ready(function() {
+        $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
