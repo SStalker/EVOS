@@ -90,19 +90,35 @@ function processQuestion(data) {
     $.getJSON(appUrl + '/categories/' + quizObj.category_id + '/quizzes/' + quizObj.id + '/choices')
         .done(function (response) {
 
-            response['answerA'] ? $('#answerA').parent().show() : $('#answerA').parent().hide();
-            response['answerB'] ? $('#answerB').parent().show() : $('#answerB').parent().hide();
-            response['answerC'] ? $('#answerC').parent().show() : $('#answerC').parent().hide();
-            response['answerD'] ? $('#answerD').parent().show() : $('#answerD').parent().hide();
+            if(response['answerA']) {
+                $('#answerA').parent().show();
+                $('#answerA .panel-body').text(response['answerA']);
+            }else{ $('#answerA').parent().hide(); }
+
+            if(response['answerB']) {
+                $('#answerB').parent().show();
+                $('#answerB .panel-body').text(response['answerB']);
+            }else{ $('#answerB').parent().hide(); }
+
+            if(response['answerC']) {
+                $('#answerC').parent().show();
+                $('#answerC .panel-body').text(response['answerC']);
+            }else{ $('#answerC').parent().hide(); }
+
+            if(response['answerD']) {
+                $('#answerD').parent().show()
+                $('#answerD .panel-body').text(response['answerD']);
+            }else{ $('#answerD').parent().hide(); }
+
 
             toAnswer = true;
-            display = document.getElementById('countdown');
+            var display = document.getElementById('countdown');
             display.setAttribute('aria-valuemax', response['countdown']);
             display.setAttribute('aria-valuenow', response['countdown']);
             display.setAttribute('aria-valuemin', '0');
             startTimer(response["countdown"], display);
 
-            console.log(display);
+            console.log(response);
 
             $('#waitingPanel').fadeOut(400, function () {
                 $('#questionPanel').fadeIn(400);
