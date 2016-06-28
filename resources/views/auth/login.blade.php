@@ -16,7 +16,7 @@
                             <label class="col-md-4 control-label">E-Mail-Addresse</label>
 
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                <input id="emailInput" type="email" class="form-control" name="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -65,4 +65,9 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $("#emailInput").focus();
+    })
+</script>
 @endsection

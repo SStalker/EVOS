@@ -157,6 +157,8 @@ function onReturn(name, event) {
 
 $(document).ready(function() {
 
+    $("#quizPinInput").focus();
+
     var quizPin;
     var jqXhr;
     var name;
@@ -198,6 +200,7 @@ $(document).ready(function() {
                     console.log(quizObj);
                     $('#enterQuizPanel').fadeOut(400, function () {
                         $('#enterNamePanel').fadeIn(400);
+                        $("#enterNameInput").focus();
                     });
                 }
             })

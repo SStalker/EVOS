@@ -121,6 +121,8 @@
 
     $( document ).ready(function() {
 
+        $("#questionInput").focus();
+
         $('[data-toggle="tooltip"]').tooltip();
 
         //Check if submit button should be enabled
