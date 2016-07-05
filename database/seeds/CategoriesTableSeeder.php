@@ -13,12 +13,14 @@ class CategoriesTableSeeder extends Seeder
     {
         DB::table('categories')->insert([
             'title' => 'Mathe',
-            'user_id' => 1
+            'user_id' => 1,
+            'parent_id' => null
         ]);
 
         DB::table('categories')->insert([
             'title' => 'Mathematik für E - Beispiele',
-            'user_id' => 1
+            'user_id' => 1,
+            'parent_id' => null
         ]);
     }
 }

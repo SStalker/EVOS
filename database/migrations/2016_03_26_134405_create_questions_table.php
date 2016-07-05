@@ -14,7 +14,7 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quiz_id');
+            $table->integer('quiz_id')->unsigned();
             $table->text('question');
             $table->text('answerA');
             $table->text('answerB');
@@ -24,7 +24,6 @@ class CreateQuestionsTable extends Migration
             $table->integer('countdown')->default(30);
             $table->boolean('isActive')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

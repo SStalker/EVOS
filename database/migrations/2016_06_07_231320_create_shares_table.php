@@ -17,7 +17,6 @@ class CreateSharesTable extends Migration
             $table->integer('user_id');
             $table->integer('quiz_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
