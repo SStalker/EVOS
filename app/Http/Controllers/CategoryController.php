@@ -122,4 +122,19 @@ class CategoryController extends Controller
         return redirect('categories')
             ->with('message', 'Kategorie wurde gelöscht!');
     }
+
+    public function move(Category $categories)
+    {
+        $rootCategories = Auth::user()->rootCategories();
+
+        $data = Auth::user()->list_categories($rootCategories);
+
+
+        dd($data);
+
+        return view('categories.move')
+            ->with('category', $categories)
+            ->with('recursiveCategories', $rootCategories)
+            ->with('parent_id', $categories->parent_id);
+    }
 }
