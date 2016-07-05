@@ -13,6 +13,8 @@
                    style="display:none;" data-target="question">
             Bild anhängen
         </label>
+        <a class="btn btn-default addcode" id="insert-source-code" style="margin-top: -7px;" href="#">Quellcode
+            einfügen</a>
     </div>
     <div class="form-group">
         <label for="answerA">1. Antwortmöglichkeit</label>
@@ -150,14 +152,21 @@
         $(".preview").click(function () {
             var id = $(this).data('preview');
             var text = $("#" + id).val();
-            console.log(text);
 
             var images = text.match(/\[image\((\d+\.[A-Za-z]{1,4})\)\]/g);
-            images.forEach(function (image) {
-                var matches = image.match(/.*\((\d+\.[A-Za-z]{1,4})\).*/);
-                var html = '<img src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
-                text = text.replace(matches[0], html);
-            });
+            if (images != null) {
+                images.forEach(function (image) {
+                    var matches = image.match(/.*\((\d+\.[A-Za-z]{1,4})\).*/);
+                    var html = '<img src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
+                    text = text.replace(matches[0], html);
+                });
+            }
+
+            // for some reason matching over multiple lines doesn't work... So we'll go a different way solving this issue.
+
+            text = text.replace(/\[code\]/g, '<pre><code>');
+            text = text.replace(/\[\/code\]/g, '</code></pre>');
+
             $(".modal-body").html(text);
 
             window.setTimeout(function () {
@@ -195,6 +204,13 @@
                     $(that).parent().removeClass('disabled');
                 }
             });
+        });
+
+        $('#insert-source-code').on('click', function () {
+            if ($('#questionInput').val().length > 0) {
+                $('#questionInput').val($('#questionInput').val() + '\n');
+            }
+            $('#questionInput').val($('#questionInput').val() + '[code]\nFügen Sie ihren Quellcode hier ein!\n[/code]');
         });
     });
 </script>
