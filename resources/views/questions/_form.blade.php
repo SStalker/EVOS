@@ -163,7 +163,6 @@
             }
 
             // for some reason matching over multiple lines doesn't work... So we'll go a different way solving this issue.
-
             text = text.replace(/\[code\]/g, '<pre><code>');
             text = text.replace(/\[\/code\]/g, '</code></pre>');
 
