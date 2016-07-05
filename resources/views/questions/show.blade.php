@@ -31,11 +31,12 @@
             &raquo;
             <a href="{!! action('QuizController@show', [$question->quiz->category->id, $question->quiz->id]) !!}">{!! $question->quiz->title !!}</a>
             &raquo;
-            <a href="{!! action('QuestionController@show', [$question->quiz->category->id, $question->id]) !!}">{!! $question->question !!}</a>
+            <a href="{!! action('QuestionController@show', [$question->quiz->category->id, $question->id]) !!}">{!! $question->title !!}</a>
         </div>
 
         <div class="panel-body">
-            <div class="container-fluid">
+            <div style="font-size: 130%; margin-bottom: 2em;">{{ $question->question }}</div>
+            <div class="container-fluid" style="margin-bottom: 1em">
                 <div class="row answer">
                     <div class="col-md-6 {{ $question->answerABool ? 'correct-answer' : 'incorrect-answer' }}">{{ $question->answerA }}</div>
                     <div class="col-md-6 {{ $question->answerBBool ? 'correct-answer' : 'incorrect-answer' }}">{{ $question->answerB }}</div>
@@ -52,7 +53,7 @@
                 @endif
             </div>
 
-            Countdown: {{ $question->countdown }}
+            <div>Countdown: {{ $question->countdown }}</div>
         </div>
     </div>
 

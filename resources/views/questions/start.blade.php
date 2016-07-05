@@ -29,7 +29,8 @@
         </div>
 
         <div id="question" class="quiz-question">
-            <h1 id="questionTitle"></h1>
+            <h1 id="questionTitle" style="color: #999999;"></h1>
+            <div id="questionBody" style="font-size: 2em; margin-bottom: 2em"></div>
             <table id="question-answers" class="table table-bordered">
                 <tbody>
                 <tr style="height:150px; text-align: center; font-size: 24px;">
@@ -246,7 +247,8 @@
                 self.duration = data.countdown;
                 correctAnswers = jQuery.parseJSON(data.correct_answers);
 
-                $('#questionTitle').text(data.question);
+                $('#questionTitle').text(data.title);
+                $('#questionBody').text(data.question);
                 $('#answerA').text(data.answerA || '');
                 $('#answerB').text(data.answerB || '');
                 $('#answerC').text(data.answerC || '');

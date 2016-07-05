@@ -1,6 +1,10 @@
 <div class="panel-body">
     <div class="form-group">
-        <label for="question">Frage</label>
+        <label for="title">Frage</label>
+        {{ Form::text('title', null, ['class' => 'form-control']) }}
+    </div>
+    <div class="form-group">
+        <label for="question">Details</label>
         {{ Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 3]) }} <br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="questionInput">Vorschau</a>
@@ -11,7 +15,7 @@
         </label>
     </div>
     <div class="form-group">
-        <label for="answerA">Antwort 1</label>
+        <label for="answerA">1. Antwortmöglichkeit</label>
         {{ Form::text('answerA', null, ['id' => 'answerA', 'class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerA">Vorschau</a>
@@ -25,7 +29,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="answerB">Antwort 2</label>
+        <label for="answerB">2. Antwortmöglichkeit</label>
         {{ Form::text('answerB', null, ['id' => 'answerB','class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerB">Vorschau</a>
@@ -39,7 +43,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="answerC">Antwort 3</label>
+        <label for="answerC">3. Antwortmöglichkeit</label>
         {{ Form::text('answerC', null, ['id' => 'answerC', 'class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerC">Vorschau</a>
@@ -53,7 +57,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="answerD">Antwort 4</label>
+        <label for="answerD">4. Antwortmöglichkeit</label>
         {{ Form::text('answerD', null, ['id' => 'answerD', 'class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerD">Vorschau</a>
