@@ -43,7 +43,7 @@
                                         ändern</a>
 
                                     <a class="btn btn-primary"
-                                       href="{{ action('CategoryController@move', [$category->id]) }}"
+                                       href="{{ action('CategoryController@getMove', [$category->id]) }}"
                                        data-toggle="tooltip" data-placement="left"
                                        title="Gibt die Möglichkeit die Kategorie zu verschieben.">Verschieben</a>
                                     {{ Form::submit('Löschen', ['class'=>'btn btn-danger', 'data-toggle' => 'tooltip', 'data-placement' => 'left', 'title' => 'Löscht die ausgewählte Kategorie']) }}

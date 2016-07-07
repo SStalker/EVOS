@@ -53,10 +53,19 @@ class CategoryController extends Controller
     {
         $request['user_id'] = Auth::id();
 
-        if( empty($request['parent_id']) )
+        if( empty($request['parent_id']) ){
             $request['parent_id'] = null;
+            $category = Category::create($request->all());
+
+            return redirect('/categories/'.$category->id)
+                ->with('message', 'Kategorie wurde angelegt!');
+        }
+
+        $parent = Category::findOrFail($request['parent_id']);
+
 
         $category = Category::create($request->all());
+        $category->makeChildOf($parent);
 
         return redirect('/categories/'.$category->id)
             ->with('message', 'Kategorie wurde angelegt!');
@@ -123,18 +132,40 @@ class CategoryController extends Controller
             ->with('message', 'Kategorie wurde gelöscht!');
     }
 
-    public function move(Category $categories)
+    public function getMove(Category $categories)
     {
         $rootCategories = Auth::user()->rootCategories();
+        $text = '<ul>';
 
-        $data = Auth::user()->list_categories($rootCategories);
+        foreach($rootCategories as $child)
+            $text .= Auth::user()->renderNode($child);
+
+        $text .= '</ul>';
 
 
-        dd($data);
+        //echo($text);
 
         return view('categories.move')
             ->with('category', $categories)
-            ->with('recursiveCategories', $rootCategories)
+            ->with('recursiveCategories', $text)
             ->with('parent_id', $categories->parent_id);
+    }
+
+    public function postMove(Request $request, Category $categories){
+
+        $currentID = $request['currentID'];
+        $parentID = $request['parentID'];
+
+        $currentCategory = Category::findOrFail($currentID);
+
+        if($parentID == 0){
+            $currentCategory->makeRoot();
+            return;
+        }
+
+
+        $parentCategory = Category::findOrFail($parentID);
+
+        $currentCategory->makeChildOf($parentCategory);
     }
 }

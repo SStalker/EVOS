@@ -36,38 +36,27 @@ class User extends Authenticatable
 
     public function rootCategories()
     {
-        return $this->hasMany('EVOS\Category')->where('parent_id', '=', null)->get();
+        return Category::roots()->get();
     }
 
-    public function list_categories($categories, $depth = 0)
-    {
-        $data = [];
+    function renderNode(Category $node) {
 
-        foreach($categories as $category)
-        {
-            $data[] = [
-                'name' => $category->title . str_repeat("--", $depth),
-                'children' => $this->list_categories($category->children, $depth++),
-            ];
-        }
+        if( $node->children()->get()->isEmpty() ) {
 
-        return $data;
-    }
+                return '<li category_id="'.$node['id'].'">' . $node['title'] . '</li>';
 
-    function toSelect($arr, $depth = 0) {
+        } else {
 
-        $html = '';
+                $html = '<li category_id="'.$node['id'].'">' . $node['title'];
+                $html .= '<ul>';
 
-        foreach ( $arr as $v ) {
+                foreach ($node['children'] as $child)
+                    $html .= $this->renderNode($child);
 
-            $html.= '<option>' . str_repeat("--", $depth) . $v['title'] . '</option>' . PHP_EOL;
-
-
-            $html.= $this->toSelect($v->children, $depth++);
-
+                $html .= '</ul>';
+                $html .= '</li>';
 
         }
-
 
         return $html;
     }

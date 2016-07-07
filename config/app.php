@@ -156,6 +156,7 @@ return [
         EVOS\Providers\EventServiceProvider::class,
         EVOS\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Baum\Providers\BaumServiceProvider::class,
 
     ],
 
