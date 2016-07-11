@@ -35,7 +35,7 @@
         </div>
 
         <div class="panel-body">
-            <div style="font-size: 130%; margin-bottom: 2em;">{{ $question->question }}</div>
+            <div style="font-size: 130%; margin-bottom: 2em;" id="question-body">{{ $question->question }}</div>
             <div class="container-fluid" style="margin-bottom: 1em">
                 <div class="row answer">
                     <div class="col-md-6 {{ $question->answerABool ? 'correct-answer' : 'incorrect-answer' }}">{{ $question->answerA }}</div>
@@ -56,5 +56,24 @@
             <div>Countdown: {{ $question->countdown }}</div>
         </div>
     </div>
+
+    <script>
+        $(function () {
+            var questionBody = $('#question-body').text();
+            var images = questionBody.match(/\[image\((\d+\.[A-Za-z]{1,4})\)\]/g);
+            if (images != null) {
+                images.forEach(function (image) {
+                    var matches = image.match(/.*\((\d+\.[A-Za-z]{1,4})\).*/);
+                    var html = '<img src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
+                    questionBody = questionBody.replace(matches[0], html);
+                });
+            }
+
+            // for some reason matching over multiple lines doesn't work... So we'll go a different way solving this issue.
+            questionBody = questionBody.replace(/\[code\]/g, '<pre><code>');
+            questionBody = questionBody.replace(/\[\/code\]/g, '</code></pre>');
+            $('#question-body').html(questionBody);
+        })
+    </script>
 
 @endsection
