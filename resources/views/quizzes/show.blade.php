@@ -36,7 +36,7 @@
                         @foreach($quiz->questions as $question)
                             <tr>
                                 <td>
-                                    <a href="{!! action('QuestionController@show', [$quiz->id, $question->id]) !!}">{!! $question->question !!}</a>
+                                    <a href="{!! action('QuestionController@show', [$quiz->id, $question->id]) !!}">{!! $question->title !!}</a>
                                 </td>
                                 <td>
                                     {{ Form::open(['action' => ['QuestionController@destroy', $quiz->id, $question->id], 'method' => 'delete']) }}

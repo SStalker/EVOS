@@ -29,7 +29,8 @@
         </div>
 
         <div id="question" class="quiz-question">
-            <h1 id="questionTitle"></h1>
+            <h1 id="questionTitle" style="color: #999999;"></h1>
+            <div id="questionBody" style="font-size: 2em; margin-bottom: 2em"></div>
             <table id="question-answers" class="table table-bordered">
                 <tbody>
                 <tr style="height:150px; text-align: center; font-size: 24px;">
@@ -246,11 +247,26 @@
                 self.duration = data.countdown;
                 correctAnswers = jQuery.parseJSON(data.correct_answers);
 
-                $('#questionTitle').text(data.question);
+                $('#questionTitle').text(data.title);
+
                 $('#answerA').text(data.answerA || '');
                 $('#answerB').text(data.answerB || '');
                 $('#answerC').text(data.answerC || '');
                 $('#answerD').text(data.answerD || '');
+
+                var images = data.question.match(/\[image\((\d+\.[A-Za-z]{1,4})\)\]/g);
+                if (images != null) {
+                    images.forEach(function (image) {
+                        var matches = image.match(/.*\((\d+\.[A-Za-z]{1,4})\).*/);
+                        var html = '<img src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
+                        data.question = data.question.replace(matches[0], html);
+                    });
+                }
+
+                // for some reason matching over multiple lines doesn't work... So we'll go a different way solving this issue.
+                data.question = data.question.replace(/\[code\]/g, '<pre><code>');
+                data.question = data.question.replace(/\[\/code\]/g, '</code></pre>');
+                $('#questionBody').text(data.question);
 
                 // MathJax refresh
                 MathJax.Hub.Typeset();
