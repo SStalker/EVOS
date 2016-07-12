@@ -28,7 +28,6 @@ websocket.onmessage = function (event) {
 };
 
 function sendToSyncServer(data) {
-    console.log('send');
     websocket.send(JSON.stringify(data));
 }
 
@@ -93,21 +92,25 @@ function processQuestion(data) {
             if(response['answerA']) {
                 $('#answerA').parent().show();
                 $('#answerA .panel-body').text(response['answerA']);
+                $('#answerA .panel-body').attr("data-value", response['answerA']);
             }else{ $('#answerA').parent().hide(); }
 
             if(response['answerB']) {
                 $('#answerB').parent().show();
                 $('#answerB .panel-body').text(response['answerB']);
+                $('#answerB .panel-body').attr("data-value", response['answerB']);
             }else{ $('#answerB').parent().hide(); }
 
             if(response['answerC']) {
                 $('#answerC').parent().show();
                 $('#answerC .panel-body').text(response['answerC']);
+                $('#answerC .panel-body').attr("data-value", response['answerC']);
             }else{ $('#answerC').parent().hide(); }
 
             if(response['answerD']) {
                 $('#answerD').parent().show()
                 $('#answerD .panel-body').text(response['answerD']);
+                $('#answerD .panel-body').attr("data-value", response['answerD']);
             }else{ $('#answerD').parent().hide(); }
 
 
@@ -186,9 +189,9 @@ $(document).ready(function () {
     var jqXhr;
     var name;
     var enterName = true;
+    var clickedAnswer = '';
 
     if(WebSocket !== undefined){
-
 
         $("#quizPinInput").keypress(function (event) {
             onReturn('quizPinBtn', event);
@@ -283,6 +286,9 @@ $(document).ready(function () {
                     answer: [this.getAttribute('data-value')]
                 };
 
+                //save the look of the clicked box for displaying purposes
+                clickedAnswer = $('div[data-value='+data.answer+'] .panel-body').attr('data-value');
+                console.log(clickedAnswer);
                 sendToSyncServer(data);
                 toAnswer = false;
 
