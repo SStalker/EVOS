@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use EVOS\Category;
 
 class CategoriesTableSeeder extends Seeder
 {
@@ -11,16 +12,11 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->insert([
-            'title' => 'Mathe',
-            'user_id' => 1,
-            'parent_id' => null
-        ]);
+        $categories = [
+            ['title' => 'Mathe', 'user_id' => 1],
+            ['title' => 'Mathematik für E - Beispiele', 'user_id' => 1]
+        ];
 
-        DB::table('categories')->insert([
-            'title' => 'Mathematik für E - Beispiele',
-            'user_id' => 1,
-            'parent_id' => null
-        ]);
+        Category::buildTree($categories);
     }
 }
