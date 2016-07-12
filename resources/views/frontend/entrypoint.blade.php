@@ -46,23 +46,23 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 ">
+                <div class="col-md-6 answer-cell">
                     <div id="answerA" data-value="a" class="answer panel panel-default">
                         <div class="panel-body"> A</div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 answer-cell">
                     <div id="answerB" data-value="b" class="answer panel panel-default">
                         <div class="panel-body"> B</div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-md-6 ">
+                <div class="col-md-6 answer-cell">
                     <div id="answerC" data-value="c" class="answer panel panel-default">
                         <div class="panel-body"> C</div>
                     </div>
                 </div>
-                <div class="col-md-6 ">
+                <div class="col-md-6 answer-cell">
                     <div id="answerD" data-value="d" class="answer panel panel-default">
                         <div class="panel-body"> D</div>
                     </div>

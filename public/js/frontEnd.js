@@ -119,14 +119,17 @@ function processQuestion(data) {
             startTimer(response["countdown"], display);
 
             console.log(response);
-                
+
             window.setTimeout(function () {
                 MathJax.Hub.Typeset();
+                buttonResize();
             }, 1000);
 
             $('#waitingPanel').fadeOut(400, function () {
                 $('#questionPanel').fadeIn(400);
             });
+
+
         });
 }
 
@@ -177,6 +180,19 @@ function onReturn(name, event) {
     }
 }
 
+function buttonResize() {
+    var maxHeight = 0;
+    var allButtons = $('.answer-cell');
+    allButtons.each(function () {
+        var height = $(this).outerHeight();
+        maxHeight = height > maxHeight ? height : maxHeight;
+
+    });
+
+    $('.answer-cell .panel').height(maxHeight);
+
+
+}
 
 $(document).ready(function () {
 
