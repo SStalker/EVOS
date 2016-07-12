@@ -39,7 +39,7 @@
         <div id="questionPanel" class="container-fluid" style="display: none">
 
             <div class="logoTimer">
-                <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block">
+                <!--img src="{{ asset('images/evos.png') }}" class="img-responsive center-block"-->
                 <div class="progress center-block">
                     <div id="countdown" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0"
                          aria-valuemin="0" aria-valuemax="1" style="width: 100%"></div>
