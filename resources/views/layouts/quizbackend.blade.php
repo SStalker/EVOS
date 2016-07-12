@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/frontEndUser.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/frontEnd.css') }}" rel="stylesheet">
     <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
 
     <!-- JavaScripts -->

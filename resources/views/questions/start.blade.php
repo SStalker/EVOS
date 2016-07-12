@@ -22,8 +22,8 @@
         </div>
 
         <div id="question" class="quiz-question">
-            <h1 id="questionTitle" style="color: #999999;"></h1>
-            <div id="questionBody" style="font-size: 2em; margin-bottom: 2em"></div>
+            <h1 id="questionTitle"></h1>
+            <div id="questionBody"></div>
             <table id="question-answers" class="table table-bordered">
                 <tbody>
                 <tr style="height:150px; text-align: center; font-size: 24px;">
@@ -37,8 +37,8 @@
                 </tbody>
             </table>
 
-            <h3>Antworten: <span id="answer-count">0</span></h3>
-            <h3>Verbleibende Zeit: <span id="countdown"></span></h3>
+            <div id="questionAnswers">Antworten: <span id="answer-count">0</span></div>
+            <div id="questionTime">Zeit: <span id="countdown"></span></div>
 
             <div class="next-button">
                 <a id="next-button" class="btn btn-primary" href="#" style="display: none;">Nächste Frage</a>
