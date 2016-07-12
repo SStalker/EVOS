@@ -169,11 +169,6 @@ $(document).ready(function () {
 
     if(WebSocket !== undefined){
 
-        var quizPin;
-        var jqXhr;
-        var name;
-        var enterName = true;
-
 
         $("#quizPinInput").keypress(function (event) {
             onReturn('quizPinBtn', event);
