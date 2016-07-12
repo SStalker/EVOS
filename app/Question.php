@@ -7,11 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
-    use SoftDeletes;
-
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['quiz_id','question', 'answerA', 'answerB', 'answerC', 'answerD', 'countdown', 'correct_answers'];
+    protected $fillable = ['quiz_id', 'title', 'question', 'answerA', 'answerB', 'answerC', 'answerD', 'countdown', 'correct_answers'];
 
     protected $hidden = ['id', 'isActive', 'created_at', 'updated_at', 'deleted_at', 'quiz_id'];
 

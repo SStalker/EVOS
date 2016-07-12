@@ -176,6 +176,13 @@ function onReturn(name, event) {
 
 $(document).ready(function () {
 
+    $("#quizPinInput").focus();
+
+    var quizPin;
+    var jqXhr;
+    var name;
+    var enterName = true;
+
     if(WebSocket !== undefined){
 
         var quizPin;
@@ -227,6 +234,23 @@ $(document).ready(function () {
                     if ($('#quizAlert').hasClass('out')) {
                         $('#quizAlert').toggleClass('out').toggleClass('in');
                     }
+<<<<<<< HEAD
+                } else {
+                    quizObj = response;
+                    console.log(quizObj);
+                    $('#enterQuizPanel').fadeOut(400, function () {
+                        $('#enterNamePanel').fadeIn(400);
+                        $("#enterNameInput").focus();
+                    });
+                }
+            })
+            .fail(function() {
+
+                if ($('#quizAlert').hasClass('out')) {
+                    $('#quizAlert').toggleClass('out').toggleClass('in');
+                }
+=======
+>>>>>>> origin/master
 
                 });
         });

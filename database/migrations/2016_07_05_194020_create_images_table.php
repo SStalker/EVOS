@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSharesTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,11 @@ class CreateSharesTable extends Migration
      */
     public function up()
     {
-        Schema::create('shares', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->integer('quiz_id');
+            $table->string('original_filename');
+            $table->string('filename')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateSharesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('shares');
+        Schema::drop('images');
     }
 }

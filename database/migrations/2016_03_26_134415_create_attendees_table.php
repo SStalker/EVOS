@@ -18,7 +18,6 @@ class CreateAttendeesTable extends Migration
             $table->string('name')->nullable();
             $table->string('session_token');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

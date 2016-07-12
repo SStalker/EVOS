@@ -18,7 +18,6 @@ class CreateAttendeeQuestionTable extends Migration
             $table->integer('question_id');
             $table->string('choice');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
