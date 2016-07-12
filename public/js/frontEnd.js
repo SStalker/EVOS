@@ -210,6 +210,7 @@ $(document).ready(function () {
                         console.log(quizObj);
                         $('#enterQuizPanel').fadeOut(400, function () {
                             $('#enterNamePanel').fadeIn(400);
+                            $("#enterNameInput").focus();
                         });
                     }
                 })
@@ -218,24 +219,6 @@ $(document).ready(function () {
                     if ($('#quizAlert').hasClass('out')) {
                         $('#quizAlert').toggleClass('out').toggleClass('in');
                     }
-<<<<<<< HEAD
-                } else {
-                    quizObj = response;
-                    console.log(quizObj);
-                    $('#enterQuizPanel').fadeOut(400, function () {
-                        $('#enterNamePanel').fadeIn(400);
-                        $("#enterNameInput").focus();
-                    });
-                }
-            })
-            .fail(function() {
-
-                if ($('#quizAlert').hasClass('out')) {
-                    $('#quizAlert').toggleClass('out').toggleClass('in');
-                }
-=======
->>>>>>> origin/master
-
                 });
         });
 
