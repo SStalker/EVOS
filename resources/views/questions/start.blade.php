@@ -4,27 +4,20 @@
 
 @section('content')
 
-    <div class="center-block">
-
         <div id="loading" class="quiz-loading">
             Verbinde mit Server...
         </div>
 
         <div id="start" class="quiz-normal">
-            <h1>{{ $quiz->title }}</h1>
-            <h2>PIN: {{ $quiz->id }}</h2>
+            <h1 id="startQuizTitle">{{ $quiz->title }}</h1>
+            <h2 id="startQuizPinText">Bitte gib folgende PIN ein:</h2>
+            <h1 id="startQuizPin">{{ $quiz->id }}</h1>
 
-            <h3>Angemeldete Teilnehmer: <span id="attendee-count">0</span></h3>
-            <div class="row" id="attendee-names">
-                {{--
-                <div class="col-md-4">.col-md-4</div>
-                <div class="col-md-4">.col-md-4</div>
-                <div class="col-md-4">.col-md-4</div>
-                 --}}
-            </div>
-
-            <div class="start-button">
-                <a id="start-button" class="btn btn-primary" href="#">Starten</a>
+            <div id="footer">
+                <h3>Angemeldete Teilnehmer: <span id="attendee-count">0</span></h3>
+                <div class="start-button">
+                    <a id="start-button" class="btn btn-primary" href="#">Starten</a>
+                </div>
             </div>
         </div>
 
@@ -63,7 +56,6 @@
                 <a id="leave-button" class="btn btn-primary" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
             </div>
         </div>
-    </div>
 
     <script>
         var user_id = {{ Auth::id() }};
