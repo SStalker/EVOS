@@ -36,6 +36,29 @@ class User extends Authenticatable
 
     public function rootCategories()
     {
-        return $this->hasMany('EVOS\Category')->where('parent_id', '=', null)->get();
+        return Category::roots()->get();
     }
+
+    function renderNode(Category $node) {
+
+        if( $node->children()->get()->isEmpty() ) {
+
+                return '<li category_id="'.$node['id'].'">' . $node['title'] . '</li>';
+
+        } else {
+
+                $html = '<li category_id="'.$node['id'].'">' . $node['title'];
+                $html .= '<ul>';
+
+                foreach ($node['children'] as $child)
+                    $html .= $this->renderNode($child);
+
+                $html .= '</ul>';
+                $html .= '</li>';
+
+        }
+
+        return $html;
+    }
+
 }

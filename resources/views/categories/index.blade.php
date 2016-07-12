@@ -23,7 +23,7 @@
                         <tr>
                             <th>Titel</th>
                             <th>Besitzer</th>
-                            <th style="width:30%">Aktionen</th>
+                            <th style="width:40%">Aktionen</th>
                         </tr>
                         </thead>
                         <tbody class="table-hover">
@@ -41,6 +41,11 @@
                                        data-toggle="tooltip" data-placement="left"
                                        title="Gibt die Möglichkeit den Titel der Kategorie zu ändern.">Kategorietitel
                                         ändern</a>
+
+                                    <a class="btn btn-primary"
+                                       href="{{ action('CategoryController@getMove', [$category->id]) }}"
+                                       data-toggle="tooltip" data-placement="left"
+                                       title="Gibt die Möglichkeit die Kategorie zu verschieben.">Verschieben</a>
                                     {{ Form::submit('Löschen', ['class'=>'btn btn-danger', 'data-toggle' => 'tooltip', 'data-placement' => 'left', 'title' => 'Löscht die ausgewählte Kategorie']) }}
                                     {{ Form::close() }}
                                 </td>
