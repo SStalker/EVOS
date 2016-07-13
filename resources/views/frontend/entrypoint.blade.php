@@ -28,7 +28,7 @@
             <img src="{{ asset('images/evos.png') }}" class="img-responsive" style="margin: auto;">
             <div id="loadingGif"><img src="{{asset('images/loading.gif')}}"></div>
             <p>Bitte warten...</p>
-
+            <div id ="clickedAnswer" class="panel panel-default" style="display: none"></div>
             <!--Debug purpose for Smartphones (no console)-->
             <div class="alert alert-danger fade out text-center" id="nextQuestionAlert" style="margin-top: 15%">
                 "question" wurde empfangen!

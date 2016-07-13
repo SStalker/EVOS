@@ -7,6 +7,7 @@ var websocketOk;
 var quizObj;
 var toAnswer = false;
 var end = false;
+var clickedAnswer = '';
 websocket.onopen = function (event) {
     websocketOk = true;
     //DEBUG
@@ -169,7 +170,20 @@ function startTimer(duration, display) {
         if (--timer < 0 || !toAnswer) {
             if (document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end) {
                 $('#questionPanel').fadeOut(400, function () {
+                    if (clickedAnswer != '') {
+                        $('#clickedAnswer').empty();
+                        $('#clickedAnswer').append('<p>Ihre Antwort:</p><br/>')
+                        $('#clickedAnswer').append(clickedAnswer);
+                        $('#clickedAnswer').show();
+                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                    } else {
+                        $('#clickedAnswer').empty();
+                        $('#clickedAnswer').show();
+                        $('#clickedAnswer').append("Keine Antwort gewählt!");
+                    }
                     $('#waitingPanel').fadeIn(400);
+
+                    clickedAnswer = '';
                 });
             }
             clearInterval(interval);
@@ -205,7 +219,6 @@ $(document).ready(function () {
     var jqXhr;
     var name;
     var enterName = true;
-    var clickedAnswer = '';
 
     if(WebSocket !== undefined){
 
@@ -304,7 +317,7 @@ $(document).ready(function () {
 
                 //save the look of the clicked box for displaying purposes
                 clickedAnswer = $('div[data-value='+data.answer+'] .panel-body').attr('data-value');
-                console.log(clickedAnswer);
+
                 sendToSyncServer(data);
                 toAnswer = false;
 
