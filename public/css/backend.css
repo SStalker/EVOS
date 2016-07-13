@@ -1,7 +1,9 @@
+h3{
+    color:#8A8A8A;
+}
+
 .start-button, .next-button {
-    position: absolute !important;
-    bottom: 5px;
-    right: 5px;
+    float:right;
 }
 
 .btn-primary2 {
@@ -78,4 +80,28 @@
 
 .breadcrumb {
     background-color: #fbfbfb;
+}
+
+/* start quiz css redesign */
+#startQuizTitle, #startQuizPinText, #startQuizPin{
+    text-align: center;
+}
+
+#startQuizTitle, #startQuizPin{
+    font-size: 50pt;
+    margin-bottom:50px;
+}
+
+#startQuizPin{
+    margin-bottom:150px;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+}
+
+#startQuizPinText{
+    color:#8A8A8A;
+}
+
+#footer{
+    height: 50px;
+    width:100%;
 }

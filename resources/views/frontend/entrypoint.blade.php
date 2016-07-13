@@ -28,7 +28,7 @@
             <img src="{{ asset('images/evos.png') }}" class="img-responsive" style="margin: auto;">
             <div id="loadingGif"><img src="{{asset('images/loading.gif')}}"></div>
             <p>Bitte warten...</p>
-
+            <div id ="clickedAnswer" class="panel panel-default" style="display: none"></div>
             <!--Debug purpose for Smartphones (no console)-->
             <div class="alert alert-danger fade out text-center" id="nextQuestionAlert" style="margin-top: 15%">
                 "question" wurde empfangen!
@@ -39,30 +39,30 @@
         <div id="questionPanel" class="container-fluid" style="display: none">
 
             <div class="logoTimer">
-                <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block">
+                <!--img src="{{ asset('images/evos.png') }}" class="img-responsive center-block"-->
                 <div class="progress center-block">
                     <div id="countdown" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0"
                          aria-valuemin="0" aria-valuemax="1" style="width: 100%"></div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 ">
+                <div class="col-md-6 answer-cell">
                     <div id="answerA" data-value="a" class="answer panel panel-default">
                         <div class="panel-body"> A</div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 answer-cell">
                     <div id="answerB" data-value="b" class="answer panel panel-default">
                         <div class="panel-body"> B</div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-md-6 ">
+                <div class="col-md-6 answer-cell">
                     <div id="answerC" data-value="c" class="answer panel panel-default">
                         <div class="panel-body"> C</div>
                     </div>
                 </div>
-                <div class="col-md-6 ">
+                <div class="col-md-6 answer-cell">
                     <div id="answerD" data-value="d" class="answer panel panel-default">
                         <div class="panel-body"> D</div>
                     </div>

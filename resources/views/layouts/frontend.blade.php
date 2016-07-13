@@ -18,7 +18,10 @@
         var appUrl = '{{ url('/') }}';
     </script>
 
+    <!-- JavaScripts -->
     <script src="{{ asset('js/all.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script src="js/frontEnd.js"></script>
 
     <script>

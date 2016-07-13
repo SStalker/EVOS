@@ -13,7 +13,8 @@
                 @foreach($categories as $category)
                     <tr>
                         <td style="vertical-align: middle">
-                            <a href="{{ action('CategoryController@show', [$category->id]) }}" class="block-link">{{ $category->title }}</a>
+                            <a href="{{ action('CategoryController@show', [$category->id]) }}"
+                               class="block-link">{{ $category->title }}</a>
                         </td>
                         <td>
                             <div class="btn-group pull-right">
@@ -29,8 +30,10 @@
                                                title="Gibt die Möglichkeit den Titel der Kategorie zu ändern.">Titel
                                                 ändern</a></li>
                                         <li>
-                                            <a href="#" class="alert-danger delete-button" data-toggle="tooltip" data-placement="left"
-                                               title="Löscht die Kategorie" data-cat-id="{{ $category->id }}" data-cat-title="{{ $category->title }}">Löschen</a>
+                                            <a href="#" class="alert-danger delete-button" data-toggle="tooltip"
+                                               data-placement="left"
+                                               title="Löscht die Kategorie" data-cat-id="{{ $category->id }}"
+                                               data-cat-title="{{ $category->title }}">Löschen</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -46,15 +49,18 @@
     </div>
     <div class="pull-right">
         <a class="btn btn-primary" style="margin-top: -7px;" href="{{ action('CategoryController@create') }}"
-           data-toggle="tooltip"
-           data-placement="left" title="Erstellt eine neue Kategorie.">Kategorie erstellen</a>
+           data-toggle="tooltip" data-placement="left" title="Erstellt eine neue Kategorie.">Kategorie erstellen</a>
+        <a class="btn btn-primary" href="{{ action('CategoryController@getMove', [$category->id]) }}"
+           data-toggle="tooltip" data-placement="left"
+           title="Gibt die Möglichkeit die Kategorie zu verschieben.">Verschieben</a>
     </div>
 
     <div id="delete-confirmation" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Kategorie löschen</h4>
                 </div>
                 <div class="modal-body">

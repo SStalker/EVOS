@@ -4,33 +4,26 @@
 
 @section('content')
 
-    <div class="center-block">
-
         <div id="loading" class="quiz-loading">
             Verbinde mit Server...
         </div>
 
         <div id="start" class="quiz-normal">
-            <h1>{{ $quiz->title }}</h1>
-            <h2>PIN: {{ $quiz->id }}</h2>
+            <h1 id="startQuizTitle">{{ $quiz->title }}</h1>
+            <h2 id="startQuizPinText">Bitte gib folgende PIN ein:</h2>
+            <h1 id="startQuizPin">{{ $quiz->id }}</h1>
 
-            <h3>Angemeldete Teilnehmer: <span id="attendee-count">0</span></h3>
-            <div class="row" id="attendee-names">
-                {{--
-                <div class="col-md-4">.col-md-4</div>
-                <div class="col-md-4">.col-md-4</div>
-                <div class="col-md-4">.col-md-4</div>
-                 --}}
-            </div>
-
-            <div class="start-button">
-                <a id="start-button" class="btn btn-primary" href="#">Starten</a>
+            <div id="footer">
+                <h3>Angemeldete Teilnehmer: <span id="attendee-count">0</span></h3>
+                <div class="start-button">
+                    <a id="start-button" class="btn btn-primary" href="#">Starten</a>
+                </div>
             </div>
         </div>
 
         <div id="question" class="quiz-question">
-            <h1 id="questionTitle" style="color: #999999;"></h1>
-            <div id="questionBody" style="font-size: 2em; margin-bottom: 2em"></div>
+            <h1 id="questionTitle"></h1>
+            <div id="questionBody"></div>
             <table id="question-answers" class="table table-bordered">
                 <tbody>
                 <tr style="height:150px; text-align: center; font-size: 24px;">
@@ -44,8 +37,8 @@
                 </tbody>
             </table>
 
-            <h3>Antworten: <span id="answer-count">0</span></h3>
-            <h3>Verbleibende Zeit: <span id="countdown"></span></h3>
+            <div id="questionAnswers">Antworten: <span id="answer-count">0</span></div>
+            <div id="questionTime">Zeit: <span id="countdown"></span></div>
 
             <div class="next-button">
                 <a id="next-button" class="btn btn-primary" href="#" style="display: none;">Nächste Frage</a>
@@ -63,7 +56,6 @@
                 <a id="leave-button" class="btn btn-primary" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
             </div>
         </div>
-    </div>
 
     <script>
         var user_id = {{ Auth::id() }};

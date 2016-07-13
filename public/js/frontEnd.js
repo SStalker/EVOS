@@ -7,6 +7,7 @@ var websocketOk;
 var quizObj;
 var toAnswer = false;
 var end = false;
+var clickedAnswer = '';
 websocket.onopen = function (event) {
     websocketOk = true;
     //DEBUG
@@ -28,7 +29,6 @@ websocket.onmessage = function (event) {
 };
 
 function sendToSyncServer(data) {
-    console.log('send');
     websocket.send(JSON.stringify(data));
 }
 
@@ -90,23 +90,50 @@ function processQuestion(data) {
     $.getJSON(appUrl + '/categories/' + quizObj.category_id + '/quizzes/' + quizObj.id + '/choices')
         .done(function (response) {
 
-            response['answerA'] ? $('#answerA').parent().show() : $('#answerA').parent().hide();
-            response['answerB'] ? $('#answerB').parent().show() : $('#answerB').parent().hide();
-            response['answerC'] ? $('#answerC').parent().show() : $('#answerC').parent().hide();
-            response['answerD'] ? $('#answerD').parent().show() : $('#answerD').parent().hide();
+            if(response['answerA']) {
+                $('#answerA').parent().show();
+                $('#answerA .panel-body').text(response['answerA']);
+                $('#answerA .panel-body').attr("data-value", response['answerA']);
+            }else{ $('#answerA').parent().hide(); }
+
+            if(response['answerB']) {
+                $('#answerB').parent().show();
+                $('#answerB .panel-body').text(response['answerB']);
+                $('#answerB .panel-body').attr("data-value", response['answerB']);
+            }else{ $('#answerB').parent().hide(); }
+
+            if(response['answerC']) {
+                $('#answerC').parent().show();
+                $('#answerC .panel-body').text(response['answerC']);
+                $('#answerC .panel-body').attr("data-value", response['answerC']);
+            }else{ $('#answerC').parent().hide(); }
+
+            if(response['answerD']) {
+                $('#answerD').parent().show()
+                $('#answerD .panel-body').text(response['answerD']);
+                $('#answerD .panel-body').attr("data-value", response['answerD']);
+            }else{ $('#answerD').parent().hide(); }
+
 
             toAnswer = true;
-            display = document.getElementById('countdown');
+            var display = document.getElementById('countdown');
             display.setAttribute('aria-valuemax', response['countdown']);
             display.setAttribute('aria-valuenow', response['countdown']);
             display.setAttribute('aria-valuemin', '0');
             startTimer(response["countdown"], display);
 
-            console.log(display);
+            console.log(response);
+
+            window.setTimeout(function () {
+                MathJax.Hub.Typeset();
+                buttonResize();
+            }, 1000);
 
             $('#waitingPanel').fadeOut(400, function () {
                 $('#questionPanel').fadeIn(400);
             });
+
+
         });
 }
 
@@ -143,7 +170,20 @@ function startTimer(duration, display) {
         if (--timer < 0 || !toAnswer) {
             if (document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end) {
                 $('#questionPanel').fadeOut(400, function () {
+                    if (clickedAnswer != '') {
+                        $('#clickedAnswer').empty();
+                        $('#clickedAnswer').append('<p>Ihre Antwort:</p><br/>')
+                        $('#clickedAnswer').append(clickedAnswer);
+                        $('#clickedAnswer').show();
+                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                    } else {
+                        $('#clickedAnswer').empty();
+                        $('#clickedAnswer').show();
+                        $('#clickedAnswer').append("Keine Antwort gewählt!");
+                    }
                     $('#waitingPanel').fadeIn(400);
+
+                    clickedAnswer = '';
                 });
             }
             clearInterval(interval);
@@ -157,6 +197,19 @@ function onReturn(name, event) {
     }
 }
 
+function buttonResize() {
+    var maxHeight = 0;
+    var allButtons = $('.answer-cell');
+    allButtons.each(function () {
+        var height = $(this).outerHeight();
+        maxHeight = height > maxHeight ? height : maxHeight;
+
+    });
+
+    $('.answer-cell .panel').height(maxHeight);
+
+
+}
 
 $(document).ready(function () {
 
@@ -168,12 +221,6 @@ $(document).ready(function () {
     var enterName = true;
 
     if(WebSocket !== undefined){
-
-        var quizPin;
-        var jqXhr;
-        var name;
-        var enterName = true;
-
 
         $("#quizPinInput").keypress(function (event) {
             onReturn('quizPinBtn', event);
@@ -210,6 +257,7 @@ $(document).ready(function () {
                         console.log(quizObj);
                         $('#enterQuizPanel').fadeOut(400, function () {
                             $('#enterNamePanel').fadeIn(400);
+                            $("#enterNameInput").focus();
                         });
                     }
                 })
@@ -218,24 +266,6 @@ $(document).ready(function () {
                     if ($('#quizAlert').hasClass('out')) {
                         $('#quizAlert').toggleClass('out').toggleClass('in');
                     }
-<<<<<<< HEAD
-                } else {
-                    quizObj = response;
-                    console.log(quizObj);
-                    $('#enterQuizPanel').fadeOut(400, function () {
-                        $('#enterNamePanel').fadeIn(400);
-                        $("#enterNameInput").focus();
-                    });
-                }
-            })
-            .fail(function() {
-
-                if ($('#quizAlert').hasClass('out')) {
-                    $('#quizAlert').toggleClass('out').toggleClass('in');
-                }
-=======
->>>>>>> origin/master
-
                 });
         });
 
@@ -284,6 +314,9 @@ $(document).ready(function () {
                     quiz_id: parseInt(quizPin),
                     answer: [this.getAttribute('data-value')]
                 };
+
+                //save the look of the clicked box for displaying purposes
+                clickedAnswer = $('div[data-value='+data.answer+'] .panel-body').attr('data-value');
 
                 sendToSyncServer(data);
                 toAnswer = false;
