@@ -8,17 +8,20 @@
     <title>@yield('title')</title>
 
     <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
+          type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Styles -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/frontEndUser.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/frontEnd.css') }}" rel="stylesheet">
 
     <!-- JavaScripts -->
     <script src="{{ asset('js/all.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
-    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/javascript" async
+            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <style>
         body {
@@ -43,12 +46,12 @@
     </div>
 </nav>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                @yield('content')
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            @yield('content')
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -4,14 +4,11 @@
 
 @section('content')
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Kategorie erstellen
-    </div>
+    <h1>Kategorie erstellen</h1>
 
     {{ Form::open(['action' => ['CategoryController@store'], 'method' => 'post']) }}
-        @include('categories._form', ['submitLabel' => 'Speichern'])
+    @include('categories._form', ['submitLabel' => 'Speichern'])
     {{ Form::close() }}
-</div>
+
 
 @endsection

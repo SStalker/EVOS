@@ -17,3 +17,65 @@
 .incorrect-answer{
     background:#FF8282;
 }
+
+/* even table rows background to be no */
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #fcfcfc;
+}
+
+/* remove top border of table columns */
+.table > tbody > tr > td {
+    border-top: none;
+}
+
+.btn {
+    border: none;
+    border-radius: 0;
+}
+
+.searchtext {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    height: auto;
+}
+
+.searchtext:focus {
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px rgba(102, 175, 233, .6);
+}
+
+.dropdown-menu {
+    border-radius: 0;
+    margin: 0;
+    border: none;
+}
+
+.navbar-default {
+    border-color: transparent;
+}
+
+.block-link {
+    display: block;
+    line-height: inherit;
+}
+
+.modal-content {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+.form-control:focus {
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 3px rgba(102,175,233,0.6);
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.breadcrumb {
+    background-color: #fbfbfb;
+}

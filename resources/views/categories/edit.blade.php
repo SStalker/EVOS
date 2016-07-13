@@ -3,15 +3,9 @@
 @section('title', 'Kategorie bearbeiten')
 
 @section('content')
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        {{ $category->title }}: bearbeiten
-    </div>
+    <h1>Titel der Kategorie <i>{{ $category->title }}</i> ändern</h1>
 
     {{ Form::model($category, ['action' => ['CategoryController@update', $category->id], 'method' => 'put']) }}
-        @include('categories._form', ['submitLabel' => 'Speichern'])
+    @include('categories._form', ['submitLabel' => 'Speichern'])
     {{ Form::close() }}
-</div>
-
 @endsection
