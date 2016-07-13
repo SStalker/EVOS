@@ -3,9 +3,7 @@ h3{
 }
 
 .start-button, .next-button {
-    position: absolute !important;
-    bottom: 20px;
-    right: 5px;
+    float:right;
 }
 
 .btn-primary2 {
