@@ -16,7 +16,7 @@ class CategoryController extends Controller
     {
         $this->middleware('auth', ['only' => ['index', 'create', 'store', 'update', 'destroy', 'edit']]);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -46,35 +46,33 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(CategoryRequest $request)
     {
         $request['user_id'] = Auth::id();
 
-        if( empty($request['parent_id']) ){
+        if (empty($request['parent_id'])) {
             $request['parent_id'] = null;
             $category = Category::create($request->all());
 
-            return redirect('/categories/'.$category->id)
+            return redirect(action('CategoryController@show', $category->id))
                 ->with('message', 'Kategorie wurde angelegt!');
         }
 
         $parent = Category::findOrFail($request['parent_id']);
-
-
         $category = Category::create($request->all());
         $category->makeChildOf($parent);
 
-        return redirect('/categories/'.$category->id)
+        return redirect(action('CategoryController@show', $category->id))
             ->with('message', 'Kategorie wurde angelegt!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Category $categories)
@@ -88,7 +86,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $categories)
@@ -101,15 +99,15 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(CategoryRequest $request, Category $categories)
     {
         $categories->fill($request->all());
 
-        if( empty($categories->parent_id) )
+        if (empty($categories->parent_id))
             $categories->parent_id = null;
 
         $categories->save();
@@ -121,44 +119,41 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $categories)
     {
+        $redirectTarget = $categories->parent == null ? action('CategoryController@index') : action('CategoryController@show', $categories->parent->id);
         $categories->delete();
 
-        return redirect('categories')
+        return redirect($redirectTarget)
             ->with('message', 'Kategorie wurde gelöscht!');
     }
 
-    public function getMove(Category $categories)
+    public function getMove()
     {
         $rootCategories = Auth::user()->rootCategories();
         $text = '<ul>';
 
-        foreach($rootCategories as $child)
+        foreach ($rootCategories as $child)
             $text .= Auth::user()->renderNode($child);
 
         $text .= '</ul>';
 
-
-        //echo($text);
-
         return view('categories.move')
-            ->with('category', $categories)
-            ->with('recursiveCategories', $text)
-            ->with('parent_id', $categories->parent_id);
+            ->with('recursiveCategories', $text);
     }
 
-    public function postMove(Request $request, Category $categories){
+    public function postMove(Request $request, Category $categories)
+    {
 
         $currentID = $request['currentID'];
         $parentID = $request['parentID'];
 
         $currentCategory = Category::findOrFail($currentID);
 
-        if($parentID == 0){
+        if ($parentID == 0) {
             $currentCategory->makeRoot();
             return;
         }

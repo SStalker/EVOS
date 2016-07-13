@@ -103,7 +103,7 @@ class QuizController extends Controller
     {
         $quizzes->delete();
 
-        return redirect('categories/' . $quizzes->category->id)
+        return redirect(action('CategoryController@show', $categories->id))
             ->with('message', 'Quiz wurde gelöscht!');
     }
 

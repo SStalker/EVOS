@@ -8,23 +8,23 @@
 
     <div class="table">
         @if($categories->count() > 0)
-            <table class="table table-striped">
+            <table class="table table-striped table-middle">
                 <tbody class="table-hover">
                 @foreach($categories as $category)
                     <tr>
-                        <td style="vertical-align: middle">
+                        <td>
                             <a href="{{ action('CategoryController@show', [$category->id]) }}"
                                class="block-link">{{ $category->title }}</a>
                         </td>
                         <td>
                             <div class="btn-group pull-right">
                                 <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu{{ $category->id }}"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         Ändern
                                         <span class="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu{{ $category->id }}">
                                         <li><a href="{{ action('CategoryController@edit', [$category->id]) }}"
                                                data-toggle="tooltip" data-placement="left"
                                                title="Gibt die Möglichkeit den Titel der Kategorie zu ändern.">Titel
@@ -48,33 +48,14 @@
         @endif
     </div>
     <div class="pull-right">
-        <a class="btn btn-primary" style="margin-top: -7px;" href="{{ action('CategoryController@create') }}"
+        <a class="btn btn-primary" href="{{ action('CategoryController@create') }}"
            data-toggle="tooltip" data-placement="left" title="Erstellt eine neue Kategorie.">Kategorie erstellen</a>
-        <a class="btn btn-primary" href="{{ action('CategoryController@getMove', [$category->id]) }}"
+        <a class="btn btn-primary" href="{{ action('CategoryController@getMove') }}"
            data-toggle="tooltip" data-placement="left"
            title="Gibt die Möglichkeit die Kategorie zu verschieben.">Verschieben</a>
     </div>
 
-    <div id="delete-confirmation" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Kategorie löschen</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Soll die Kategorie <i id="category-title"></i> wirklich gelöscht werden?</p>
-                </div>
-                <div class="modal-footer">
-                    {{ Form::open(['method' => 'delete', 'id' => 'delete-form']) }}
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
-                    {{ Form::submit('Löschen', ['class'=>'btn btn-danger', 'delete-submit', 'data-toggle' => 'tooltip', 'data-placement' => 'left', 'title' => 'Löscht die ausgewählte Kategorie']) }}
-                    {{ Form::close() }}
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    @include('categories._confirmdialog')
 
     <script>
         $(function () {

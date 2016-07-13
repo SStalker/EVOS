@@ -34,7 +34,7 @@ Route::get('/start', 'AttendeeController@index');
 Route::get('/quiz/{pin}', 'AttendeeController@getQuiz');
 Route::get('/search', 'SearchController@getSearch');
 Route::get('attendees/create/{id}', 'AttendeeController@create');
-Route::get('categories/{categories}/move', 'CategoryController@getMove');
+Route::get('categories/sort', 'CategoryController@getMove');
 Route::post('categories/{categories}/move', 'CategoryController@postMove');
 Route::get('categories/{categories}/quizzes/{quizzes}/start', 'QuizController@start');
 Route::get('categories/{categories}/quizzes/{quizzes}/next', 'QuizController@next');

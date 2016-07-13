@@ -82,6 +82,18 @@ h3{
     background-color: #fbfbfb;
 }
 
+.table-middle > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.disabled-cursor {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+
 /* start quiz css redesign */
 #startQuizTitle, #startQuizPinText, #startQuizPin{
     text-align: center;
