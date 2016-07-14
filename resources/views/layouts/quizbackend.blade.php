@@ -22,7 +22,7 @@
     <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
     <script type="text/javascript" async
             src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     <style>
         body {
             font-family: 'Lato';

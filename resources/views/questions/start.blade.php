@@ -51,11 +51,68 @@
 
             <h2 id="allCorrectAnswers"></h2>
             <h2 id="allIncorrectAnswers"></h2>
+            <svg id="chart" width="1000" height="500"></svg>
 
             <div class="end-button">
                 <a id="leave-button" class="btn btn-primary" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
             </div>
         </div>
+
+    <style>
+        svg {
+          font: 10px sans-serif;
+          width: 1020px;
+          height: 520px;
+        }
+
+        path.line {
+          fill: none;
+          stroke: #666;
+          stroke-width: 1.5px;
+        }
+
+        path.area {
+          fill: #e7e7e7;
+        }
+
+        .axis {
+          shape-rendering: crispEdges;
+        }
+
+        .x.axis line {
+          stroke: #000;
+        }
+
+        .x.axis .minor {
+          stroke-opacity: .5;
+        }
+
+        .y.axis line,
+        .y.axis path {
+          fill: none;
+          stroke: #000;
+        }
+
+        .dot {
+          fill: white;
+          stroke: steelblue;
+          stroke-width: 1.5px;
+        }
+
+        text {
+          font: 20px sans-serif;
+          pointer-events: none;
+          text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+        }
+
+        #label-left{
+          margin-left: 20px;
+        }
+
+        #label-bottom{
+          margin-bottom: 20px;
+        }
+    </style>
 
     <script>
         var user_id = {{ Auth::id() }};
@@ -64,6 +121,7 @@
         var next_route = '{!! action('QuizController@next', [$quiz->category->id, $quiz->id]) !!}';
         var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
         var correctAnswers;
+        var answers = [];
 
         function SyncServer(ws_url) {
             this.attendee_count = 0;
@@ -190,6 +248,9 @@
                     || correctAnswers.d && chosenAnswer == 'd') {
 
                 this.correctAnswers_count++;
+
+                // Saves the number of right answers in array for every question
+                answers[this.questions_count-1] = {'x': this.questions_count, 'y': this.correctAnswers_count};
             } else {
                 this.incorrectAnswers_count++;
             }
@@ -320,6 +381,8 @@
             this.answer_count = 0;
             this.correctAnswers_count = 0;
             this.incorrectAnswers_count = 0;
+
+            answers[this.questions_count-1] = {'x': this.questions_count, 'y': 0};
         }
 
         SyncServer.prototype.end = function () {
@@ -359,6 +422,97 @@
                 var percent_incorrect = Math.round(syncServer.allIncorrectAnswers_count / syncServer.questions_count);
                 $('#allCorrectAnswers').text("Richtige Antworten insgesamt: " + percent_correct + "%");
                 $('#allIncorrectAnswers').text("Falsche Antworten insgesamt: " + percent_incorrect + "%");
+
+                var values = [percent_correct, percent_incorrect];
+
+                var lineData = answers;
+                var MARGIN = {top: 20, right: 20, bottom: 20, left: 50},
+                    WIDTH = 1000,
+                    HEIGHT = 500;
+
+                var vis = d3.select('#chart');
+
+                var xRange = d3.scale.linear().range([MARGIN.left, WIDTH - MARGIN.right]).domain([1, d3.max(lineData, function(d) {
+                      return d.x;
+                    })]);
+                var yRange = d3.scale.linear().range([HEIGHT - MARGIN.top, MARGIN.bottom]).domain([0, syncServer.attendee_count]);
+
+                var xAxis = d3.svg.axis()
+                      .scale(xRange)
+                      .tickFormat(d3.format("d"))
+                      .tickSize(1);
+
+                var yAxis = d3.svg.axis()
+                      .scale(yRange)
+                      .tickFormat(d3.format("d"))
+                      .tickSize(5)
+                      .orient('left');
+
+                // Add the text label for the x axis
+                vis.append("text")
+                     .attr("text-anchor", "middle")
+                     .attr("id", "label-bottom")
+                     .attr("transform", "translate("+(WIDTH/2)+","+(HEIGHT+10)+")")
+                     .text("Fragen");
+
+
+                // Add the text label for the Y axis
+                vis.append("text")
+                     .attr("text-anchor", "middle")
+                     .attr("id", "label-left")
+                     .attr("transform", "translate("+ (MARGIN.left-30) +","+(HEIGHT/2)+")rotate(-90)")
+                     .text("Richtige Antworten");
+
+                // Draw the x-axis
+                vis.append('svg:g')
+                  .attr('class', 'x axis')
+                  .attr('transform', 'translate(0,' + (HEIGHT - MARGIN.bottom) + ')')
+                  .call(xAxis);
+
+                // Draw the y-axis
+                vis.append('svg:g')
+                  .attr('class', 'y axis')
+                  .attr('transform', 'translate(' + (MARGIN.left) + ',0)')
+                  .call(yAxis);
+
+                // Draw and interpolate the line
+                var lineFunc = d3.svg.line()
+                  .x(function (d) {
+                    return xRange(d.x);
+                  })
+                  .y(function (d) {
+                    return yRange(d.y);
+                  })
+                  .interpolate(interpolateSankey);
+
+                vis.append("svg:path")
+                  .attr("d", lineFunc(lineData))
+                  .attr("stroke", "blue")
+                  .attr("stroke-width", 2)
+                  .attr("fill", "none");
+
+
+                // Add the scatterplot
+                vis.selectAll("circle")
+                  .data(lineData)
+                  .enter().append("circle")
+                    .attr("r", 3.5)
+                    .attr("class", "dot")
+                    .attr("cx", function(d) { return xRange(d.x); })
+                    .attr("cy", function(d) { return yRange(d.y); });
+
+                function interpolateSankey(points) {
+                    var x0 = points[0][0], y0 = points[0][1], x1, y1, x2,
+                        path = [x0, ",", y0],
+                        i = 0,
+                        n = points.length;
+                    while (++i < n) {
+                        x1 = points[i][0], y1 = points[i][1], x2 = (x0 + x1) / 2;
+                        path.push("C", x2, ",", y0, " ", x2, ",", y1, " ", x1, ",", y1);
+                        x0 = x1, y0 = y1;
+                    }
+                    return path.join("");
+                }
 
                 $('.quiz-normal').fadeOut('slow');
                 $('.quiz-question').fadeOut('slow', function () {
