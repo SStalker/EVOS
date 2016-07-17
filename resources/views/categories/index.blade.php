@@ -27,7 +27,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu{{ $category->id }}">
                                         <li><a href="{{ action('CategoryController@edit', [$category->id]) }}"
                                                data-toggle="tooltip" data-placement="left"
-                                               title="Gibt die Möglichkeit den Titel der Kategorie zu ändern.">Titel
+                                               title="Gibt die Möglichkeit den Name der Kategorie zu ändern.">Frage bearbeiten
                                                 ändern</a></li>
                                         <li>
                                             <a href="#" class="alert-danger delete-button" data-toggle="tooltip"
@@ -52,7 +52,7 @@
            data-toggle="tooltip" data-placement="left" title="Erstellt eine neue Kategorie.">Kategorie erstellen</a>
         <a class="btn btn-primary" href="{{ action('CategoryController@getMove') }}"
            data-toggle="tooltip" data-placement="left"
-           title="Gibt die Möglichkeit die Kategorie zu verschieben.">Verschieben</a>
+           title="Gibt die Möglichkeit die Kategorie zu sortieren.">Kategorien sortieren</a>
     </div>
 
     @include('categories._confirmdialog')

@@ -20,6 +20,36 @@ h3{
     background:#FF8282;
 }
 
+.answer-switcher {
+    margin-bottom: 7px;
+}
+
+.answers {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.answer-switcher > .btn-group > .btn {
+    border: 1px solid #ccc;
+}
+
+.answer-switcher > .btn-group > .btn.active {
+    background-color: #eee;
+    box-shadow: none;
+}
+
+.answer-switcher > .btn-group:not(:first-child):not(:last-child) > .btn {
+    border-radius: 0;
+}
+
+#answer-box-2, #answer-box-3, #answer-box-4 {
+    display: none;
+}
+
+.toggle {
+    border: 1px solid #ccc !important;
+}
+
 /* even table rows background to be no */
 .table-striped > tbody > tr:nth-of-type(even) {
     background-color: #fcfcfc;

@@ -1,89 +1,84 @@
-<div class="panel-body">
-    <div class="form-group">
-        <label for="title">Frage</label>
-        {{ Form::text('title', null, ['class' => 'form-control']) }}
+<div class="form-group">
+    <label for="title">Frage</label>
+    {{ Form::text('title', null, ['class' => 'form-control']) }}
+</div>
+<div class="form-group">
+    <label for="question">Details</label>
+    {{ Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 3]) }} <br>
+    <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
+       data-target="#previewBox" data-preview="questionInput">Vorschau</a>
+    <label class="btn btn-default" for="file-selector-question" style="margin-top:-7px">
+        <input id="file-selector-question" name="file-selector-question" type="file" class="image-selector"
+               style="display:none;" data-target="question">
+        Bild anhängen
+    </label>
+    <a class="btn btn-default addcode" id="insert-source-code" style="margin-top: -7px;" href="#">Quellcode
+        einfügen</a>
+</div>
+
+<div class="answers">
+    <div class="btn-group btn-group-justified answer-switcher" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default active answer-switcher-button" data-id="1">1.
+                Antwortmöglichkeit
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default answer-switcher-button" data-id="2">2. Antwortmöglichkeit
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default answer-switcher-button" data-id="3">3. Antwortmöglichkeit
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default answer-switcher-button" data-id="4">4. Antwortmöglichkeit
+            </button>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="question">Details</label>
-        {{ Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 3]) }} <br>
-        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
-           data-target="#previewBox" data-preview="questionInput">Vorschau</a>
-        <label class="btn btn-default" for="file-selector-question" style="margin-top:-7px">
-            <input id="file-selector-question" name="file-selector-question" type="file" class="image-selector"
-                   style="display:none;" data-target="question">
-            Bild anhängen
-        </label>
-        <a class="btn btn-default addcode" id="insert-source-code" style="margin-top: -7px;" href="#">Quellcode
-            einfügen</a>
-    </div>
-    <div class="form-group">
-        <label for="answerA">1. Antwortmöglichkeit</label>
+
+    <div class="form-group" id="answer-box-1">
         {{ Form::text('answerA', null, ['id' => 'answerA', 'class' => 'form-control']) }}<br>
-        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
+        <a class="btn btn-primary preview" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerA">Vorschau</a>
-        <label class="btn btn-default" for="file-selector-answer-a" style="margin-top:-7px">
-            <input id="file-selector-answer-a" type="file" class="image-selector" style="display:none;"
-                   data-target="answerA">
-            Bild anhängen
-        </label>
-        <div class="pull-right" style="margin-top:-7px;">
+        <div class="pull-right corrent-answer-box">
             {{ Form::checkbox('answerAbool', null, (isset($question) ? $question->answerABool : null), ['data-id'=>'answerA', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
         </div>
     </div>
-    <div class="form-group">
-        <label for="answerB">2. Antwortmöglichkeit</label>
+    <div class="form-group" id="answer-box-2">
         {{ Form::text('answerB', null, ['id' => 'answerB','class' => 'form-control']) }}<br>
         <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerB">Vorschau</a>
-        <label class="btn btn-default" for="file-selector-answer-b" style="margin-top:-7px">
-            <input id="file-selector-answer-b" type="file" class="image-selector" style="display:none;"
-                   data-target="answerB">
-            Bild anhängen
-        </label>
-        <div class="pull-right" style="margin-top:-7px;">
+        <div class="pull-right corrent-answer-box">
             {{ Form::checkbox('answerBbool', null, (isset($question) ? $question->answerBBool : null), ['data-id'=>'answerB', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
         </div>
     </div>
-    <div class="form-group">
-        <label for="answerC">3. Antwortmöglichkeit</label>
+    <div class="form-group" id="answer-box-3">
         {{ Form::text('answerC', null, ['id' => 'answerC', 'class' => 'form-control']) }}<br>
-        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
+        <a class="btn btn-primary preview" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerC">Vorschau</a>
-        <label class="btn btn-default" for="file-selector-answer-c" style="margin-top:-7px">
-            <input id="file-selector-answer-c" type="file" class="image-selector" style="display:none;"
-                   data-target="answerC">
-            Bild anhängen
-        </label>
-        <div class="pull-right" style="margin-top:-7px;">
+        <div class="pull-right corrent-answer-box">
             {{ Form::checkbox('answerCbool', null, (isset($question) ? $question->answerCBool : null), ['data-id'=>'answerC', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
         </div>
     </div>
-    <div class="form-group">
-        <label for="answerD">4. Antwortmöglichkeit</label>
+    <div class="form-group" id="answer-box-4">
         {{ Form::text('answerD', null, ['id' => 'answerD', 'class' => 'form-control']) }}<br>
-        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
+        <a class="btn btn-primary preview" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerD">Vorschau</a>
-        <label class="btn btn-default" for="file-selector-answer-d" style="margin-top:-7px">
-            <input id="file-selector-answer-d" type="file" class="image-selector" style="display:none;"
-                   data-target="answerD">
-            Bild anhängen
-        </label>
-        <div class="pull-right" style="margin-top:-7px;">
+        <div class="pull-right corrent-answer-box">
             {{ Form::checkbox('answerDbool', null, (isset($question) ? $question->answerDBool : null), ['data-id'=>'answerD', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
         </div>
     </div>
-    <div class="form-group">
-        <label for="countdown">Countdown</label>
-        {{ Form::number('countdown', null, ['class' => 'form-control']) }}
-    </div>
 </div>
 
-<div class="panel-footer">
-    {{ Form::submit($submitLabel, ['data-toggle'=>'tooltip', 'id'=>'formSubmit','class'=>'btn btn-primary', 'disabled']) }}
+<div class="form-group">
+    <label for="countdown">Countdown</label>
+    {{ Form::number('countdown', null, ['class' => 'form-control']) }}
 </div>
+
+<div class="pull-right">{{ Form::submit($submitLabel, ['data-toggle'=>'tooltip', 'id'=>'formSubmit','class'=>'btn btn-primary', 'disabled']) }}</div>
 
 <!-- Preview for questions and answers -->
-
 <div class="modal fade" id="previewBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -210,6 +205,27 @@
                 $('#questionInput').val($('#questionInput').val() + '\n');
             }
             $('#questionInput').val($('#questionInput').val() + '[code]\nFügen Sie ihren Quellcode hier ein!\n[/code]');
+        });
+
+        /*
+         $('#insert-latex').on('click', function () {
+         if ($('#questionInput').val().length > 0) {
+         $('#questionInput').val($('#questionInput').val() + '\n');
+         }
+         $('#questionInput').val($('#questionInput').val() + '$ \\sin(x) $');
+         });
+         */
+
+        $('.answer-switcher-button').on('click', function () {
+            var boxId = $(this).data('id');
+            var current = $('.answer-switcher > .btn-group > button.active');
+            var currentId = current.data('id');
+
+            current.removeClass('active');
+            $(this).addClass('active');
+            $('#answer-box-' + currentId).hide(200, function () {
+                $('#answer-box-' + boxId).show(200);
+            });
         });
     });
 </script>

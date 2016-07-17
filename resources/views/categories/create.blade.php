@@ -2,9 +2,19 @@
 
 @section('title', 'Kategorie erstellen')
 
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="{{ action('CategoryController@index') }}">Kategorien</a></li>
+        @if($parentCategory != null)
+            <li><a href="{{ action('CategoryController@show', $parentCategory->id) }}">{{ $parentCategory->title }}</a></li>
+        @endif
+        <li class="active">Neue Kategorie erstellen</li>
+    </ol>
+@endsection
+
 @section('content')
 
-    <h1>Kategorie erstellen</h1>
+    <h1>Neue Kategorie erstellen</h1>
 
     {{ Form::open(['action' => ['CategoryController@store'], 'method' => 'post']) }}
     @include('categories._form', ['submitLabel' => 'Speichern'])

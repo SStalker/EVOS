@@ -6,9 +6,7 @@
     <ol class="breadcrumb">
         <li><a href="{{ action('CategoryController@index') }}">Kategorien</a></li>
         @if($category->parent != null)
-            <li>
-                <a href="{{ action('CategoryController@show', $category->parent->id) }}">{{ $category->parent->title }}</a>
-            </li>
+            <li><a href="{{ action('CategoryController@show', $category->parent->id) }}">{{ $category->parent->title }}</a></li>
         @endif
         <li class="active">{{ $category->title }}</li>
     </ol>
@@ -40,7 +38,7 @@
                                         aria-labelledby="dropdownMenu1-{{ $childCategory->id }}">
                                         <li><a href="{{ action('CategoryController@edit', [$childCategory->id]) }}"
                                                data-toggle="tooltip" data-placement="left"
-                                               title="Gibt die Möglichkeit den Titel der Kategorie zu ändern.">Titel
+                                               title="Gibt die Möglichkeit den Namen der Kategorie zu ändern.">Kategorienamen
                                                 ändern</a></li>
                                         <li>
                                             <a href="#" class="alert-danger category-delete-button"
@@ -59,7 +57,6 @@
             </table>
         </div>
     @endif
-
 
     <h1>Quiz</h1>
     <div class="table">
@@ -97,8 +94,7 @@
                                         <li>
                                             <a href="{{ action('QuizController@edit', [$category->id, $quiz->id]) }}"
                                                data-toggle="tooltip" data-placement="left"
-                                               title="Titel (bzw. Namen) des Quiz ändern.">Quiztitel
-                                                ändern</a>
+                                               title="Name des Quiz ändern.">Quiznamen ändern</a>
                                         </li>
                                         <li>
                                             @if($quiz->questions->isEmpty())

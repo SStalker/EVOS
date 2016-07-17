@@ -2,6 +2,17 @@
 
 @section('title', 'Kategorie bearbeiten')
 
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="{{ action('CategoryController@index') }}">Kategorien</a></li>
+        @if($category->parent != null)
+            <li><a href="{{ action('CategoryController@show', $category->parent->id) }}">{{ $category->parent->title }}</a></li>
+        @endif
+        <li><a href="{{ action('CategoryController@show', $category->id) }}">{{ $category->title }}</a></li>
+        <li class="active">Kategorienamen ändern</li>
+    </ol>
+@endsection
+
 @section('content')
     <h1>Titel der Kategorie <i>{{ $category->title }}</i> ändern</h1>
 

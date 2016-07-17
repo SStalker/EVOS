@@ -38,8 +38,10 @@ class CategoryController extends Controller
     public function create(Request $request)
     {
         $parent_id = intval($request->input('parent_id')) <= 0 ? null : intval($request->input('parent_id'));
+        $parentCategory = Category::find($parent_id);
 
         return view('categories.create')
+            ->with('parentCategory', $parentCategory)
             ->with('parent_id', $parent_id);
     }
 
