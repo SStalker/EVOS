@@ -51,6 +51,10 @@
                                            data-placement="left" title="Den Benutzer bearbeiten.">Bearbeiten</a>
                                     </li>
                                     <li>
+                                        <a href="{{ action('UserController@getEditPassword', [$user->id]) }}" data-toggle="tooltip"
+                                           data-placement="left" title="Das Passwort des Benutzers ändern.">Passwort ändern</a>
+                                    </li>
+                                    <li>
                                         <a href="#" class="alert-danger delete-button" data-toggle="tooltip"
                                            data-placement="left" title="Löscht den Benutzer"
                                            data-user-id="{{ $user->id }}"

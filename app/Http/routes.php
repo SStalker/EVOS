@@ -24,6 +24,9 @@ Route::post('password/reset', 'Auth\PasswordController@reset');
 // ChangePassword routes
 Route::get('change_password', 'Auth\PasswordController@getChangePassword');
 Route::post('change_password', 'Auth\PasswordController@postChangePassword');
+//Change password routes for admins changing user passwords
+Route::get('users/{user}/editPassword', 'UserController@getEditPassword');
+Route::post('users/{user}/editPassword', 'UserController@postEditPassword');
 
 Route::get('/', 'AttendeeController@index');
 Route::get('/dashboard', function(){

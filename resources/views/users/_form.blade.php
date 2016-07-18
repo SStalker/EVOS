@@ -8,6 +8,13 @@
     {{ Form::email('email', null, ['class' => 'form-control']) }}
 </div>
 
+@if(Request::route()->getName() == 'users.create')
+    <div class="form-group">
+        <label for="password">Passwort</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Passwort123 ist ein schlechtes Passwort!">
+    </div>
+@endif
+
 @if(isset($user) && $user->id != Auth::user()->id)
     <div class="checkbox">
         <label>
