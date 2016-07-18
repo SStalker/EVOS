@@ -79,6 +79,11 @@ class CategoryController extends Controller
      */
     public function show(Category $categories)
     {
+        if ($categories->user->id != Auth::user()->id) {
+            return redirect(action('CategoryController@index'))
+                ->withErrors(['Zugriff auf die Seite verweigert. Du hast nicht die Rechte diese Seite zu sehen!']);
+        }
+
         Session::put('category_id', $categories->id);
 
         return view('categories.show')

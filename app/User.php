@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     public function rootCategories()
     {
-        return Category::roots()->get();
+        return Category::roots()->where('user_id', '=', $this->id)->get();
     }
 
     function renderNode(Category $node) {
