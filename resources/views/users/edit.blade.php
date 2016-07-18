@@ -3,7 +3,7 @@
 @section('title', $user->name . ' bearbeiten')
 
 @section('breadcrumb')
-    <ol class="breadcrumb">
+    <ol class="breadcrumb container">
         <li><a href="{{ action('UserController@index') }}">Benutzerverwaltung</a></li>
         <li class="active">{{ $user->name }}</li>
     </ol>

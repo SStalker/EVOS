@@ -3,7 +3,7 @@
 @section('title', 'Benutzerverwaltung')
 
 @section('breadcrumb')
-    <ol class="breadcrumb">
+    <ol class="breadcrumb container">
         <li class="active">Benutzerverwaltung</li>
     </ol>
 @endsection
