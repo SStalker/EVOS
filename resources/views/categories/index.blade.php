@@ -21,6 +21,7 @@
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu{{ $category->id }}"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         Ändern
                                         <span class="caret"></span>
                                     </button>
