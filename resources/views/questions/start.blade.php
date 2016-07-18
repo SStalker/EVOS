@@ -37,8 +37,8 @@
                 </tbody>
             </table>
 
-            <div id="questionAnswers">Antworten: <span id="answer-count">0</span></div>
-            <div id="questionTime">Zeit: <span id="countdown"></span></div>
+            <div id="questionAnswers"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Antworten: <span id="answer-count">0</span></div>
+            <div id="questionTime"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Zeit: <span id="countdown"></span></div>
 
             <div class="next-button">
                 <a id="next-button" class="btn btn-primary" href="#" style="display: none;">Nächste Frage</a>
