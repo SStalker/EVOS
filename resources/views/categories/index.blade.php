@@ -2,6 +2,12 @@
 
 @section('title', 'Kategorien')
 
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li class="active">Kategorien</li>
+    </ol>
+@endsection
+
 @section('content')
 
     <h1>Kategorien</h1>

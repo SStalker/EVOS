@@ -2,20 +2,19 @@
 
 @section('title', $user->name . ' bearbeiten')
 
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="{{ action('UserController@index') }}">Benutzerverwaltung</a></li>
+        <li class="active">{{ $user->name }}</li>
+    </ol>
+@endsection
+
 @section('content')
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="pull-right">
-                <a style="margin-top: -7px;" class="btn btn-default" href="{{ action('UserController@index') }}">Abbrechen</a>
-            </div>
+    <h1>{{ $user->name }}</h1>
 
-            {{ $user->name }} bearbeiten
-        </div>
-
-        {{ Form::model($user, ['action' => ['UserController@update', $user->id], 'method' => 'put']) }}
-        @include('users._form')
-        {{ Form::close() }}
-    </div>
+    {{ Form::model($user, ['action' => ['UserController@update', $user->id], 'method' => 'put']) }}
+    @include('users._form')
+    {{ Form::close() }}
 
 @endsection
