@@ -30,7 +30,7 @@
                                             id="dropdownMenu1-{{ $question->id }}"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                        Ändern
+                                        Aktion wählen
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right"
