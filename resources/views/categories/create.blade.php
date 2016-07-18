@@ -3,7 +3,7 @@
 @section('title', 'Kategorie erstellen')
 
 @section('breadcrumb')
-    <ol class="breadcrumb">
+    <ol class="breadcrumb container">
         <li><a href="{{ action('CategoryController@index') }}">Kategorien</a></li>
         @if($parentCategory != null)
             <li><a href="{{ action('CategoryController@show', $parentCategory->id) }}">{{ $parentCategory->title }}</a></li>

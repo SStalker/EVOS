@@ -3,7 +3,7 @@
 @section('title', 'Frage anzeigen')
 
 @section('breadcrumb')
-    <ol class="breadcrumb">
+    <ol class="breadcrumb container">
         <li><a href="{{ action('CategoryController@index') }}">Kategorien</a></li>
         <li><a href="{{ action('CategoryController@show', $question->quiz->category->id) }}">{{ $question->quiz->category->title }}</a></li>
         <li><a href="{{ action('QuizController@show', [ $question->quiz->category->id, $question->quiz->id ]) }}">{{ $question->quiz->title }}</a></li>

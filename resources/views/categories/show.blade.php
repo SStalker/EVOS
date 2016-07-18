@@ -3,7 +3,7 @@
 @section('title', 'Kategorie '.$category->title)
 
 @section('breadcrumb')
-    <ol class="breadcrumb">
+    <ol class="breadcrumb container">
         <li><a href="{{ action('CategoryController@index') }}">Kategorien</a></li>
         @if($category->parent != null)
             <li><a href="{{ action('CategoryController@show', $category->parent->id) }}">{{ $category->parent->title }}</a></li>
