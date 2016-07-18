@@ -14,7 +14,7 @@
             <h1 id="startQuizPin">{{ $quiz->id }}</h1>
 
             <div id="footer">
-                <h3>Angemeldete Teilnehmer: <span id="attendee-count">0</span></h3>
+                <div id="startQuizUser"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Teilnehmer: <span id="attendee-count">0</span></div>
                 <div class="start-button">
                     <a id="start-button" class="btn btn-primary" href="#">Starten</a>
                 </div>
