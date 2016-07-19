@@ -17,8 +17,13 @@ class SearchController extends Controller
 
     public function getSearch()
     {
-        $searchFor = Request::input('searchtext');
-        $input = '%'.$searchFor.'%';
+        $searchFor = trim(Request::input('searchtext'));
+        if (empty($searchFor)) {
+            return view('search.result')
+                ->withErrors(['Der Suchtext darf nicht leer sein!']);
+        }
+
+        $input = '%' . $searchFor . '%';
 
         // Get all categories created by user
         $categoriesResult = Auth::user()->categories()->where('title', 'LIKE', $input)->getModels();
