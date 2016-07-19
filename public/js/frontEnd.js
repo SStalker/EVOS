@@ -256,8 +256,39 @@ $(document).ready(function () {
                         quizObj = response;
                         console.log(quizObj);
                         $('#enterQuizPanel').fadeOut(400, function () {
-                            $('#enterNamePanel').fadeIn(400);
-                            $("#enterNameInput").focus();
+                            // For comfort reasons: Skip the enterName Page..
+                            //$('#enterNamePanel').fadeIn(400);
+                            //$("#enterNameInput").focus();
+
+                            // New lines begin
+                            $.ajax({
+                                url: appUrl + '/attendee',
+                                method: 'POST',
+                                data: {
+                                    'name': '',
+                                    'quiz_id': quizPin
+                                }
+                            }).done(function (response) {
+                                if (response == 'waiting') {
+                                    //Create object for sending purpose
+                                    var data = {
+                                        type: 'logon',
+                                        quiz_id: parseInt(quizPin),
+                                        nickname: ''
+                                    };
+
+                                    sendToSyncServer(data);
+
+                                } else {
+                                    console.log(response);
+                                }
+                            }).fail(function () {
+                                if ($('#nameAlert').hasClass('out')) {
+                                    enterName = true;
+                                    $('#nameAlert').toggleClass('out').toggleClass('in');
+                                }
+                            });
+                            //New lines end
                         });
                     }
                 })
