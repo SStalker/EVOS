@@ -2,22 +2,37 @@
 
 @section('frontEndContent')
     <div class="wrapper">
-        <div id="enterQuizPanel" class="container">
+
+        <div id="enterQuizPanel" class="container text-center">
             <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block" style="margin-bottom: 10%">
-            <label class="control-label">Quiz PIN </label>
-            <input id='quizPinInput' class="form-control">
-            <button id='quizPinBtn' class="btn btn-default center-block">Weiter</button>
+            <label class="control-label">PIN von Beamer eingeben:</label>
+
+            <div class="input-group" style="margin-top: 5%">
+                <input type="text" id='quizPinInput' class="form-control">
+                <span class="input-group-btn">
+                    <button id='quizPinBtn' class="btn btn-default">
+                        Weiter
+                    </button>
+                </span>
+            </div>
 
             <div class="alert alert-danger fade out text-center" id="quizAlert" style="margin-top: 15%">
                 Dieses Quiz existiert nicht.
             </div>
         </div>
 
-        <div id="enterNamePanel" class="container" style="display: none;">
+        <div id="enterNamePanel" class="container text-center" style="display: none;">
             <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block" style="margin-bottom: 10%">
             <label class="control-label">Name </label>
-            <input id='enterNameInput' class="form-control">
-            <button id='enterNameBtn' class="btn btn-default center-block">Weiter</button>
+
+            <div class="input-group" style="margin-top: 5%">
+                <input type="text" id='enterNameInput' class="form-control">
+                <span class="input-group-btn">
+                    <button id='enterNameBtn' class="btn btn-default">
+                        Weiter
+                    </button>
+                </span>
+            </div>
 
             <div class="alert alert-danger fade out text-center" id="nameAlert" style="margin-top: 15%">
                 Name konnte nicht eingetragen werden.
