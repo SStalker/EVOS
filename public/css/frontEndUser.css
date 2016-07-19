@@ -21,3 +21,8 @@
 .bg-yellow{
     background:#FBFF82;
 }
+
+.clickedAnswer{
+    border:none !important;
+    background:#efefef !important;
+}

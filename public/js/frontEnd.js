@@ -172,7 +172,7 @@ function startTimer(duration, display) {
                 $('#questionPanel').fadeOut(400, function () {
                     if (clickedAnswer != '') {
                         $('#clickedAnswer').empty();
-                        $('#clickedAnswer').append('<p>Ihre Antwort:</p><br/>')
+                        $('#clickedAnswer').append('<p>Deine Antwort:</p><br/>')
                         $('#clickedAnswer').append(clickedAnswer);
                         $('#clickedAnswer').show();
                         MathJax.Hub.Queue(["Typeset",MathJax.Hub]);

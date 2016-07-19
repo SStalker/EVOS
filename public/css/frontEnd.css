@@ -130,6 +130,13 @@
     margin-top:5px;
 }
 
+.clickedAnswer{
+    border:none !important;
+    border-radius:0px;
+    background:#efefef !important;
+    padding:10px;
+}
+
 /*
  * Abstand zur zweiten Reihe der Antwortmöglichkeiten hinzugefügt
  */
