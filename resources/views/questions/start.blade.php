@@ -233,7 +233,7 @@
                 return false;
             }
 
-            if (self.duration <= 0) {
+            if (this.duration <= 0) {
                 return;
             }
 
