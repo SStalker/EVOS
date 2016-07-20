@@ -19,6 +19,7 @@ class CreateQuizzesTable extends Migration
             $table->integer('questionsCounter')->default(0);
             $table->boolean('isActive')->default(false);
             $table->boolean('hasEnded')->default(false);
+            $table->boolean('is_share')->default(false);
             $table->timestamps();
         });
     }

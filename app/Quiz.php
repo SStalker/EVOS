@@ -25,4 +25,8 @@ class Quiz extends Model
     {
         return $this->belongsTo('EVOS\Category');
     }
+
+    public function scopeWithoutShares($query) {
+        return $query->where('is_share', '=', false);
+    }
 }

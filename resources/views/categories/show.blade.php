@@ -61,10 +61,10 @@
 
     <h1>Quiz</h1>
     <div class="table">
-        @if($category->quizzes->count() > 0)
+        @if($category->quizzesWithoutShares()->count() > 0)
             <table class="table table-striped table-middle">
                 <tbody class="table-hover">
-                @foreach($category->quizzes as $quiz)
+                @foreach($category->quizzesWithoutShares() as $quiz)
                     <tr>
                         <td>
                             <a href="{{ action('QuizController@show', [$category->id, $quiz->id]) }}"
@@ -104,8 +104,8 @@
                                                    data-toggle="tooltip" data-placement="left"
                                                    title="Das Quiz enthält keine Fragen und kann daher nicht geteilt werden.">Teilen</a>
                                             @else
-                                                <a href="" class="alert-info share-quiz-button" data-toggle="tooltip"
-                                                   data-placement="left"
+                                                <a href="javascript: void(0)" class="alert-info share-quiz-button" data-toggle="tooltip"
+                                                   data-placement="left" data-quiz-id="{{ $quiz->id }}"
                                                    title="Dieses Quiz für andere Nutzer zur Verfügung stellen.">Teilen</a>
                                             @endif
                                         </li>
@@ -142,6 +142,13 @@
     @include('quizzes._confirmdialog')
     @include('categories._confirmdialog')
 
+    <div class="hidden">
+        <form method="POST" id="quiz-share-form">
+            {{ csrf_field() }}
+            <input type="hidden" name="quiz_id" id="quiz-share-id">
+        </form>
+    </div>
+
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
@@ -158,6 +165,13 @@
                         .replace(/!!cid!!/, $(this).data('cat-id'))
                         .replace(/!!qid!!/, $(this).data('quiz-id')));
                 $('#quiz-delete-confirmation').modal();
+            });
+
+            $('.share-quiz-button').on('click', function () {
+                var form = $('#quiz-share-form');
+                form.attr('action', '{{ action('ShareController@store') }}');
+                $('#quiz-share-id').val($(this).data('quiz-id'));
+                form.submit();
             });
         });
     </script>

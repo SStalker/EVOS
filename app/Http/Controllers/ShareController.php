@@ -60,6 +60,7 @@ class ShareController extends Controller
         foreach($quiz->questions as $question) {
             array_push($duplicatedQuestions, $question->replicate());
         }
+        $duplicateQuiz->is_share = true;
         $duplicateQuiz->save();
         $duplicateQuiz->questions()->saveMany($duplicatedQuestions);
 

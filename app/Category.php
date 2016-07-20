@@ -33,4 +33,8 @@ class Category extends Node
     {
         return $this->hasMany('EVOS\Category', 'parent_id');
     }
+
+    public function quizzesWithoutShares() {
+        return $this->quizzes()->withoutShares()->get();
+    }
 }
