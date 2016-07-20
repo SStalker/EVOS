@@ -14,17 +14,12 @@
 
     <div class="table">
         @if($shares->count() > 0)
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Titel</th>
-                </tr>
-                </thead>
+            <table class="table table-striped table-middle">
                 <tbody class="table-hover">
                 @foreach($shares as $share)
                     <tr>
                         <td>
-                            <a href="{{ action('ShareController@show', [$share->id]) }}">{{ $share->quiz->title }}</a>
+                            <a class="block-link" href="{{ action('ShareController@show', [$share->id]) }}">{{ $share->quiz->title }}</a>
                         </td>
                     </tr>
                 @endforeach
