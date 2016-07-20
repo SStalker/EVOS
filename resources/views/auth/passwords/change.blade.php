@@ -5,7 +5,7 @@
 @section('content')
     <h1>Passwort ändern</h1>
 
-    <div class="container">
+    <div class="table">
         {{ Form::open(['action' => ['Auth\PasswordController@postChangePassword'], 'method' => 'post']) }}
         <div class="form-group{{ $errors->has('current_password') ? ' has-error' : '' }}">
             <label class="control-label">Aktuelles Passwort</label>
