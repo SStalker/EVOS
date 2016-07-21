@@ -21,8 +21,9 @@
                 Welcher der beiden fälle auf dich zutrifft findest du auf <a href="https://websocketstest.com/">https://websocketstest.com/</a> herraus.
             </p>
             <p>
-                Eine kurze Übersicht einiger Browser die WebSockets unterstützen finden sie auf <a href="http://caniuse.com/#search=websockets">http://caniuse.com/#search=websockets</a>.
-                Sollte die Seite nicht funktionieren bleibt zu sagen, dass inzwischen alle aktuellen Browser diese Technologie unterstützen.
+                Eine kurze Übersicht einiger Browser die WebSockets unterstützen finden sie auf <a href="http://caniuse.com/#search=websockets">http://caniuse.com/#search=websockets</a>,
+                oder <a href="https://developer.mozilla.org/de/docs/WebSockets">https://developer.mozilla.org/de/docs/WebSockets</a> .
+                Sollten die Links nicht funktionieren bleibt zu sagen, dass inzwischen alle aktuellen Browser diese Technologie unterstützen.
             </p>
         </div>
     </div>
