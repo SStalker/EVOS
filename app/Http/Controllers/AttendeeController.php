@@ -13,7 +13,7 @@ class AttendeeController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'getQuiz', 'enterName', 'create', 'store', 'update', 'destroy', 'edit']]);
+        $this->middleware('auth', ['except' => ['index', 'getQuiz', 'enterName', 'create', 'store', 'update', 'destroy', 'edit', 'errorPage' ]]);
     }
     
     public function index() {
@@ -45,5 +45,9 @@ class AttendeeController extends Controller
         } else {
             return 'wrongpin';
         }
+    }
+    
+    public function errorPage(){
+        return view('errors.errorPage');
     }
 }

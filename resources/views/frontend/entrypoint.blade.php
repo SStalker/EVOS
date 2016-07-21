@@ -91,12 +91,6 @@
             <button id='startNewBtn' class="btn btn-default center-block" style="margin-top: 2%">Neue PIN eingeben!
             </button>
         </div>
-
-        <div id="WebsocketErrorPanel" class="container" style="display: none; text-align: center;">
-            <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block">
-            <p style="margin-top: 2%">Der Browser unterstützt keine Websockets. Bitte benutze einen Browser der
-                Websockets unterstützt!</p>
-        </div>
     </div>
 
 

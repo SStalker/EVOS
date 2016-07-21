@@ -16,6 +16,11 @@
         //Websocket
         var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
         var appUrl = '{{ url('/') }}';
+
+        if(typeof WebSocket === "undefined" ){
+            window.location.replace(appUrl + "/error");
+        }
+
     </script>
 
     <!-- JavaScripts -->

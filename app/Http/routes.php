@@ -42,6 +42,7 @@ Route::post('categories/{categories}/move', 'CategoryController@postMove');
 Route::get('categories/{categories}/quizzes/{quizzes}/start', 'QuizController@start');
 Route::get('categories/{categories}/quizzes/{quizzes}/next', 'QuizController@next');
 Route::get('categories/{categories}/quizzes/{quizzes}/choices', 'QuizController@choices');
+Route::get('/error','AttendeeController@errorPage');
 
 Route::resource('categories', 'CategoryController');
 Route::resource('categories.quizzes', 'QuizController');

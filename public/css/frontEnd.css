@@ -65,11 +65,25 @@
     max-width: 1200px;
 }
 
-#questionPanel {
+#questionPanel{
 
     padding: 10% 0;
     min-width: 300px;
     max-width: 1200px;
+}
+
+#websocketErrorPanel {
+    padding: 10% 0;
+    min-width: 300px;
+    max-width: 1200px;
+}
+
+#websocketErrorPanel h1 {
+    margin-bottom: 25px;
+}
+
+#websocketErrorPanel p{
+    color: #ff0000;
 }
 
 .answer {
