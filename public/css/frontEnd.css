@@ -92,11 +92,14 @@
     cursor: pointer;
 }
 
-.answer:hover{
-    background-color: #66b6f0;
-    color: #fff;
-    border: none;
-    box-shadow: 0px 3px 15px #66b6f0;
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@media (min-width:801px) {
+  .answer:hover{
+      background-color: #66b6f0;
+      color: #fff;
+      border: none;
+      box-shadow: 0px 3px 15px #66b6f0;
+  }
 }
 
 .logoTimer{
