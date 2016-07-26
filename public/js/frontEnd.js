@@ -234,14 +234,6 @@ $(document).ready(function () {
             onReturn('enterNameBtn', event);
         });
 
-        $('#quizAlert').on('click', function () {
-            $('#quizAlert').toggleClass('in').toggleClass('out');
-        });
-
-        $('#nameAlert').on('click', function () {
-            $('#nameAlert').toggleClass('in').toggleClass('out');
-        });
-
         $('#quizPinBtn').on('click', function (e) {
             quizPin = $('#quizPinInput').val();
             jqXhr = $.ajax(appUrl + '/quiz/' + quizPin)
@@ -250,11 +242,19 @@ $(document).ready(function () {
                         $('#quizAlert').text('Das Quiz existiert nicht!');
                         if ($('#quizAlert').hasClass('out')) {
                             $('#quizAlert').toggleClass('out').toggleClass('in');
+                            setTimeout(function() {
+                                $('#quizAlert').toggleClass('in').toggleClass('out');
+                            }, 3000);
+
                         }
                     } else if (response == 'quiz_not_active') {
                         $('#quizAlert').text('Das Quiz ist nicht aktiv!');
                         if ($('#quizAlert').hasClass('out')) {
                             $('#quizAlert').toggleClass('out').toggleClass('in');
+                            setTimeout(function() {
+                                $('#quizAlert').toggleClass('in').toggleClass('out');
+                            }, 3000);
+
                         }
                     } else {
                         quizObj = response;
@@ -290,6 +290,9 @@ $(document).ready(function () {
                                 if ($('#nameAlert').hasClass('out')) {
                                     enterName = true;
                                     $('#nameAlert').toggleClass('out').toggleClass('in');
+                                    setTimeout(function() {
+                                        $('#nameAlert').toggleClass('in').toggleClass('out');
+                                    }, 3000);
                                 }
                             });
                             //New lines end
@@ -300,6 +303,9 @@ $(document).ready(function () {
 
                     if ($('#quizAlert').hasClass('out')) {
                         $('#quizAlert').toggleClass('out').toggleClass('in');
+                        setTimeout(function() {
+                            $('#quizAlert').toggleClass('in').toggleClass('out');
+                        }, 3000);
                     }
                 });
         });
@@ -334,6 +340,9 @@ $(document).ready(function () {
                     if ($('#nameAlert').hasClass('out')) {
                         enterName = true;
                         $('#nameAlert').toggleClass('out').toggleClass('in');
+                        setTimeout(function() {
+                            $('#nameAlert').toggleClass('in').toggleClass('out');
+                        }, 3000);
                     }
                 });
             }
