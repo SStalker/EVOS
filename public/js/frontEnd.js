@@ -8,40 +8,36 @@ var quizObj;
 var toAnswer = false;
 var end = false;
 var clickedAnswer = '';
+
 websocket.onopen = function (event) {
     websocketOk = true;
-    //DEBUG
-    console.log("open");
 };
 
 websocket.onerror = function (error) {
-
-    //If the websocket is closed due some issues set websocketOk to false
     websocketOk = false;
-    //DEBUG
-    console.log('WebSocket Error');
 };
 
-//receive messages from server
 websocket.onmessage = function (event) {
-    //process the received server data
     processMessage(event.data);
 };
 
+/**
+ * Funktion zum Senden der Daten als JSON an den EVOS-Sync Server via Websocket.
+ *
+ * @param data      Die ausgehenden Daten.
+ */
 function sendToSyncServer(data) {
     websocket.send(JSON.stringify(data));
 }
 
-/* parse/process incoming sync server messages */
+/**
+ * Diese Funktion entscheidet darüber, wie mit der eingehenden Nachricht verfahren wird.
+ *
+ * @param data      Eingehende Nachricht.
+ */
 function processMessage(data) {
-    //DEBUG
-    console.log(data);
-
-    //Parse JSON to Object
     var dataArray = JSON.parse(data);
-
     if (dataArray.type != undefined) {
-
         switch (dataArray.type) {
             case 'logon':
                 processLogon(dataArray);
@@ -57,89 +53,89 @@ function processMessage(data) {
                 break;
         }
     } else {
-        //error or something for undefined response;
+        alert('Fehler beim verarbeiten der eingehenden Nachricht!');
     }
 }
+
+/**
+ * Funktion zur Verarbeitung einer erfolgreichen Anmeldung via Websocket am EVOS-Sync Server.
+ * In Fehlerfällen wird ein Alarm ausgegeben und die Seite wird neu geladen.
+ *
+ * @param data      Antwort vom Server
+ */
 function processLogon(data) {
-
     if (data.successful != undefined) {
-
         if (data.successful !== true) {
-            //error, not registered for quiz
             if (data.reason != undefined) {
                 alert(data.reason);
-                //reload after error
                 location.reload(true);
             }
         } else {
-
             $('#enterNamePanel').fadeOut(400, function () {
                 $('#waitingPanel').fadeIn(400);
             });
-
         }
     } else {
-        //error because of not well formed syns server messages
+        alert('Fehlerhafte Nachricht erhalten!')
     }
 }
 
+/**
+ * Anfrage an den Webserver für eine neue Frage.
+ *
+ * Der EVOS-Sync Server sendet via Websocket eine Nachricht als Signal zum abholen einer neuen Frage.
+ * Das Verarbeiten dieses eingehenden Packetes erfolgt in dieser Funktion.
+ *
+ * @param data      unbenutzt
+ */
 function processQuestion(data) {
-
-
-    //Call function to get next question from Laravel server
     $.getJSON(appUrl + '/categories/' + quizObj.category_id + '/quizzes/' + quizObj.id + '/choices')
         .done(function (response) {
-
             if(response['answerA']) {
                 $('#answerA').parent().show();
                 $('#answerA .panel-body').text(response['answerA']);
                 $('#answerA .panel-body').attr("data-value", response['answerA']);
             }else{ $('#answerA').parent().hide(); }
-
             if(response['answerB']) {
                 $('#answerB').parent().show();
                 $('#answerB .panel-body').text(response['answerB']);
                 $('#answerB .panel-body').attr("data-value", response['answerB']);
             }else{ $('#answerB').parent().hide(); }
-
             if(response['answerC']) {
                 $('#answerC').parent().show();
                 $('#answerC .panel-body').text(response['answerC']);
                 $('#answerC .panel-body').attr("data-value", response['answerC']);
             }else{ $('#answerC').parent().hide(); }
-
             if(response['answerD']) {
                 $('#answerD').parent().show()
                 $('#answerD .panel-body').text(response['answerD']);
                 $('#answerD .panel-body').attr("data-value", response['answerD']);
             }else{ $('#answerD').parent().hide(); }
-
-
             toAnswer = true;
             var display = document.getElementById('countdown');
             display.setAttribute('aria-valuemax', response['countdown']);
             display.setAttribute('aria-valuenow', response['countdown']);
             display.setAttribute('aria-valuemin', '0');
             startTimer(response["countdown"], display);
-
             console.log(response);
-
             window.setTimeout(function () {
                 MathJax.Hub.Typeset();
                 buttonResize();
             }, 1000);
-
             $('#waitingPanel').fadeOut(400, function () {
                 $('#questionPanel').fadeIn(400);
             });
-
-
         });
 }
 
+/**
+ * Diese Funktion ist nur dafür zuständig, ein Div auszublenden und ein anderes einzublenden. Zudem wird der globale
+ * boolsche Wert "end" auf true gesetzt.
+ *
+ * @param data      unbenutzt
+ */
 function processEnd(data) {
     end = true;
-
     if ($('#waitingPanel').is(':visible')) {
         $('#waitingPanel').fadeOut(400, function () {
             $('#endQuizPanel').fadeIn(400);
@@ -149,24 +145,26 @@ function processEnd(data) {
             $('#endQuizPanel').fadeIn(400);
         });
     }
-    //show results or something like that, or show evaluation, or show some other sort of end screen
 }
 
+/**
+ * Diese Funktion startet den Timer für eine Frage. Sekündlich wird geprüft ob eine Frage ausgewählt wurde,
+ * und wenn ja, wird die gewählte Frage für die Darstellung im "waitingPanel" gesüeichert.
+ *
+ * @param duration      Zeit für die Frage in Sekunden
+ * @param display       ???
+ */
 function startTimer(duration, display) {
     var timer = --duration, seconds;
     var percent;
     display.setAttribute('aria-valuenow', duration);
     display.style.width = '100%';
-
     var interval = setInterval(function () {
         seconds = timer;
         seconds = seconds < 10 ? "0" + seconds : seconds;
-
         percent = seconds / (duration + 1) * 100;
-
         display.setAttribute('aria-valuenow', seconds);
         display.style.width = percent + '%';
-
         if (--timer < 0 || !toAnswer) {
             if (document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end) {
                 $('#questionPanel').fadeOut(400, function () {
@@ -182,7 +180,6 @@ function startTimer(duration, display) {
                         $('#clickedAnswer').append("Keine Antwort gewählt!");
                     }
                     $('#waitingPanel').fadeIn(400);
-
                     clickedAnswer = '';
                 });
             }
@@ -191,12 +188,22 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
+/**
+ * ???
+ *
+ * @param name
+ * @param event
+ */
 function onReturn(name, event) {
     if (event.which === 13) {
         $('#' + name).trigger('click');
     }
 }
 
+/**
+ * ???
+ *
+ */
 function buttonResize() {
     var maxHeight = 0;
     var allButtons = $('.answer-cell');
@@ -205,35 +212,31 @@ function buttonResize() {
         maxHeight = height > maxHeight ? height : maxHeight;
 
     });
-
     $('.answer-cell .panel').height(maxHeight);
-
-
 }
 
+/**
+ * Diese Funktion wird ausgeführt, sobald das Fenster vollständig geladen wurde. In ihr werden die onClick
+ * Listener für die betreffenden Buttons und "Antworten-Div's" definiert. Ebenso werden die div's für Fehlermeldungen
+ * auf den Handy bei entsprechender Antwort des Server eingeblendet.
+ *
+ */
 $(document).ready(function () {
-
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
-
     $("#quizPinInput").focus();
-
     var quizPin;
     var jqXhr;
     var name;
     var enterName = true;
-
     if(WebSocket !== undefined){
-
         $("#quizPinInput").keypress(function (event) {
             onReturn('quizPinBtn', event);
         });
-
         $("#enterNameInput").keypress(function (event) {
             onReturn('enterNameBtn', event);
         });
-
         $('#quizPinBtn').on('click', function (e) {
             quizPin = $('#quizPinInput').val();
             jqXhr = $.ajax(appUrl + '/quiz/' + quizPin)
@@ -245,7 +248,6 @@ $(document).ready(function () {
                             setTimeout(function() {
                                 $('#quizAlert').toggleClass('in').toggleClass('out');
                             }, 3000);
-
                         }
                     } else if (response == 'quiz_not_active') {
                         $('#quizAlert').text('Das Quiz ist nicht aktiv!');
@@ -254,7 +256,6 @@ $(document).ready(function () {
                             setTimeout(function() {
                                 $('#quizAlert').toggleClass('in').toggleClass('out');
                             }, 3000);
-
                         }
                     } else {
                         quizObj = response;
@@ -280,9 +281,7 @@ $(document).ready(function () {
                                         quiz_id: parseInt(quizPin),
                                         nickname: ''
                                     };
-
                                     sendToSyncServer(data);
-
                                 } else {
                                     console.log(response);
                                 }
@@ -300,7 +299,6 @@ $(document).ready(function () {
                     }
                 })
                 .fail(function () {
-
                     if ($('#quizAlert').hasClass('out')) {
                         $('#quizAlert').toggleClass('out').toggleClass('in');
                         setTimeout(function() {
@@ -309,12 +307,10 @@ $(document).ready(function () {
                     }
                 });
         });
-
         $('#enterNameBtn').on('click', function (e) {
             if (enterName) {
                 enterName = false;
                 name = $('#enterNameInput').val();
-
                 $.ajax({
                     url: appUrl + '/attendee',
                     method: 'POST',
@@ -330,9 +326,7 @@ $(document).ready(function () {
                             quiz_id: parseInt(quizPin),
                             nickname: name
                         };
-
                         sendToSyncServer(data);
-
                     } else {
                         console.log(response);
                     }
@@ -347,41 +341,31 @@ $(document).ready(function () {
                 });
             }
         });
-
         /*Mouse click binding for answer boxes*/
         $('.answer').click(function (event) {
-
             if (toAnswer) {
-
                 var data = {
                     type: 'answer',
                     quiz_id: parseInt(quizPin),
                     answer: [this.getAttribute('data-value')]
                 };
-
                 //save the look of the clicked box for displaying purposes
                 clickedAnswer = $('div[data-value='+data.answer+'] .panel-body').attr('data-value');
-
                 sendToSyncServer(data);
                 toAnswer = false;
-
             }
         });
-
         $('#startNewBtn').on('click', function () {
             location.reload();
         });
-
         $(window).bind('beforeunload', function () {
             if ($('#questionPanel').is(':visible') || $('#waitingPanel').is(':visible')) {
                 return 'Das Quiz läuft noch! Trotzdem die Seite neu laden?';
             }
         });
     }else{
-
         $('#enterQuizPanel').css("display", "none");
         $('#WebsocketErrorPanel').css("display", "block");
-
         alert("Der Browser unterstützt keine Websockets. Bitte benutze einen Browser der Websockets unterstützt!");
     }
 });
