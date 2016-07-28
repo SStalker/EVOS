@@ -210,7 +210,6 @@ function buttonResize() {
     allButtons.each(function () {
         var height = $(this).outerHeight();
         maxHeight = height > maxHeight ? height : maxHeight;
-
     });
     $('.answer-cell .panel').height(maxHeight);
 }
