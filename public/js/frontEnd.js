@@ -184,6 +184,7 @@ function startTimer(duration, display) {
                     $('#waitingPanel').fadeIn(400);
 
                     clickedAnswer = '';
+                    $('.answer-cell .panel').height('');
                 });
             }
             clearInterval(interval);
@@ -198,6 +199,12 @@ function onReturn(name, event) {
 }
 
 function buttonResize() {
+
+    var buttonpanel = $('.answer-cell .panel');
+
+    //Clear old height
+    buttonpanel.height('');
+
     var maxHeight = 0;
     var allButtons = $('.answer-cell');
     allButtons.each(function () {
@@ -206,9 +213,7 @@ function buttonResize() {
 
     });
 
-    $('.answer-cell .panel').height(maxHeight);
-
-
+    buttonpanel.height(maxHeight);
 }
 
 $(document).ready(function () {
