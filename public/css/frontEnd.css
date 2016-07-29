@@ -37,7 +37,6 @@
     text-align: center;
     margin:0;
     cursor: pointer;
-    min-height: 52px;
 }
 
 .answer:hover{
@@ -164,6 +163,16 @@
  */
 .clearfix{
     margin-bottom: 25px;
+}
+
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@media (min-width:801px) {
+    .answer:hover{
+        background-color: #66b6f0;
+        color: #fff;
+        border: none;
+        box-shadow: 0px 3px 15px #66b6f0;
+    }
 }
 
 @media all and (max-width: 991px) {

@@ -62,7 +62,7 @@
         svg {
           font: 10px sans-serif;
           width: 1020px;
-          height: 520px;
+          height: 550px;
         }
 
         path.line {
@@ -452,7 +452,7 @@
                 vis.append("text")
                      .attr("text-anchor", "middle")
                      .attr("id", "label-bottom")
-                     .attr("transform", "translate("+(WIDTH/2)+","+(HEIGHT+10)+")")
+                     .attr("transform", "translate("+(WIDTH/2)+","+(HEIGHT+20)+")")
                      .text("Fragen");
 
 
