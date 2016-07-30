@@ -51,6 +51,12 @@ h3{
     border: 1px solid #ccc !important;
 }
 
+
+/*Fix for broken auto with for toggle buttons in questions/_form */
+.corrent-answer-box .toggle.btn{
+    min-width: 74px;
+}
+
 /* even table rows background to be no */
 .table-striped > tbody > tr:nth-of-type(even) {
     background-color: #fcfcfc;
