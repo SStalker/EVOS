@@ -47,7 +47,7 @@
     </div>
     <div class="form-group" id="answer-box-2">
         {{ Form::text('answerB', null, ['id' => 'answerB','class' => 'form-control']) }}<br>
-        <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
+        <a class="btn btn-primary preview" href="" data-toggle="modal"
            data-target="#previewBox" data-preview="answerB">Vorschau</a>
         <div class="pull-right corrent-answer-box">
             {{ Form::checkbox('answerBbool', null, (isset($question) ? $question->answerBBool : null), ['data-id'=>'answerB', 'data-on' => 'richtig', 'data-off' => 'falsch', 'data-toggle' => 'toggle']) }}
@@ -223,8 +223,8 @@
 
             current.removeClass('active');
             $(this).addClass('active');
-            $('#answer-box-' + currentId).hide(200, function () {
-                $('#answer-box-' + boxId).show(200);
+            $('#answer-box-' + currentId).fadeOut(100, function () {
+                $('#answer-box-' + boxId).fadeIn(100);
             });
         });
     });
