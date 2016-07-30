@@ -152,7 +152,7 @@ function processEnd(data) {
  * und wenn ja, wird die gewählte Frage für die Darstellung im "waitingPanel" gesüeichert.
  *
  * @param duration      Zeit für die Frage in Sekunden
- * @param display       ???
+ * @param display       Element in dem der Timer angezeigt wird
  */
 function startTimer(duration, display) {
     var timer = --duration, seconds;
@@ -190,10 +190,10 @@ function startTimer(duration, display) {
 }
 
 /**
- * ???
+ * Diese Funktion wandelt einen Tastendruck auf Enter in ein Click event um.
  *
- * @param name
- * @param event
+ * @param name      ID des angeklickten Elements
+ * @param event     ID des Taste die betätigt wurde
  */
 function onReturn(name, event) {
     if (event.which === 13) {
@@ -202,7 +202,7 @@ function onReturn(name, event) {
 }
 
 /**
- * ???
+ * Diese Funktion passt die Höhe der div-Elemente die die Antwortmöglichkeiten anzeigen an das jeweils größte an.
  *
  */
 function buttonResize() {
