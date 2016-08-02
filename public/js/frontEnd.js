@@ -228,9 +228,8 @@ function buttonResize() {
  *
  */
 $(document).ready(function () {
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-    });
+    $('[data-toggle="tooltip"]').tooltip();
+
     $("#quizPinInput").focus();
     var quizPin;
     var jqXhr;
