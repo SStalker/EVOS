@@ -35,17 +35,17 @@
     <div>
         <label>Antwortmöglichkeiten</label>
         <div class="container-fluid" style="margin-bottom: 2em">
-            <div class="row answer">
-                <div class="col-md-6 {{ $question->answerABool ? 'correct-answer' : 'incorrect-answer' }}">{{ $question->answerA }}</div>
-                <div class="col-md-6 {{ $question->answerBBool ? 'correct-answer' : 'incorrect-answer' }}">{{ $question->answerB }}</div>
+            <div class="row answer" style="visibility: hidden" >
+                <div class="answer-cell col-md-6 {{ $question->answerABool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerA }}</div></div>
+                <div class="answer-cell col-md-6 {{ $question->answerBBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerB }}</div></div>
             </div>
             @if(!empty($question->answerC) || !empty($question->answerD))
-                <div class="row answer">
+                <div class="row answer" style="visibility: hidden">
                     @if(!empty($question->answerC))
-                        <div class="col-md-{{ empty($question->answerD) ? '12' : '6' }} {{ $question->answerCBool ? 'correct-answer' : 'incorrect-answer' }}">{{ $question->answerC }}</div>
+                        <div class="answer-cell col-md-{{ empty($question->answerD) ? '12' : '6' }} {{ $question->answerCBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerC }}</div></div>
                     @endif
                     @if(!empty($question->answerD))
-                        <div class="col-md-{{ empty($question->answerC) ? '12' : '6' }} {{ $question->answerDBool ? 'correct-answer' : 'incorrect-answer' }}">{{ $question->answerD }}</div>
+                        <div class="answer-cell col-md-{{ empty($question->answerC) ? '12' : '6' }} {{ $question->answerDBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerD }}</div></div>
                     @endif
                 </div>
             @endif
@@ -63,6 +63,7 @@
 
     <script>
         $(function () {
+
             var questionBody = $('#question-body').text();
             var images = questionBody.match(/\[image\((\d+\.[A-Za-z]{1,4})\)\]/g);
             if (images != null) {
@@ -77,6 +78,26 @@
             questionBody = questionBody.replace(/\[code\]/g, '<pre><code>');
             questionBody = questionBody.replace(/\[\/code\]/g, '</code></pre>');
             $('#question-body').html(questionBody);
+
+            //Resize after MathJax has done its work
+            MathJax.Hub.Register.StartupHook("End", function () {
+                //Equal height of answer divs
+                var answerCell = $('.answer-cell');
+
+                var answers = $('.answer');
+                console.log(answers);
+                var maxHeight = 0;
+                answers.each(function () {
+                    var height = $(this).outerHeight();
+                    maxHeight = height > maxHeight ? height : maxHeight;
+                    console.log($(this));
+                    console.log(height);
+                });
+                answerCell.height(maxHeight);
+
+                $('.container-fluid .answer').css("visibility", "");
+            });
+
         })
     </script>
 

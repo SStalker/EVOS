@@ -30,6 +30,13 @@ h3{
     margin-bottom: 50px;
 }
 
+.answer-panel{
+    position: relative;
+    top: 50%;
+    transform: perspective(1px) translateY(-50%);
+    text-align: center;
+}
+
 .answer-switcher > .btn-group > .btn {
     border: 1px solid #ccc;
 }

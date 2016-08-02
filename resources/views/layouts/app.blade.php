@@ -20,7 +20,7 @@
     <!-- JavaScripts -->
     <script src="{{ asset('js/all.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
-    <script type="text/javascript" async
+    <script type="text/javascript"
             src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
 </head>
