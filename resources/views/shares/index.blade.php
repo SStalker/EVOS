@@ -28,7 +28,7 @@
         @else
             Zurzeit haben Sie keine offenen Freigaben mehr. Sie können neue Freigaben erstellen, wenn Sie
             in den <a href="{{ action('CategoryController@index') }}">Kategorien</a> in den Kategorie-Aktionen
-            auf die jeweiligen <a href="#" class="btn-xs btn-info">Teilen</a>-Schaltfläche klicken.
+            auf die jeweiligen <span class="share-icon btn-xs btn-info">Teilen</span>-Schaltfläche klicken.
         @endif
     </div>
 

@@ -138,6 +138,12 @@ h3{
     opacity: .65;
 }
 
+.share-icon{
+    display: inline-block;
+    cursor: default;
+    pointer-events: none;
+}
+
 /* start quiz css redesign */
 #startQuizTitle, #startQuizPinText, #startQuizPin{
     text-align: center;
