@@ -18,14 +18,6 @@
     background:#FBFF82;
 }
 
-.correct-answer{
-    background:#97FF82;
-}
-
-.incorrect-answer{
-    background:#FF8282;
-}
-
 .clickedAnswer{
     border:none !important;
     border-radius:0px;
@@ -127,35 +119,6 @@
 
 #websocketErrorPanel p{
     color: #ff0000;
-}
-
-#questionTitle{
-    text-align: center;
-    color: #999999;
-}
-
-#questionBody{
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 2em;
-}
-
-#question-answers tr td{
-    vertical-align:middle;
-}
-
-#questionAnswers, #questionTime{
-    float:left;
-    font-size: 20pt;
-    color:#8A8A8A;
-}
-
-#questionTime{
-    margin-left:40px;
-}
-
-#next-button{
-    margin-top:5px;
 }
 
 /*
