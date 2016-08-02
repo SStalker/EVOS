@@ -20,19 +20,19 @@
     <div class="btn-group btn-group-justified answer-switcher" role="group" aria-label="...">
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default active answer-switcher-button" data-id="1">1.
-                Antwortmöglichkeit
+                Antwortmöglichkeit <span class="glyphicon glyphicon-unchecked"></span>
             </button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default answer-switcher-button" data-id="2">2. Antwortmöglichkeit
+            <button type="button" class="btn btn-default answer-switcher-button" data-id="2">2. Antwortmöglichkeit <span class="glyphicon glyphicon-unchecked"></span>
             </button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default answer-switcher-button" data-id="3">3. Antwortmöglichkeit
+            <button type="button" class="btn btn-default answer-switcher-button" data-id="3">3. Antwortmöglichkeit <span class="glyphicon glyphicon-unchecked"></span>
             </button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default answer-switcher-button" data-id="4">4. Antwortmöglichkeit
+            <button type="button" class="btn btn-default answer-switcher-button" data-id="4">4. Antwortmöglichkeit <span class="glyphicon glyphicon-unchecked"></span>
             </button>
         </div>
     </div>
@@ -153,6 +153,39 @@
         }
     }
 
+    function initEmphasize(){
+        $.each($('.toggle.btn input[type=checkbox]'), function () {
+            if($(this).prop('checked')){
+                var id = 0;
+                switch ($(this).data('id')){
+                    case 'answerA':
+                        id = 1;
+                        break;
+                    case 'answerB':
+                        id = 2;
+                        break;
+                    case 'answerC':
+                        id = 3;
+                        break;
+                    case 'answerD':
+                        id = 4;
+                        break;
+                }
+                if(id !== 0 ){
+                    var span = $('.answer-switcher-button[data-id=' + id + '] span');
+                    span.addClass("glyphicon-check");
+                    span.removeClass("glyphicon-unchecked")
+                }
+            }
+        });
+    }
+
+    function emphasizeAnswerSwitcher(){
+        var iconSpan = $('.answer-switcher-button.active span');
+        iconSpan.toggleClass("glyphicon-check");
+        iconSpan.toggleClass("glyphicon-unchecked");
+    }
+
     $(document).ready(function () {
 
         $("#questionInput").focus();
@@ -161,11 +194,15 @@
 
         //Check if submit button should be enabled
         enableSubmit();
+        //If edit form we also need to know which answer is right
+        initEmphasize();
 
         //Check enableSubmit each time an input is done and every end every check of right answer
         $("input").on('keyup', enableSubmit);
         $("textarea").on('keyup', enableSubmit);
-        $('.toggle.btn input[type=checkbox]').on('change', enableSubmit);
+        var toggleBoxes = $('.toggle.btn input[type=checkbox]');
+        toggleBoxes.on('change', enableSubmit);
+        toggleBoxes.on('change', emphasizeAnswerSwitcher);
 
         $(".preview").click(function () {
             var id = $(this).data('preview');
