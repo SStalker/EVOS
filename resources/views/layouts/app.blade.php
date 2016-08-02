@@ -47,8 +47,10 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/categories') }}">Kategorien</a></li>
-                <li><a href="{{ url('/share') }}">Freigaben</a></li>
+                @if(Auth::user())
+                    <li><a href="{{ url('/categories') }}">Kategorien</a></li>
+                    <li><a href="{{ url('/share') }}">Freigaben</a></li>
+                @endif
                 @if(Auth::user() != null && Auth::user()->isAdmin)
                     <li><a href="{{ url('/users') }}" class="alert-danger">Benutzer</a></li>
                 @endif
@@ -68,9 +70,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                    @else
+                    @if (Auth::user())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">
