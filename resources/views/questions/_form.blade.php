@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="title">Frage</label>
-    {{ Form::text('title', null, ['class' => 'form-control']) }}
+    {{ Form::text('title', null, ['id' => 'question', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
     <label for="question">Text zur Frage</label>
@@ -73,7 +73,7 @@
 
 <div class="form-group">
     <label for="countdown">Countdown in Sekunden <span data-toggle="tooltip"  title="Feld leer lassen um Countdown zu deaktivieren. Kleinst mögliche Eingabe 10" class="glyphicon glyphicon-question-sign"></span></label>
-    {{ Form::number('countdown', null, ['class' => 'form-control', 'placeholder'=> 'Beispiel: 25']) }}
+    {{ Form::number('countdown', (isset($question->countdown) ? $question->countdown : 0), ['class' => 'form-control', 'placeholder'=> 'Beispiel: 25']) }}
 </div>
 
 <div class="pull-right" data-trigger="hover" data-toggle="tooltip" data-placement="left">{{ Form::submit($submitLabel, ['id'=>'formSubmit','class'=>'btn btn-primary', 'disabled']) }}</div>
@@ -189,7 +189,7 @@
 
     $(document).ready(function () {
 
-        $("#questionInput").focus();
+        $("#question").focus();
 
         $('[data-toggle="tooltip"]').tooltip();
 

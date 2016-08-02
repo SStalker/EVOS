@@ -42,6 +42,7 @@
 
             <div class="next-button">
                 <a id="next-button" class="btn btn-primary" href="#" style="display: none;">Nächste Frage</a>
+                <a id="stop-button" class="btn btn-primary" href="#" style="display: none;">Frage beenden</a>
                 <a id="end-button" class="btn btn-danger" href="#" style="display: none;">Quiz beenden</a>
             </div>
         </div>
@@ -122,6 +123,7 @@
         var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
         var correctAnswers;
         var answers = [];
+        var stopClicked = false;
 
         function SyncServer(ws_url) {
             this.attendee_count = 0;
@@ -233,7 +235,7 @@
                 return false;
             }
 
-            if (this.duration <= 0) {
+            if (this.duration < 0) {
                 return;
             }
 
@@ -290,6 +292,8 @@
             $('#answerD').removeClass("correct-answer incorrect-answer");
             $('#next-button').fadeOut("slow");
 
+            stopClicked = false;
+
             this.questions_count++;
 
             var self = this;
@@ -301,6 +305,7 @@
                 correctAnswers = jQuery.parseJSON(data.correct_answers);
 
                 $('#questionTitle').text(data.title);
+                $('#countdown').text('');
 
                 $('#answerA').text(data.answerA || '');
                 $('#answerB').text(data.answerB || '');
@@ -326,45 +331,25 @@
 
                 // Shows the countdown for the current question
                 var that = this;
-                this.countdown = setInterval(function () {
-                    self.duration--;
-                    if (self.duration > 0) {
-                        $('#countdown').text(self.duration);
-                    } else {
-                        var percent_correct = 0;
-                        var percent_incorrect = 0;
 
-                        if (self.answer_count != 0) {
-                            percent_correct = self.correctAnswers_count / self.answer_count * 100;
-                            percent_incorrect = self.incorrectAnswers_count / self.answer_count * 100;
-
-                            self.allCorrectAnswers_count += percent_correct;
-                            self.allIncorrectAnswers_count += percent_incorrect;
+                if(self.duration == 0){
+                    $('#stop-button').fadeIn("slow");
+                    $('#countdown').text('∞');
+                    this.countdown = setInterval(function () {
+                        if(stopClicked){
+                            showResultsOfQuestion(self, that, data);
                         }
-
-                        clearInterval(that.countdown);
-
-                        if (data.last == true) {
-                            self.end();
-                            $('#end-button').fadeIn("slow");
+                    }, 1000);
+                }else{
+                    this.countdown = setInterval(function () {
+                        self.duration--;
+                        if (self.duration > 0) {
+                            $('#countdown').text(self.duration);
                         } else {
-                            $('#next-button').fadeIn("slow");
+                            showResultsOfQuestion(self, that, data);
                         }
-
-                        $('#countdown').text('Keine verbleibende Zeit');
-                        $('#answer-count').text('Richtig: ' + Math.round(percent_correct) + '%, falsch: ' + Math.round(percent_incorrect) + '%');
-
-                        $('#answerA').removeClass("bg-blue");
-                        $('#answerB').removeClass("bg-green");
-                        $('#answerC').removeClass("bg-red");
-                        $('#answerD').removeClass("bg-yellow");
-
-                        correctAnswers.a ? $('#answerA').addClass("correct-answer") : $('#answerA').addClass("incorrect-answer");
-                        correctAnswers.b ? $('#answerB').addClass("correct-answer") : $('#answerB').addClass("incorrect-answer");
-                        correctAnswers.c ? $('#answerC').addClass("correct-answer") : $('#answerC').addClass("incorrect-answer");
-                        correctAnswers.d ? $('#answerD').addClass("correct-answer") : $('#answerD').addClass("incorrect-answer");
-                    }
-                }, 1000);
+                    }, 1000);
+                }
             });
         }
 
@@ -397,6 +382,42 @@
             window.onbeforeunload = null;
         }
 
+        function showResultsOfQuestion(self, that, data){
+
+            var percent_correct = 0;
+            var percent_incorrect = 0;
+
+            if (self.answer_count != 0) {
+                percent_correct = self.correctAnswers_count / self.answer_count * 100;
+                percent_incorrect = self.incorrectAnswers_count / self.answer_count * 100;
+
+                self.allCorrectAnswers_count += percent_correct;
+                self.allIncorrectAnswers_count += percent_incorrect;
+            }
+
+            clearInterval(that.countdown);
+
+            if (data.last == true) {
+                self.end();
+                $('#end-button').fadeIn("slow");
+            } else {
+                $('#next-button').fadeIn("slow");
+            }
+
+            $('#countdown').text('Keine verbleibende Zeit');
+            $('#answer-count').text('Richtig: ' + Math.round(percent_correct) + '%, falsch: ' + Math.round(percent_incorrect) + '%');
+
+            $('#answerA').removeClass("bg-blue");
+            $('#answerB').removeClass("bg-green");
+            $('#answerC').removeClass("bg-red");
+            $('#answerD').removeClass("bg-yellow");
+
+            correctAnswers.a ? $('#answerA').addClass("correct-answer") : $('#answerA').addClass("incorrect-answer");
+            correctAnswers.b ? $('#answerB').addClass("correct-answer") : $('#answerB').addClass("incorrect-answer");
+            correctAnswers.c ? $('#answerC').addClass("correct-answer") : $('#answerC').addClass("incorrect-answer");
+            correctAnswers.d ? $('#answerD').addClass("correct-answer") : $('#answerD').addClass("incorrect-answer");
+        }
+
         $(function () {
             $('.quiz-normal').hide();
             $('.quiz-question').hide();
@@ -415,6 +436,11 @@
 
             $('#next-button').click(function () {
                 syncServer.quiz();
+            });
+
+            $('#stop-button').click(function(){
+                stopClicked = true;
+                $(this).hide();
             });
 
             $('#end-button').click(function () {

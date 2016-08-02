@@ -29,7 +29,7 @@ class QuestionRequest extends Request
             'answerB' => 'required',
             'answerC' => '',
             'answerD' => '',
-            'countdown' => 'required|integer|between:10,90'
+            'countdown' => 'integer|between:10,90'
         ];
     }
 }
