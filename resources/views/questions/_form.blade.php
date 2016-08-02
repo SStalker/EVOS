@@ -3,7 +3,7 @@
     {{ Form::text('title', null, ['class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <label for="question">Details</label>
+    <label for="question">Text zur Frage</label>
     {{ Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 8]) }} <br>
     <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
        data-target="#previewBox" data-preview="questionInput">Vorschau</a>
@@ -72,11 +72,11 @@
 </div>
 
 <div class="form-group">
-    <label for="countdown">Countdown</label>
+    <label for="countdown">Countdown in Sekunden</label>
     {{ Form::number('countdown', null, ['class' => 'form-control']) }}
 </div>
 
-<div class="pull-right">{{ Form::submit($submitLabel, ['data-toggle'=>'tooltip', 'id'=>'formSubmit','class'=>'btn btn-primary', 'disabled']) }}</div>
+<div class="pull-right" data-trigger="hover" data-toggle="tooltip" data-placement="left">{{ Form::submit($submitLabel, ['id'=>'formSubmit','class'=>'btn btn-primary', 'disabled']) }}</div>
 
 <!-- Preview for questions and answers -->
 <div class="modal fade" id="previewBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -98,36 +98,58 @@
     function enableSubmit() {
 
         //get references
-        var answerA = $("#answerA").val();
-        var answerB = $("#answerB").val();
-
+        var answers = $("input[id^=answer]");
+        var questionText = $('#question').val();
+        var questionDetail = $('#questionInput').val();
+        var questionCountdown = $('#questionCountdown').val();
         var isToggled = false;
 
         //Check if any answer is toggled right
         $.each($('.toggle.btn input[type=checkbox]'), function () {
 
-            //If checkbox is checked
+            // If checkbox is checked
             if ($(this).prop('checked')) {
-                //Get id of answer for this checkbox
+                // Get id of answer for this checkbox
                 var answer = $(this).attr('data-id');
 
-                //If answer of checkbox is not empty
+                // If answer of checkbox is not empty
                 if ($('#' + answer).val() !== "") {
                     isToggled = true;
                 }
-
             }
         });
 
+
+        var nonEmptyAnswerCounter = 0;
+        $.each(answers, function(i){
+            if($(this).val() !== "")
+              nonEmptyAnswerCounter++;
+        });
+
+        if(questionText === ""){
+          $('#formSubmit').parent().attr('data-original-title', 'Bitte eine Frage eingeben').tooltip('fixTitle');
+          return;
+        }
+
+        if(questionDetail === ""){
+          $('#formSubmit').parent().attr('data-original-title', 'Bitte noch den Text zur Frage eingeben').tooltip('fixTitle');
+          return;
+        }
+
+        if(nonEmptyAnswerCounter <= 1){
+          $('#formSubmit').parent().attr('data-original-title', 'Bitte noch eine weitere Antwort schreiben').tooltip('fixTitle');
+          return;
+        }
+
         //Enable or disable the button
-        if (answerA != "" && answerB != "" && isToggled) {
-            document.getElementById("formSubmit").disabled = false;
+        if (isToggled) {
+            $("#formSubmit").prop("disabled", false);
             // delete tooltip
-            $('#formSubmit').attr('title', '');
+            $('#formSubmit').parent().attr('data-original-title', '').tooltip('hide');
         } else {
-            document.getElementById("formSubmit").disabled = true;
+            $("#formSubmit").prop("disabled", true);
             // set tooltip
-            $('#formSubmit').attr('title', 'Nicht genügend Eingabedaten vorhanden.');
+            $('#formSubmit').parent().attr('data-original-title', 'Keine Antwort als richtig markiert.').tooltip('fixTitle');
         }
     }
 
@@ -141,7 +163,8 @@
         enableSubmit();
 
         //Check enableSubmit each time an input is done and every end every check of right answer
-        $("input[id^='answer']").on('keyup', enableSubmit);
+        $("input").on('keyup', enableSubmit);
+        $("textarea").on('keyup', enableSubmit);
         $('.toggle.btn input[type=checkbox]').on('change', enableSubmit);
 
         $(".preview").click(function () {
