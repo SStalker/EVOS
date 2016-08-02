@@ -4,7 +4,7 @@
 </div>
 <div class="form-group">
     <label for="question">Details</label>
-    {{ Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 3]) }} <br>
+    {{ Form::textarea('question', null, ['id' => 'questionInput', 'class' => 'form-control', 'rows' => 8]) }} <br>
     <a class="btn btn-primary preview" style="margin-top: -7px;" href="" data-toggle="modal"
        data-target="#previewBox" data-preview="questionInput">Vorschau</a>
     <label class="btn btn-default" for="file-selector-question" style="margin-top:-7px">
