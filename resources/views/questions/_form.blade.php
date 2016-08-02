@@ -102,6 +102,7 @@
         var questionText = $('#question').val();
         var questionDetail = $('#questionInput').val();
         var questionCountdown = $('#questionCountdown').val();
+        var submitForm = $('#formSubmit');
         var isToggled = false;
 
         //Check if any answer is toggled right
@@ -127,29 +128,29 @@
         });
 
         if(questionText === ""){
-          $('#formSubmit').parent().attr('data-original-title', 'Bitte eine Frage eingeben').tooltip('fixTitle');
+          submitForm.parent().attr('data-original-title', 'Bitte eine Frage eingeben').tooltip('fixTitle');
           return;
         }
 
         if(questionDetail === ""){
-          $('#formSubmit').parent().attr('data-original-title', 'Bitte noch den Text zur Frage eingeben').tooltip('fixTitle');
+          submitForm.parent().attr('data-original-title', 'Bitte noch den Text zur Frage eingeben').tooltip('fixTitle');
           return;
         }
 
         if(nonEmptyAnswerCounter <= 1){
-          $('#formSubmit').parent().attr('data-original-title', 'Bitte noch eine weitere Antwort schreiben').tooltip('fixTitle');
+          submitForm.parent().attr('data-original-title', 'Bitte noch eine weitere Antwort schreiben').tooltip('fixTitle');
           return;
         }
 
         //Enable or disable the button
         if (isToggled) {
-            $("#formSubmit").prop("disabled", false);
+            submitForm.prop("disabled", false);
             // delete tooltip
-            $('#formSubmit').parent().attr('data-original-title', '').tooltip('hide');
+            submitForm.parent().attr('data-original-title', '').tooltip('hide');
         } else {
-            $("#formSubmit").prop("disabled", true);
+            submitForm.prop("disabled", true);
             // set tooltip
-            $('#formSubmit').parent().attr('data-original-title', 'Keine Antwort als richtig markiert.').tooltip('fixTitle');
+            submitForm.parent().attr('data-original-title', 'Keine Antwort als richtig markiert.').tooltip('fixTitle');
         }
     }
 
