@@ -47,6 +47,14 @@ h3{
     display: none;
 }
 
+#question-form {
+  margin-bottom: 200px;
+}
+
+#formSubmit {
+  margin-top: 30px;
+}
+
 .toggle {
     border: 1px solid #ccc !important;
 }
