@@ -34,7 +34,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu{{ $category->id }}">
                                         <li><a href="{{ action('CategoryController@edit', [$category->id]) }}"
                                                data-toggle="tooltip" data-placement="left"
-                                               title="Gibt die Möglichkeit den Name der Kategorie zu ändern.">Frage bearbeiten
+                                               title="Gibt die Möglichkeit den Name der Kategorie zu ändern.">Name
                                                 ändern</a></li>
                                         <li>
                                             <a href="#" class="alert-danger delete-button" data-toggle="tooltip"
