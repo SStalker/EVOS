@@ -41,7 +41,7 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \EVOS\Http\Requests\QuestionRequest  $request
+     * @param  \EVOS\Http\Requests\QuestionRequest  $request    Injected object built on the request.
      * @return \Illuminate\Http\Response
      */
     public function store(Quiz $quizzes, QuestionRequest $request)
@@ -68,7 +68,8 @@ class QuestionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \EVOS\Quiz $quizzes
+     * @param  \EVOS\Question $questions
      * @return \Illuminate\Http\Response
      */
     public function show(Quiz $quizzes, Question $questions)
@@ -86,7 +87,8 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \EVOS\Quiz $quizzes
+     * @param  \EVOS\Question $questions
      * @return \Illuminate\Http\Response
      */
     public function edit(Quiz $quizzes, Question $questions)
@@ -105,7 +107,9 @@ class QuestionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \EVOS\Http\Requests\QuestionRequest  $request
-     * @param  int  $id
+     * @param  \EVOS\Quiz $quizzes
+     * @param  Question $questions
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(QuestionRequest $request, Quiz $quizzes, Question $questions)
@@ -132,7 +136,8 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \EVOS\Quiz
+     * @param  \EVOS\Question
      * @return \Illuminate\Http\Response
      */
     public function destroy(Quiz $quizzes, Question $questions)

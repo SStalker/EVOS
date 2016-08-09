@@ -41,8 +41,8 @@ class QuizController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Category $categories
-     * @param  QuizRequest $request
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Http\Requests\QuizRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(Category $categories, QuizRequest $request)
@@ -57,8 +57,8 @@ class QuizController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Category $categories
-     * @param  Quiz $quizzes
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
      * @return \Illuminate\Http\Response
      */
     public function show(Category $categories, Quiz $quizzes)
@@ -70,8 +70,8 @@ class QuizController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Category $categories
-     * @param  Quiz $quizzes
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $categories, Quiz $quizzes)
@@ -83,9 +83,9 @@ class QuizController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  QuizRequest $request
-     * @param  Category $categories
-     * @param  Quiz $quizzes
+     * @param  \EVOS\Http\Requests\QuizRequest $request
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
      * @return \Illuminate\Http\Response
      */
     public function update(QuizRequest $request, Category $categories, Quiz $quizzes)
@@ -100,8 +100,8 @@ class QuizController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Category $categories
-     * @param  Quiz $quizzes
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
      *
      * @return \Illuminate\Http\Response
      */
@@ -116,8 +116,8 @@ class QuizController extends Controller
     /**
      * Starts a new quiz.
      *
-     * @param Category $categories
-     * @param Quiz $quizzes
+     * @param \EVOS\Category $categories
+     * @param \EVOS\Quiz $quizzes
      *
      * @return \Illuminate\Http\Response
      */
@@ -145,8 +145,8 @@ class QuizController extends Controller
     /**
      * Returns the next question of the quiz as JSON.
      *
-     * @param  Category $categories
-     * @param  Quiz $quizzes
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
      *
      * @return The next question or first (Starts the quiz)
      */

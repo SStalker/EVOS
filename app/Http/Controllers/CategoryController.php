@@ -20,7 +20,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response    Response to the client
      */
     public function index()
     {
@@ -33,7 +33,9 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param \EVOS\Http\Requests\Request $request  Injected object built on the request.
+     *
+     * @return \Illuminate\Http\Response            Response to the client.
      */
     public function create(Request $request)
     {
@@ -48,8 +50,9 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \EVOS\Http\Requests\CategoryRequest $request     Injected object built on the request.
+     *
+     * @return \Illuminate\Http\Response                        Response to the client.
      */
     public function store(CategoryRequest $request)
     {
@@ -74,8 +77,8 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param  \EVOS\Category $categories           Injected object built on the request.
+     * @return \Illuminate\Http\Response            Response to the client.
      */
     public function show(Category $categories)
     {
@@ -93,8 +96,8 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Category $categories
-     * @return \Illuminate\Http\Response
+     * @param  \EVOS\Category $categories           Injected object built on the request.
+     * @return \Illuminate\Http\Response            Response to the client.
      */
     public function edit(Category $categories)
     {
@@ -106,9 +109,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param  \EVOS\Http\Requests\CategoryRequest $request     Injected object built on the request.
+     * @param  \EVOS\Category $categories                       ???
+     * @return \Illuminate\Http\Response                        Response to the client.
      */
     public function update(CategoryRequest $request, Category $categories)
     {
@@ -126,8 +129,8 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Category $categories
-     * @return \Illuminate\Http\Response
+     * @param  \EVOS\Category $categories           Injected object built on the request.
+     * @return \Illuminate\Http\Response            Response to the client.
      */
     public function destroy(Category $categories)
     {
@@ -139,7 +142,7 @@ class CategoryController extends Controller
     }
 
     /**
-     *
+     * ???
      *
      * @return $this
      */
@@ -158,9 +161,10 @@ class CategoryController extends Controller
     }
 
     /**
-     *
+     * ???
      *
      * @param Request $request
+     * @param Category $categories
      * @param Category $categories
      */
     public function postMove(Request $request, Category $categories)
