@@ -93,7 +93,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  Category $categories
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $categories)
@@ -126,7 +126,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  Category $categories
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $categories)
@@ -138,6 +138,11 @@ class CategoryController extends Controller
             ->with('message', 'Kategorie wurde gelöscht!');
     }
 
+    /**
+     *
+     *
+     * @return $this
+     */
     public function getMove()
     {
         $rootCategories = Auth::user()->rootCategories();
@@ -152,6 +157,12 @@ class CategoryController extends Controller
             ->with('recursiveCategories', $text);
     }
 
+    /**
+     *
+     *
+     * @param Request $request
+     * @param Category $categories
+     */
     public function postMove(Request $request, Category $categories)
     {
 
