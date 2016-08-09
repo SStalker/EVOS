@@ -59,59 +59,29 @@
         </div>
 
     <style>
-        svg {
-          font: 10px sans-serif;
-          width: 1020px;
-          height: 550px;
+        .bar {
+            fill: steelblue;
         }
 
-        path.line {
-          fill: none;
-          stroke: #666;
-          stroke-width: 1.5px;
-        }
-
-        path.area {
-          fill: #e7e7e7;
+        .bar:hover {
+            fill: brown;
         }
 
         .axis {
-          shape-rendering: crispEdges;
+            font: 1.5em sans-serif;
         }
 
-        .x.axis line {
-          stroke: #000;
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
         }
 
-        .x.axis .minor {
-          stroke-opacity: .5;
+        .x.axis path {
+            display: none;
         }
 
-        .y.axis line,
-        .y.axis path {
-          fill: none;
-          stroke: #000;
-        }
-
-        .dot {
-          fill: white;
-          stroke: steelblue;
-          stroke-width: 1.5px;
-        }
-
-        text {
-          font: 20px sans-serif;
-          pointer-events: none;
-          text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-        }
-
-        #label-left{
-          margin-left: 20px;
-        }
-
-        #label-bottom{
-          margin-bottom: 20px;
-        }
     </style>
 
     <script>
@@ -426,93 +396,71 @@
                 var values = [percent_correct, percent_incorrect];
 
                 var lineData = answers;
-                var MARGIN = {top: 20, right: 20, bottom: 20, left: 50},
-                    WIDTH = 1000,
-                    HEIGHT = 500;
 
-                var vis = d3.select('#chart');
+                var margin = {top: 20, right: 20, bottom: 60, left: 60},
+                        width = 960 - margin.left - margin.right,
+                        height = 500 - margin.top - margin.bottom;
 
-                var xRange = d3.scale.linear().range([MARGIN.left, WIDTH - MARGIN.right]).domain([1, d3.max(lineData, function(d) {
-                      return d.x;
-                    })]);
-                var yRange = d3.scale.linear().range([HEIGHT - MARGIN.top, MARGIN.bottom]).domain([0, syncServer.attendee_count]);
+                var x = d3.scale.ordinal()
+                        .rangeRoundBands([0, width], .05);
+
+                var y = d3.scale.linear()
+                        .range([height, 0]);
 
                 var xAxis = d3.svg.axis()
-                      .scale(xRange)
-                      .tickFormat(d3.format("d"))
-                      .tickSize(1);
+                        .scale(x)
+                        .orient("bottom")
+                        .tickFormat(d3.format("d"))
+                        .tickSize(1);
 
                 var yAxis = d3.svg.axis()
-                      .scale(yRange)
-                      .tickFormat(d3.format("d"))
-                      .tickSize(5)
-                      .orient('left');
+                        .scale(y)
+                        .orient("left")
+                        .tickFormat(d3.format("d"))
+                        .tickSize(5);
 
-                // Add the text label for the x axis
-                vis.append("text")
-                     .attr("text-anchor", "middle")
-                     .attr("id", "label-bottom")
-                     .attr("transform", "translate("+(WIDTH/2)+","+(HEIGHT+20)+")")
-                     .text("Fragen");
+                var svg = d3.select('#chart').append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                ;
 
+                x.domain([1, d3.max(lineData, function(d) { return d.x; })]);
+                y.domain([0, syncServer.attendee_count]);
 
-                // Add the text label for the Y axis
-                vis.append("text")
-                     .attr("text-anchor", "middle")
-                     .attr("id", "label-left")
-                     .attr("transform", "translate("+ (MARGIN.left-30) +","+(HEIGHT/2)+")rotate(-90)")
-                     .text("Richtige Antworten");
+                svg.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + height + ")")
+                        .call(xAxis)
+                        .append("text")
+                        .attr('dy', '2em')
+                        .attr('x', width/2)
+                        .attr("id", "label-bottom")
+                        .style("text-anchor", "middle")
+                        .text('Fragen')
+                ;
 
-                // Draw the x-axis
-                vis.append('svg:g')
-                  .attr('class', 'x axis')
-                  .attr('transform', 'translate(0,' + (HEIGHT - MARGIN.bottom) + ')')
-                  .call(xAxis);
+                svg.append("g")
+                        .attr("class", "y axis")
+                        .call(yAxis)
+                        .append("text")
+                        .attr("transform", "rotate(-90)")
+                        .attr("dy", "-1.5em")
+                        .attr("x", -(height/2))
+                        .style("text-anchor", "middle")
+                        .text("Richtige Antworten");
 
-                // Draw the y-axis
-                vis.append('svg:g')
-                  .attr('class', 'y axis')
-                  .attr('transform', 'translate(' + (MARGIN.left) + ',0)')
-                  .call(yAxis);
-
-                // Draw and interpolate the line
-                var lineFunc = d3.svg.line()
-                  .x(function (d) {
-                    return xRange(d.x);
-                  })
-                  .y(function (d) {
-                    return yRange(d.y);
-                  })
-                  .interpolate(interpolateSankey);
-
-                vis.append("svg:path")
-                  .attr("d", lineFunc(lineData))
-                  .attr("stroke", "blue")
-                  .attr("stroke-width", 2)
-                  .attr("fill", "none");
+                svg.selectAll(".bar")
+                        .data(lineData)
+                        .enter().append("rect")
+                        .attr("class", "bar")
+                        .attr("x", function(d) { return x(d.x); })
+                        .attr("width", x.rangeBand())
+                        .attr("y", function(d) { return y(d.y); })
+                        .attr("height", function(d) { var ret = y(d.y) <= 0 ? height - y(d.y) : 1;  return ret; });
 
 
-                // Add the scatterplot
-                vis.selectAll("circle")
-                  .data(lineData)
-                  .enter().append("circle")
-                    .attr("r", 3.5)
-                    .attr("class", "dot")
-                    .attr("cx", function(d) { return xRange(d.x); })
-                    .attr("cy", function(d) { return yRange(d.y); });
-
-                function interpolateSankey(points) {
-                    var x0 = points[0][0], y0 = points[0][1], x1, y1, x2,
-                        path = [x0, ",", y0],
-                        i = 0,
-                        n = points.length;
-                    while (++i < n) {
-                        x1 = points[i][0], y1 = points[i][1], x2 = (x0 + x1) / 2;
-                        path.push("C", x2, ",", y0, " ", x2, ",", y1, " ", x1, ",", y1);
-                        x0 = x1, y0 = y1;
-                    }
-                    return path.join("");
-                }
 
                 $('.quiz-normal').fadeOut('slow');
                 $('.quiz-question').fadeOut('slow', function () {
