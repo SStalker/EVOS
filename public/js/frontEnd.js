@@ -116,7 +116,12 @@ function processQuestion(data) {
             display.setAttribute('aria-valuemax', response['countdown']);
             display.setAttribute('aria-valuenow', response['countdown']);
             display.setAttribute('aria-valuemin', '0');
-            startTimer(response["countdown"], display);
+
+            if(response['countdown'] == 0)
+                infiniteTimer(display);
+            else
+                startTimer(response["countdown"], display);
+
             console.log(response);
             window.setTimeout(function () {
                 MathJax.Hub.Typeset();
@@ -148,8 +153,42 @@ function processEnd(data) {
 }
 
 /**
- * Diese Funktion startet den Timer für eine Frage. Sekündlich wird geprüft ob eine Frage ausgewählt wurde,
- * und wenn ja, wird die gewählte Frage für die Darstellung im "waitingPanel" gesüeichert.
+ * Diese Funktion startet den Timer für eine Frage die keinen Countdown besitzt. Sekündlich wird geprüft ob eine Antwort ausgewählt wurde,
+ * und wenn ja, wird die gewählte Antwort für die Darstellung im "waitingPanel" gespeichert.
+ *
+ * @param display       Element in dem der Timer angezeigt wird
+ */
+function infiniteTimer(display) {
+    display.style.width = '100%';
+    var interval = setInterval(function () {
+
+        if (!toAnswer) {
+            if (document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end) {
+                $('#questionPanel').fadeOut(400, function () {
+                    if (clickedAnswer != '') {
+                        $('#clickedAnswer').empty();
+                        $('#clickedAnswer').append('<p>Deine Antwort:</p><br/>')
+                        $('#clickedAnswer').append(clickedAnswer);
+                        $('#clickedAnswer').show();
+                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                    } else {
+                        $('#clickedAnswer').empty();
+                        $('#clickedAnswer').show();
+                        $('#clickedAnswer').append("Keine Antwort gewählt!");
+                    }
+                    $('#waitingPanel').fadeIn(400);
+                    clickedAnswer = '';
+                    $('.answer-cell .panel').height('');
+                });
+            }
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+/**
+ * Diese Funktion startet den Timer für eine Frage. Sekündlich wird geprüft ob eine Antwort ausgewählt wurde,
+ * und wenn ja, wird die gewählte Antwort für die Darstellung im "waitingPanel" gespeichert.
  *
  * @param duration      Zeit für die Frage in Sekunden
  * @param display       Element in dem der Timer angezeigt wird

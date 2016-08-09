@@ -41,7 +41,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \EVOS\Http\Requests\UserRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
@@ -67,7 +67,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  \EVOS\User $users
      * @return \Illuminate\Http\Response
      */
     public function edit(User $users)
@@ -79,8 +79,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \EVOS\Http\Requests\UserRequest $request
+     * @param  \EVOS\User $users
      * @return \Illuminate\Http\Response
      */
     public function update(UserRequest $request, User $users)
@@ -94,7 +94,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  \EVOS\User $users
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $users)
@@ -112,7 +112,7 @@ class UserController extends Controller
     /**
      * Shows the form to change a User's password.
      *
-     * @param User $user User which password will be changed.
+     * @param \EVOS\User $user User which password will be changed.
      * @return \Illuminate\Http\Response
      */
     public function getEditPassword(User $user) {
@@ -123,8 +123,8 @@ class UserController extends Controller
     /**
      * Saves the given password for the user.
      *
-     * @param ChangeUserPasswordRequest $request
-     * @param User $user
+     * @param \EVOS\Http\Requests\ChangeUserPasswordRequest $request
+     * @param \EVOS\User $user
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postEditPassword(ChangeUserPasswordRequest $request, User $user) {

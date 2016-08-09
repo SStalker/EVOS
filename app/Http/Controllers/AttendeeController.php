@@ -27,8 +27,8 @@ class AttendeeController extends Controller
     /**
      * Store the Attendee and send a "waiting" response if everything went as expected.
      *
-     * @param AttendeeRequest $request
-     * @return string
+     * @param \EVOS\Http\Requests\AttendeeRequest $request  Injected Object built on the request.
+     * @return string                   Response to the client.
      */
     public function store(AttendeeRequest $request) {
         $request['session_token'] = Session::getId();
@@ -44,8 +44,8 @@ class AttendeeController extends Controller
     /**
      * Returns the corresponding pin if the quiz is flagged active.
      *
-     * @param Quiz $pin
-     * @return Quiz|string
+     * @param \EVOS\Quiz $pin       Injected Object built on the request.
+     * @return Quiz|string          Response to the client.
      */
     public function getQuiz(Quiz $pin) {
         if ($pin != null) {

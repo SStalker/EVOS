@@ -41,6 +41,7 @@ class QuizController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \EVOS\Category $categories
      * @param  \EVOS\Http\Requests\QuizRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -56,7 +57,8 @@ class QuizController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
      * @return \Illuminate\Http\Response
      */
     public function show(Category $categories, Quiz $quizzes)
@@ -68,7 +70,8 @@ class QuizController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $categories, Quiz $quizzes)
@@ -81,7 +84,8 @@ class QuizController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \EVOS\Http\Requests\QuizRequest $request
-     * @param  int $id
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
      * @return \Illuminate\Http\Response
      */
     public function update(QuizRequest $request, Category $categories, Quiz $quizzes)
@@ -96,7 +100,9 @@ class QuizController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $categories, Quiz $quizzes)
@@ -110,8 +116,10 @@ class QuizController extends Controller
     /**
      * Starts a new quiz.
      *
-     * @param Category $categories
-     * @param Quiz $quizzes
+     * @param \EVOS\Category $categories
+     * @param \EVOS\Quiz $quizzes
+     *
+     * @return \Illuminate\Http\Response
      */
     public function start(Category $categories, Quiz $quizzes)
     {
@@ -137,7 +145,9 @@ class QuizController extends Controller
     /**
      * Returns the next question of the quiz as JSON.
      *
-     * @param  int $id
+     * @param  \EVOS\Category $categories
+     * @param  \EVOS\Quiz $quizzes
+     *
      * @return The next question or first (Starts the quiz)
      */
     public function next(Category $categories, Quiz $quizzes)
@@ -173,7 +183,11 @@ class QuizController extends Controller
     }
 
     /**
-     * @param int $id
+     * Generates a json string with informations about the question.
+     *
+     * @param  Category $categories
+     * @param  Quiz $quizzes
+     *
      * @return json The answers for the current question
      */
     public function choices(Category $categories, Quiz $quizzes)

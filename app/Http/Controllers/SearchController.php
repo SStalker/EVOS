@@ -15,6 +15,11 @@ class SearchController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Gets all the categories and relating quizzes/questions by user.
+     *
+     * @return $this    The created view.
+     */
     public function getSearch()
     {
         $searchFor = trim(Request::input('searchtext'));
