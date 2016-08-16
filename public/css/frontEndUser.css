@@ -59,3 +59,36 @@
 #next-button{
     margin-top:5px;
 }
+
+.result {
+    margin-top: 70px;
+}
+
+.axis path, .axis line
+{
+    fill: none;
+    stroke: #777;
+    shape-rendering: crispEdges;
+}
+
+.axis text.axisText{
+    font-size: 1.5em;
+}
+
+.axis text
+{
+    font-family: 'Arial', sans-serif;
+    font-size: 1em;
+}
+.tick
+{
+    stroke-dasharray: 1, 2;
+}
+.bar
+{
+    fill: steelblue;
+}
+
+.bar:hover{
+    fill: brown;
+}

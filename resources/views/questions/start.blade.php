@@ -60,42 +60,6 @@
                 <a id="leave-button" class="btn btn-primary" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
             </div>
         </div>
-
-    <style>
-        .result {
-            margin-top: 70px;
-        }
-
-        .axis path, .axis line
-        {
-            fill: none;
-            stroke: #777;
-            shape-rendering: crispEdges;
-        }
-
-        .axis text.axisText{
-            font-size: 1.5em;
-        }
-
-        .axis text
-        {
-            font-family: 'Arial', sans-serif;
-            font-size: 1em;
-        }
-        .tick
-        {
-            stroke-dasharray: 1, 2;
-        }
-        .bar
-        {
-            fill: steelblue;
-        }
-
-        .bar:hover{
-            fill: brown;
-        }
-    </style>
-
     <script>
         var user_id = {{ Auth::id() }};
         var quiz_id = {{ $quiz->id }};
