@@ -39,13 +39,13 @@
                 <div class="answer-cell col-md-6 {{ $question->answerABool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerA }}</div></div>
                 <div class="answer-cell col-md-6 {{ $question->answerBBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerB }}</div></div>
             </div>
-            @if(!empty($question->answerC) || !empty($question->answerD))
+            @if(strlen($question->answerC) > 0 || strlen($question->answerD) > 0)
                 <div class="row answer" style="visibility: hidden">
-                    @if(!empty($question->answerC) || $question->answerC === 0)
-                        <div class="answer-cell col-md-{{ empty($question->answerD) ? '12' : '6' }} {{ $question->answerCBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerC }}</div></div>
+                    @if(strlen($question->answerC) > 0 || $question->answerC === 0)
+                        <div class="answer-cell col-md-{{ !strlen($question->answerD) > 0 ? '12' : '6' }} {{ $question->answerCBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerC }}</div></div>
                     @endif
-                    @if(!empty($question->answerD) || $question->answerC === 0)
-                        <div class="answer-cell col-md-{{ empty($question->answerC) ? '12' : '6' }} {{ $question->answerDBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerD }}</div></div>
+                    @if(strlen($question->answerD) > 0 || $question->answerC === 0)
+                        <div class="answer-cell col-md-{{ !strlen($question->answerC) > 0 ? '12' : '6' }} {{ $question->answerDBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerD }}</div></div>
                     @endif
                 </div>
             @endif
