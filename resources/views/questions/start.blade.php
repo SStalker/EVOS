@@ -261,7 +261,7 @@
                 if (images != null) {
                     images.forEach(function (image) {
                         var matches = image.match(/.*\((\d+\.[A-Za-z]{1,4})\).*/);
-                        var html = '<img src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
+                        var html = '<img class="img-responsive center-block" src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
                         data.question = data.question.replace(matches[0], html);
                     });
                 }
@@ -269,7 +269,7 @@
                 // for some reason matching over multiple lines doesn't work... So we'll go a different way solving this issue.
                 data.question = data.question.replace(/\[code\]/g, '<pre><code>');
                 data.question = data.question.replace(/\[\/code\]/g, '</code></pre>');
-                $('#questionBody').text(data.question);
+                $('#questionBody').html(data.question);
 
                 // MathJax refresh
                 MathJax.Hub.Typeset();
