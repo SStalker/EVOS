@@ -48,41 +48,52 @@
         </div>
 
         <div id="end" class="quiz-end">
-            <h1>Das Quiz wurde beendet.</h1>
-
-            <h2 id="allCorrectAnswers"></h2>
-            <h2 id="allIncorrectAnswers"></h2>
-            <svg id="chart" width="1000" height="500"></svg>
-
+            <h1 class="col-md-12" style="text-align: center">Das Quiz wurde beendet.</h1>
+            <div class="result col-md-12 col-lg-3">
+                <h2 id="allCorrectAnswers"></h2>
+                <h2 id="allIncorrectAnswers"></h2>
+            </div>
+            <div class="col-md-12 col-lg-9">
+                <svg id="chart" class="center-block"></svg>
+            </div>
             <div class="end-button">
                 <a id="leave-button" class="btn btn-primary" href="{{ url('/categories') }}">Zurück zur Übersicht</a>
             </div>
         </div>
 
     <style>
-        .bar {
-            fill: steelblue;
+        .result {
+            margin-top: 70px;
         }
 
-        .bar:hover {
-            fill: brown;
-        }
-
-        .axis {
-            font: 1.5em sans-serif;
-        }
-
-        .axis path,
-        .axis line {
+        .axis path, .axis line
+        {
             fill: none;
-            stroke: #000;
+            stroke: #777;
             shape-rendering: crispEdges;
         }
 
-        .x.axis path {
-            display: none;
+        .axis text.axisText{
+            font-size: 1.5em;
         }
 
+        .axis text
+        {
+            font-family: 'Arial', sans-serif;
+            font-size: 1em;
+        }
+        .tick
+        {
+            stroke-dasharray: 1, 2;
+        }
+        .bar
+        {
+            fill: steelblue;
+        }
+
+        .bar:hover{
+            fill: brown;
+        }
     </style>
 
     <script>
@@ -421,72 +432,73 @@
 
                 var values = [percent_correct, percent_incorrect];
 
-                var lineData = answers;
+                var barData = answers;
 
-                var margin = {top: 20, right: 20, bottom: 60, left: 60},
-                        width = 960 - margin.left - margin.right,
-                        height = 500 - margin.top - margin.bottom;
+                var vis = d3.select('#chart'),
+                    WIDTH = 750,
+                    HEIGHT = 500,
+                    MARGINS = {
+                        top: 20,
+                        right: 20,
+                        bottom: 70,
+                        left: 70
+                    },
+                    xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1)
+                            .domain(barData.map(function (d) { return d.x; })),
 
-                var x = d3.scale.ordinal()
-                        .rangeRoundBands([0, width], .05);
 
-                var y = d3.scale.linear()
-                        .range([height, 0]);
+                    yRange = d3.scale.linear().range([HEIGHT - MARGINS.bottom, MARGINS.bottom])
+                            .domain([0, d3.max(barData, function (d) { return d.y; }) ]),
 
-                var xAxis = d3.svg.axis()
-                        .scale(x)
-                        .orient("bottom")
-                        .tickFormat(d3.format("d"))
-                        .tickSize(1);
+                    xAxis = d3.svg.axis()
+                            .scale(xRange)
+                            .tickSize(5)
+                            .tickSubdivide(true),
 
-                var yAxis = d3.svg.axis()
-                        .scale(y)
-                        .orient("left")
-                        .tickFormat(d3.format("d"))
-                        .tickSize(5);
+                    yAxis = d3.svg.axis()
+                            .scale(yRange)
+                            .tickSize(5)
+                            .orient("left")
+                            .tickSubdivide(true)
+                            .tickFormat(d3.format("d"));
 
-                var svg = d3.select('#chart').append("svg")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .append("g")
-                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                ;
+                $("#chart").attr("width",WIDTH).attr("height", HEIGHT)
 
-                x.domain([1, d3.max(lineData, function(d) { return d.x; })]);
-                y.domain([0, syncServer.attendee_count]);
-
-                svg.append("g")
-                        .attr("class", "x axis")
-                        .attr("transform", "translate(0," + height + ")")
+                vis.append('svg:g')
+                        .attr('class', 'x axis')
+                        .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
                         .call(xAxis)
-                        .append("text")
-                        .attr('dy', '2em')
-                        .attr('x', width/2)
-                        .attr("id", "label-bottom")
+                    .append("text")
                         .style("text-anchor", "middle")
-                        .text('Fragen')
-                ;
+                        .attr("dx", ((WIDTH / 2) + MARGINS.right ) )
+                        .attr("dy", "2.3em")
+                        .attr("class", "axisText")
+                        .text("Fragen");
 
-                svg.append("g")
-                        .attr("class", "y axis")
+                vis.append('svg:g')
+                        .attr('class', 'y axis')
+                        .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
                         .call(yAxis)
-                        .append("text")
-                        .attr("transform", "rotate(-90)")
-                        .attr("dy", "-1.5em")
-                        .attr("x", -(height/2))
+                    .append("text")
                         .style("text-anchor", "middle")
+                        .attr("transform", "rotate(-90)")
+                        .attr("dy", "-2.5em")
+                        .attr("dx", -((HEIGHT)/2) )
+                        .attr("class", "axisText")
                         .text("Richtige Antworten");
 
-                svg.selectAll(".bar")
-                        .data(lineData)
-                        .enter().append("rect")
+                vis.selectAll('rect')
+                        .data(barData)
+                        .enter()
+                        .append('rect')
                         .attr("class", "bar")
-                        .attr("x", function(d) { return x(d.x); })
-                        .attr("width", x.rangeBand())
-                        .attr("y", function(d) { return y(d.y); })
-                        .attr("height", function(d) { var ret = y(d.y) <= 0 ? height - y(d.y) : 1;  return ret; });
+                        .attr('x', function (d) { return xRange(d.x); })
+                        .attr('y', function (d) { return yRange(d.y); })
+                        .attr('width', xRange.rangeBand())
+                        .attr('height', function (d) { return ((HEIGHT - MARGINS.bottom) - yRange(d.y)); });
 
 
+                syncServer.quiz();
 
                 $('.quiz-normal').fadeOut('slow');
                 $('.quiz-question').fadeOut('slow', function () {
