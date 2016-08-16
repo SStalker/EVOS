@@ -64,9 +64,9 @@ function processMessage(data) {
  * @param data      Antwort vom Server
  */
 function processLogon(data) {
-    if (data.successful != undefined) {
+    if (data.successful !== undefined) {
         if (data.successful !== true) {
-            if (data.reason != undefined) {
+            if (data.reason !== undefined) {
                 alert(data.reason);
                 location.reload(true);
             }
