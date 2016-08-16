@@ -64,10 +64,10 @@ function processMessage(data) {
  * @param data      Antwort vom Server
  */
 function processLogon(data) {
-    if (data.successful != undefined) {
+    if (data.successful !== undefined) {
         if (data.successful !== true) {
-            if (data.reason != undefined) {
-                alert(data.reason);
+            if (data.reason !== undefined) {
+                alert(data.reason + ' in der processLogon()');
                 location.reload(true);
             }
         } else {
