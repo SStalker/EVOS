@@ -213,7 +213,7 @@
             if (images != null) {
                 images.forEach(function (image) {
                     var matches = image.match(/.*\((\d+\.[A-Za-z]{1,4})\).*/);
-                    var html = '<img src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
+                    var html = '<img class="img-responsive" src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
                     text = text.replace(matches[0], html);
                 });
             }
