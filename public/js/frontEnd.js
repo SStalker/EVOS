@@ -67,8 +67,15 @@ function processLogon(data) {
     if (data.successful !== undefined) {
         if (data.successful !== true) {
             if (data.reason !== undefined) {
-                alert(data.reason + ' in der processLogon()');
-                location.reload(true);
+                //alert(data.reason + ' in der processLogon()');
+                //location.reload(true);
+                $('#quizAlert').text('Das Quiz ist nicht aktiv!');
+                if ($('#quizAlert').hasClass('out')) {
+                    $('#quizAlert').toggleClass('out').toggleClass('in');
+                    setTimeout(function() {
+                        $('#quizAlert').toggleClass('in').toggleClass('out');
+                    }, 3000);
+                }
             }
         } else {
             $('#enterNamePanel').fadeOut(400, function () {
