@@ -13,12 +13,10 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Styles -->
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/frontEndUser.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/quizzes.css') }}" rel="stylesheet">
 
     <!-- JavaScripts -->
-    <script src="{{ asset('js/all.js') }}"></script>
+    <script src="{{ asset('js/frameworks.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
     <script type="text/javascript" async
             src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>

@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EVOS</title>
 
-    <!-- Styles (wenn fertig, per gulp ein file mit benötigten styles erzeugen und hereinladen)-->
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="css/frontEnd.css" rel="stylesheet">
+    <link href="{{ asset('css/frontEnd.css') }}" rel="stylesheet">
+
 </head>
 <body>
 <div class="container">

@@ -7,11 +7,10 @@
     <meta name="_token" content="{{ csrf_token() }}">
     <title>EVOS</title>
 
-    <!-- Styles (wenn fertig, per gulp ein file mit benötigten styles erzeugen und hereinladen)-->
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="css/frontEnd.css" rel="stylesheet">
+    <!-- Styles -->
+    <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
 
-    <!-- JS (Wenn fertig, per gul passende files zusammen packen und herinladen)-->
+    <!-- JavaScripts -->
     <script>
         //Websocket
         var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
@@ -24,11 +23,9 @@
     </script>
 
     <!-- JavaScripts -->
-    <script src="{{ asset('js/all.js') }}"></script>
+    <script src="{{ asset('js/frontEnd.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/MathJaxConf.js') }}"></script>
     <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-    <script src="js/frontEnd.js"></script>
-
     <script>
         $.ajaxSetup(
                 {
