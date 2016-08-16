@@ -69,7 +69,7 @@ function processLogon(data) {
             if (data.reason !== undefined) {
                 //alert(data.reason + ' in der processLogon()');
                 //location.reload(true);
-                if (data.reason === 'quiz_not_active') {
+                if (data.reason === 'quiz is not active') {
                     $('#quizAlert').text('Das Quiz ist nicht aktiv!');
                     if ($('#quizAlert').hasClass('out')) {
                         $('#quizAlert').toggleClass('out').toggleClass('in');
