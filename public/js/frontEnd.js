@@ -67,7 +67,7 @@ function processLogon(data) {
     if (data.successful !== undefined) {
         if (data.successful !== true) {
             if (data.reason !== undefined) {
-                alert(data.reason + ' in der pocessLogon()');
+                alert(data.reason + ' in der processLogon()');
                 location.reload(true);
             }
         } else {
