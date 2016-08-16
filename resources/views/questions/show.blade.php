@@ -41,10 +41,10 @@
             </div>
             @if(!empty($question->answerC) || !empty($question->answerD))
                 <div class="row answer" style="visibility: hidden">
-                    @if(!empty($question->answerC))
+                    @if(!empty($question->answerC) || $question->answerC === 0)
                         <div class="answer-cell col-md-{{ empty($question->answerD) ? '12' : '6' }} {{ $question->answerCBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerC }}</div></div>
                     @endif
-                    @if(!empty($question->answerD))
+                    @if(!empty($question->answerD) || $question->answerC === 0)
                         <div class="answer-cell col-md-{{ empty($question->answerC) ? '12' : '6' }} {{ $question->answerDBool ? 'correct-answer' : 'incorrect-answer' }}"><div class="answer-panel">{{ $question->answerD }}</div></div>
                     @endif
                 </div>
@@ -69,7 +69,7 @@
             if (images != null) {
                 images.forEach(function (image) {
                     var matches = image.match(/.*\((\d+\.[A-Za-z]{1,4})\).*/);
-                    var html = '<img src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
+                    var html = '<img class="img-responsive" src="{{ asset('storage/uploads/') }}/' + matches[1] + '">';
                     questionBody = questionBody.replace(matches[0], html);
                 });
             }
