@@ -121,6 +121,12 @@
     color: #ff0000;
 }
 
+#DebugPanel{
+    text-align: center;
+    border: 1px dotted #ff0000;
+    padding: 15px;
+}
+
 /*
  * Abstand zur zweiten Reihe der Antwortmöglichkeiten hinzugefügt
  */

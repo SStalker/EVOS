@@ -3,7 +3,7 @@
  */
 
 var websocket = new WebSocket(url);
-var websocketOk;
+var websocketOk = false;
 var quizObj;
 var toAnswer = false;
 var end = false;
@@ -15,11 +15,34 @@ websocket.onopen = function (event) {
 
 websocket.onerror = function (error) {
     websocketOk = false;
+    debugErrorOutup("Websocket wurde geschlossen! Grund: " + error);
+};
+
+websocket.onclose = function (event) {
+    websocketOk = false;
+    debugErrorOutup("Websocket wurde geschlossen!");
 };
 
 websocket.onmessage = function (event) {
     processMessage(event.data);
 };
+
+/**
+ * Funktion zum Debuggen und zur fehlerausgabe im frontend, speziell für Mobile clienten hilfreich
+ *
+ * @param msg       Fehler der ausgegeben werden soll.
+ */
+
+function debugErrorOutup(msg) {
+    var debugPanel = $('#DebugPanel');
+
+    if(msg === ""){
+        debugPanel.hide();
+    }else if(!debugPanel.is(':visible')){
+        debugPanel.show()
+    }
+    $('#errorText').text(msg);
+}
 
 /**
  * Funktion zum Senden der Daten als JSON an den EVOS-Sync Server via Websocket.
@@ -49,11 +72,11 @@ function processMessage(data) {
                 processEnd(dataArray);
                 break;
             default:
-                console.log('default');
+                debugErrorOutup("Unbekannte WebSocket Nachricht! Bitte dem Dozenten melden");
                 break;
         }
     } else {
-        alert('Fehler beim verarbeiten der eingehenden Nachricht!');
+        debugErrorOutup('Fehler beim verarbeiten der eingehenden WebSocket Nachricht!');
     }
 }
 
@@ -67,7 +90,7 @@ function processLogon(data) {
     if (data.successful !== undefined) {
         if (data.successful !== true) {
             if (data.reason !== undefined) {
-                alert(data.reason + ' in der processLogon()');
+                debugErrorOutup(data.reason + ' in der processLogon()');
                 location.reload(true);
             }
         } else {
@@ -76,7 +99,7 @@ function processLogon(data) {
             });
         }
     } else {
-        alert('Fehlerhafte Nachricht erhalten!')
+        debugErrorOutup('Fehlerhafte Nachricht erhalten!')
     }
 }
 
@@ -111,8 +134,11 @@ function processQuestion(data) {
                 $('#answerD .panel-body').text(response['answerD']);
                 $('#answerD .panel-body').attr("data-value", response['answerD']);
             }else{ $('#answerD').parent().hide(); }
+
             toAnswer = true;
+
             var display = document.getElementById('countdown');
+
             display.setAttribute('aria-valuemax', response['countdown']);
             display.setAttribute('aria-valuenow', response['countdown']);
             display.setAttribute('aria-valuemin', '0');
@@ -130,6 +156,10 @@ function processQuestion(data) {
             $('#waitingPanel').fadeOut(400, function () {
                 $('#questionPanel').fadeIn(400);
             });
+        })
+        .fail(function( jqxhr, textStatus, error ) {
+            var err = textStatus + ", " + error;
+            debugErrorOutup("Anfrage Fehler: " + err + "\n Bitte dem Dozenten melden." );
         });
 }
 
@@ -152,6 +182,27 @@ function processEnd(data) {
     }
 }
 
+function switchQuestionPanelToWaitingPanel() {
+    if (document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end) {
+        $('#questionPanel').fadeOut(400, function () {
+            if (clickedAnswer != '') {
+                $('#clickedAnswer').empty();
+                $('#clickedAnswer').append('<p>Deine Antwort:</p><br/>')
+                $('#clickedAnswer').append(clickedAnswer);
+                $('#clickedAnswer').show();
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            } else {
+                $('#clickedAnswer').empty();
+                $('#clickedAnswer').show();
+                $('#clickedAnswer').append("Keine Antwort gewählt!");
+            }
+            $('#waitingPanel').fadeIn(400);
+            clickedAnswer = '';
+            $('.answer-cell .panel').height('');
+        });
+    }
+}
+
 /**
  * Diese Funktion startet den Timer für eine Frage die keinen Countdown besitzt. Sekündlich wird geprüft ob eine Antwort ausgewählt wurde,
  * und wenn ja, wird die gewählte Antwort für die Darstellung im "waitingPanel" gespeichert.
@@ -163,24 +214,7 @@ function infiniteTimer(display) {
     var interval = setInterval(function () {
 
         if (!toAnswer) {
-            if (document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end) {
-                $('#questionPanel').fadeOut(400, function () {
-                    if (clickedAnswer != '') {
-                        $('#clickedAnswer').empty();
-                        $('#clickedAnswer').append('<p>Deine Antwort:</p><br/>')
-                        $('#clickedAnswer').append(clickedAnswer);
-                        $('#clickedAnswer').show();
-                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-                    } else {
-                        $('#clickedAnswer').empty();
-                        $('#clickedAnswer').show();
-                        $('#clickedAnswer').append("Keine Antwort gewählt!");
-                    }
-                    $('#waitingPanel').fadeIn(400);
-                    clickedAnswer = '';
-                    $('.answer-cell .panel').height('');
-                });
-            }
+            switchQuestionPanelToWaitingPanel();
             clearInterval(interval);
         }
     }, 1000);
@@ -205,24 +239,7 @@ function startTimer(duration, display) {
         display.setAttribute('aria-valuenow', seconds);
         display.style.width = percent + '%';
         if (--timer < 0 || !toAnswer) {
-            if (document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end) {
-                $('#questionPanel').fadeOut(400, function () {
-                    if (clickedAnswer != '') {
-                        $('#clickedAnswer').empty();
-                        $('#clickedAnswer').append('<p>Deine Antwort:</p><br/>')
-                        $('#clickedAnswer').append(clickedAnswer);
-                        $('#clickedAnswer').show();
-                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-                    } else {
-                        $('#clickedAnswer').empty();
-                        $('#clickedAnswer').show();
-                        $('#clickedAnswer').append("Keine Antwort gewählt!");
-                    }
-                    $('#waitingPanel').fadeIn(400);
-                    clickedAnswer = '';
-                    $('.answer-cell .panel').height('');
-                });
-            }
+            switchQuestionPanelToWaitingPanel();
             clearInterval(interval);
         }
     }, 1000);
@@ -274,7 +291,7 @@ $(document).ready(function () {
     var jqXhr;
     var name;
     var enterName = true;
-    if(WebSocket !== undefined){
+    if(WebSocket !== undefined && websocketOk){
         $("#quizPinInput").keypress(function (event) {
             onReturn('quizPinBtn', event);
         });
@@ -408,8 +425,8 @@ $(document).ready(function () {
             }
         });
     }else{
-        $('#enterQuizPanel').css("display", "none");
-        $('#WebsocketErrorPanel').css("display", "block");
-        alert("Der Browser unterstützt keine Websockets. Bitte benutze einen Browser der Websockets unterstützt!");
+        //$('#enterQuizPanel').css("display", "none");
+        //debugErrorOutup("Der Browser unterstützt keine Websockets. Bitte benutze einen Browser der Websockets unterstützt!");
+        location.replace('/error');
     }
 });

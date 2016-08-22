@@ -3,6 +3,10 @@
 @section('frontEndContent')
     <div class="wrapper">
 
+        <div id="DebugPanel" class="container" style="display: none">
+            <span id="errorText"></span>
+        </div>
+
         <div id="enterQuizPanel" class="container text-center">
             <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block" style="margin-bottom: 10%">
             <label class="control-label">PIN von Beamer eingeben: <span data-toggle="tooltip"  title="Es ist möglich, dass die Funktion dieser Seite von ihrer Firewall oder Antivirus Software blockiert wird." class="glyphicon glyphicon-question-sign"></span></label>
@@ -92,6 +96,5 @@
             </button>
         </div>
     </div>
-
 
 @endsection
