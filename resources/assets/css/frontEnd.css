@@ -117,8 +117,13 @@
     margin-bottom: 25px;
 }
 
+/*From Errorpage*/
 #websocketErrorPanel p{
     color: #ff0000;
+}
+
+#webSocketError{
+    width: 300px;
 }
 
 #DebugPanel{
@@ -126,6 +131,8 @@
     border: 1px dotted #ff0000;
     padding: 15px;
 }
+
+
 
 /*
  * Abstand zur zweiten Reihe der Antwortmöglichkeiten hinzugefügt

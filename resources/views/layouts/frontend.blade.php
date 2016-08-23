@@ -15,6 +15,7 @@
         //Websocket
         var url = '{{ env('SYNC_SERVER_URL', 'ws://127.0.0.1:8080/EVOS-Sync/sync') }}';
         var appUrl = '{{ url('/') }}';
+        var phpSession = '{{ session()->getId() }}';
 
         if(typeof WebSocket === "undefined" ){
             window.location.replace(appUrl + "/error");

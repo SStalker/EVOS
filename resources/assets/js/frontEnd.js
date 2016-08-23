@@ -2,30 +2,57 @@
  * Created by davidherzog on 09.04.16.
  */
 
-var websocket = new WebSocket(url);
+var debug = false;
 var websocketOk = false;
 var quizObj;
 var toAnswer = false;
 var end = false;
 var clickedAnswer = '';
+var quizPin = null;
 
-websocket.onopen = function (event) {
-    websocketOk = true;
-};
+var websocket;
 
-websocket.onerror = function (error) {
-    websocketOk = false;
-    //debugErrorOutup("Websocket wurde geschlossen! Grund: " + error.message);
-};
+/**
+ * Funktion zum starten der Websocketverbindung
+ */
 
-websocket.onclose = function (event) {
-    websocketOk = false;
-    debugErrorOutup("Websocket wurde geschlossen! Grund:" + event.code);
-};
+function startWs() {
+    debugErrorOutup("StartWS: " + url);
 
-websocket.onmessage = function (event) {
-    processMessage(event.data);
+    websocket = new WebSocket(url);
+
+    websocket.onopen = function (event) {
+        websocketOk = true;
+        if($('#webSocketError').hasClass('in')){
+            $('#webSocketError').toggleClass('in').toggleClass('out');
+        }
+
+        if(quizPin != null){
+            logon();
+        }
+    };
+
+    websocket.onerror = function (error) {
+        websocketOk = false;
+        //debugErrorOutup("Websocket wurde geschlossen! Grund: " + error.message);
+    };
+
+    websocket.onclose = function (event) {
+        websocketOk = false;
+        debugErrorOutup("Websocket wurde geschlossen! Grund:" + event.code);
+        if ($('#webSocketError').hasClass('out')) {
+            $('#webSocketError').toggleClass('out').toggleClass('in');
+        }
+        setTimeout(function(){
+            startWs();
+
+        }, 5000);
+    };
+
+    websocket.onmessage = function (event) {
+        processMessage(event.data);
 };
+}
 
 /**
  * Funktion zum Debuggen und zur fehlerausgabe im frontend, speziell für Mobile clienten hilfreich
@@ -34,14 +61,17 @@ websocket.onmessage = function (event) {
  */
 
 function debugErrorOutup(msg) {
-    var debugPanel = $('#DebugPanel');
 
-    if(msg === ""){
-        debugPanel.hide();
-    }else if(!debugPanel.is(':visible')){
-        debugPanel.show()
+    if(debug){
+        var debugPanel = $('#DebugPanel');
+
+        if(msg === ""){
+            debugPanel.hide();
+        }else if(!debugPanel.is(':visible')){
+            debugPanel.show()
+        }
+        $('#errorText').text(msg);
     }
-    $('#errorText').text(msg);
 }
 
 /**
@@ -51,6 +81,22 @@ function debugErrorOutup(msg) {
  */
 function sendToSyncServer(data) {
     websocket.send(JSON.stringify(data));
+}
+
+/**
+ * Funktion zum senden der Logon-daten um sich an einem Quiz anzumelden
+ */
+
+function logon() {
+    //Create object for sending purpose
+    var data = {
+        type: 'logon',
+        quiz_id: parseInt(quizPin),
+        nickname: name,
+        session_id: phpSession
+    };
+
+    sendToSyncServer(data);
 }
 
 /**
@@ -284,10 +330,12 @@ function buttonResize() {
  *
  */
 $(document).ready(function () {
+    //start the websocket
+    startWs();
+
     $('[data-toggle="tooltip"]').tooltip();
 
     $("#quizPinInput").focus();
-    var quizPin;
     var jqXhr;
     var name;
     var enterName = true;
@@ -336,13 +384,7 @@ $(document).ready(function () {
                                 }
                             }).done(function (response) {
                                 if (response == 'waiting') {
-                                    //Create object for sending purpose
-                                    var data = {
-                                        type: 'logon',
-                                        quiz_id: parseInt(quizPin),
-                                        nickname: ''
-                                    };
-                                    sendToSyncServer(data);
+                                    logon();
                                 } else {
                                     console.log(response);
                                 }
@@ -381,13 +423,7 @@ $(document).ready(function () {
                     }
                 }).done(function (response) {
                     if (response == 'waiting') {
-                        //Create object for sending purpose
-                        var data = {
-                            type: 'logon',
-                            quiz_id: parseInt(quizPin),
-                            nickname: name
-                        };
-                        sendToSyncServer(data);
+                        logon();
                     } else {
                         console.log(response);
                     }

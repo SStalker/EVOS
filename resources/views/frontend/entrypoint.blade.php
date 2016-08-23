@@ -95,6 +95,12 @@
             <p>Vielen Dank für die Teilnahme.</p>
             <button id='startNewBtn' class="btn btn-default center-block" style="margin-top: 2%">Neue PIN eingeben!</button>
         </div>
+
     </div>
+
+    <div id="webSocketError" class="alert alert-danger fade out text-center center-block">
+        Problem mit dem Websocket, versuche neu zu verbinden!
+    </div>
+
 
 @endsection
