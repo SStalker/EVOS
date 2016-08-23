@@ -233,16 +233,17 @@ function processEnd(data) {
 function switchQuestionPanelToWaitingPanel() {
     if (document.getElementById('questionPanel').offsetParent !== null && document.getElementById('endQuizPanel').offsetParent === null && !end) {
         $('#questionPanel').fadeOut(400, function () {
+            var clickedAnswerPanel = $('.clickedAnswer');
             if (clickedAnswer != '') {
-                $('#clickedAnswer').empty();
-                $('#clickedAnswer').append('<p>Deine Antwort:</p><br/>')
-                $('#clickedAnswer').append(clickedAnswer);
-                $('#clickedAnswer').show();
+                clickedAnswerPanel.empty();
+                clickedAnswerPanel.append('<p>Deine Antwort:</p><br/>')
+                clickedAnswerPanel.append(clickedAnswer);
+                clickedAnswerPanel.show();
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             } else {
-                $('#clickedAnswer').empty();
-                $('#clickedAnswer').show();
-                $('#clickedAnswer').append("Keine Antwort gewählt!");
+                clickedAnswerPanel.empty();
+                clickedAnswerPanel.show();
+                clickedAnswerPanel.append("Keine Antwort gewählt!");
             }
             $('#waitingPanel').fadeIn(400);
             clickedAnswer = '';

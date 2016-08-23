@@ -65,6 +65,10 @@
     min-height:1.2em;
 }
 
+.clickedAnswer{
+    width: 300px;
+}
+
 #enterQuizPanel {
 
     padding: 10% 0;
