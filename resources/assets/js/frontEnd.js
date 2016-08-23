@@ -2,7 +2,7 @@
  * Created by davidherzog on 09.04.16.
  */
 
-var debug = false;
+var debug = true;
 var websocketOk = false;
 var quizObj;
 var toAnswer = false;
@@ -10,19 +10,19 @@ var end = false;
 var clickedAnswer = '';
 var quizPin = null;
 
-var websocket;
+var websocket = null;
 
 /**
  * Funktion zum starten der Websocketverbindung
  */
 
 function startWs() {
-    debugErrorOutup("StartWS: " + url);
 
     websocket = new WebSocket(url);
 
     websocket.onopen = function (event) {
         websocketOk = true;
+
         if($('#webSocketError').hasClass('in')){
             $('#webSocketError').toggleClass('in').toggleClass('out');
         }
@@ -34,12 +34,10 @@ function startWs() {
 
     websocket.onerror = function (error) {
         websocketOk = false;
-        //debugErrorOutup("Websocket wurde geschlossen! Grund: " + error.message);
     };
 
     websocket.onclose = function (event) {
         websocketOk = false;
-        debugErrorOutup("Websocket wurde geschlossen! Grund:" + event.code);
         if ($('#webSocketError').hasClass('out')) {
             $('#webSocketError').toggleClass('out').toggleClass('in');
         }
@@ -51,7 +49,7 @@ function startWs() {
 
     websocket.onmessage = function (event) {
         processMessage(event.data);
-};
+    };
 }
 
 /**
@@ -80,7 +78,11 @@ function debugErrorOutup(msg) {
  * @param data      Die ausgehenden Daten.
  */
 function sendToSyncServer(data) {
-    websocket.send(JSON.stringify(data));
+    if(websocket.readyState === websocket.OPEN){
+        websocket.send(JSON.stringify(data));
+    }else{
+        location.href = '/error';
+    }
 }
 
 /**
@@ -339,6 +341,9 @@ $(document).ready(function () {
     var jqXhr;
     var name;
     var enterName = true;
+
+    //debugErrorOutup(websocket.readyState);
+
     if(WebSocket !== undefined){
         $("#quizPinInput").keypress(function (event) {
             onReturn('quizPinBtn', event);
@@ -460,6 +465,7 @@ $(document).ready(function () {
                 return 'Das Quiz läuft noch! Trotzdem die Seite neu laden?';
             }
         });
+
     }else{
         //$('#enterQuizPanel').css("display", "none");
         //debugErrorOutup("Der Browser unterstützt keine Websockets. Bitte benutze einen Browser der Websockets unterstützt!");

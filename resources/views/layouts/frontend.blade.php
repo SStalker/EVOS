@@ -17,8 +17,10 @@
         var appUrl = '{{ url('/') }}';
         var phpSession = '{{ session()->getId() }}';
 
-        if(typeof WebSocket === "undefined" ){
-            window.location.replace(appUrl + "/error");
+        console.log('test');
+
+        if(WebSocket === undefined ){
+            location.href = "/error";
         }
 
     </script>
