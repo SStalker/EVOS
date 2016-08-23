@@ -1,17 +1,21 @@
 .bg-red{
-    background:#FF8282;
+    background:#BE1313;
+    color: #fff;
 }
 
 .bg-green{
-    background:#97FF82;
+    background:#13BE13;
+    color: #fff;
 }
 
 .bg-blue{
-    background:#ABAEFF;
+    background:#1A1AFD;
+    color: #fff;
 }
 
 .bg-yellow{
-    background:#FBFF82;
+    background:#FEFE00;
+    color: #000;
 }
 
 .correct-answer{

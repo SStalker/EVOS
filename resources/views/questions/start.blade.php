@@ -237,15 +237,6 @@
             // Some default settings
             $('#answer-count').text("0");
 
-            $('#answerA').addClass("bg-blue");
-            $('#answerB').addClass("bg-green");
-            $('#answerC').addClass("bg-red");
-            $('#answerD').addClass("bg-yellow");
-
-            $('#answerA').removeClass("correct-answer incorrect-answer");
-            $('#answerB').removeClass("correct-answer incorrect-answer");
-            $('#answerC').removeClass("correct-answer incorrect-answer");
-            $('#answerD').removeClass("correct-answer incorrect-answer");
             $('#next-button').fadeOut("slow");
 
             stopClicked = false;
@@ -262,6 +253,17 @@
 
                 $('#questionTitle').text(data.title);
                 $('#countdown').text('');
+
+
+                $('#answerA').addClass("bg-blue");
+                $('#answerB').addClass("bg-green");
+                $('#answerC').addClass("bg-red");
+                $('#answerD').addClass("bg-yellow");
+
+                $('#answerA').removeClass("correct-answer incorrect-answer");
+                $('#answerB').removeClass("correct-answer incorrect-answer");
+                $('#answerC').removeClass("correct-answer incorrect-answer");
+                $('#answerD').removeClass("correct-answer incorrect-answer");
 
                 $('#answerA').text(data.answerA || '');
                 $('#answerB').text(data.answerB || '');
