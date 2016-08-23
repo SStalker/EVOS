@@ -183,6 +183,20 @@ h3{
     font-size: 22pt;
 }
 
+#question-answers > tbody > tr {
+    font-size: 2em;
+    text-align: center;
+}
+
+#question-answers > tbody > tr > td {
+    padding: 1em;
+}
+
+#questionTitle, #questionBody {
+    font-size: 2.8em;
+    color: #000;
+}
+
 #previewBox .modal-body{
     word-wrap:break-word;
 }
