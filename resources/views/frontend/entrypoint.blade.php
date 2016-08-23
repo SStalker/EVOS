@@ -91,9 +91,9 @@
 
         <div id="endQuizPanel" class="container" style="display: none; text-align: center;">
             <img src="{{ asset('images/evos.png') }}" class="img-responsive center-block">
-            <p style="margin-top: 2%">Das Quiz ist zu Ende!</p>
-            <button id='startNewBtn' class="btn btn-default center-block" style="margin-top: 2%">Neue PIN eingeben!
-            </button>
+            <p style="margin-top: 2%">Das Quiz ist zu Ende. Du kannst nun am Beamer die Ergebnisse sehen.</p>
+            <p>Vielen Dank für die Teilnahme.</p>
+            <button id='startNewBtn' class="btn btn-default center-block" style="margin-top: 2%">Neue PIN eingeben!</button>
         </div>
     </div>
 
