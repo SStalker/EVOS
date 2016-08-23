@@ -15,12 +15,12 @@ websocket.onopen = function (event) {
 
 websocket.onerror = function (error) {
     websocketOk = false;
-    debugErrorOutup("Websocket wurde geschlossen! Grund: " + error);
+    //debugErrorOutup("Websocket wurde geschlossen! Grund: " + error.message);
 };
 
 websocket.onclose = function (event) {
     websocketOk = false;
-    debugErrorOutup("Websocket wurde geschlossen!");
+    debugErrorOutup("Websocket wurde geschlossen! Grund:" + event.code);
 };
 
 websocket.onmessage = function (event) {
@@ -427,6 +427,6 @@ $(document).ready(function () {
     }else{
         //$('#enterQuizPanel').css("display", "none");
         //debugErrorOutup("Der Browser unterstützt keine Websockets. Bitte benutze einen Browser der Websockets unterstützt!");
-        location.replace('/error');
+        location.href = '/error';
     }
 });
