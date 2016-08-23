@@ -291,7 +291,7 @@ $(document).ready(function () {
     var jqXhr;
     var name;
     var enterName = true;
-    if(WebSocket !== undefined && websocketOk){
+    if(WebSocket !== undefined){
         $("#quizPinInput").keypress(function (event) {
             onReturn('quizPinBtn', event);
         });
