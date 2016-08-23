@@ -8,6 +8,12 @@
             Verbinde mit Server...
         </div>
 
+        <div id="websocket-error" class="hidden">
+            <h1>Es ist ein Verbindungsfehler aufgetreten.</h1>
+            <p>Es besteht keine Verbindung zum Server. Möglicherweise besteht zurzeit keine Internetverbindung oder die Server sind abgeschaltet.</p>
+            <p>Möglicherweise lässt sich das Problem beheben, in dem sie EVOS neu laden oder die Server neu gestartet werden.</p>
+        </div>
+
         <div id="start" class="quiz-normal">
             <h1 id="startQuizTitle">{{ $quiz->title }}</h1>
             <h2 id="startQuizPinText">Bitte gib folgende PIN ein:</h2>
@@ -92,6 +98,8 @@
         SyncServer.prototype.onError = function (ev) {
             console.log('Error');
             console.log(ev);
+            $('#loading').hide();
+            $('#websocket-error').show();
         };
 
         SyncServer.prototype.onClose = function (ev) {
@@ -130,6 +138,9 @@
 
                 case 'disconnect':
                     that.handleDisconnect(message);
+                    break;
+
+                case 'end':
                     break;
 
                 default:
